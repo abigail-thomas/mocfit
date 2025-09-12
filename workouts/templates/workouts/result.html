@@ -1,7 +1,12 @@
 <h1>{{ type}} Workout</h1>
 <ul>
     {% for exercise in exercises %}
-        <l1>{{ exercise }}</l1>
+        <li>{{ exercise }}</li>
     {% endfor %}
 </ul>
+
+<a href = "{% url 'generate' workout_type=type|lower %}">
+    <button>Generate Again</button>
+</a>
+
 <a href = "{% url 'home' %}">Back</a>
