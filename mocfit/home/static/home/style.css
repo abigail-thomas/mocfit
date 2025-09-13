@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
 
+/* nav bar */
+.navbar {
+    background-color: #ba0c2f;
+}
 .navbar .container {
     display: flex;
     flex-direction: row;
@@ -12,10 +16,19 @@
     font-family: "Anton";
     font-size: 2rem;
 }
-
-.navbar a {
+.navbar a  {
     text-decoration: none;
     color: white;
+}
+
+.navbar-links a {
+
+    font-weight: bold;
+}
+
+.navbar-links a:hover {
+    transform: scale(2.05);
+    color: #0039A6;
 }
 
 .navbar ul {
@@ -30,4 +43,41 @@
     display: inline-block;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 1rem;
+}
+
+.sm-container {
+    height: 8px;
+    background-color: #0039A6;
+}
+
+/* home page hero */
+.home-hero {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.home-hero h1 {
+    padding: 20px;
+    font-size: 3rem;
+}
+.home-hero p {
+    padding: 20px;
+    font-size: large;
+}
+
+.home-hero button{
+    padding: 20px;
+    border-radius: 10px;
+    border: 0px solid black;
+    background-color: #ba0c2f;
+    color: white;
+}
+
+.home-hero button:hover {
+    background-color: #0039A6;
+
 }
