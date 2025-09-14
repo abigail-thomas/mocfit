@@ -12,8 +12,9 @@ body {
 /* nav bar */
 .navbar {
     background: linear-gradient(135deg, #ba0c2f, #d10e35);
-    position:sticky;
+    position: sticky;
     top: 0;
+    z-index: 100; /* tryna get it to always show but not working blahhh*/
 }
 
 .navbar .container {
@@ -119,7 +120,7 @@ body {
 
 .home-hero button{
     padding: 20px;
-    border-radius: 35px;
+    /*border-radius: 35px;*/
     background: linear-gradient(135deg, #ba0c2f, #d10e35);
     color: white;
     box-shadow: 0 8px 25px rgba(186, 12, 47, 0.3);
@@ -180,4 +181,9 @@ body {
 .sm-container-red {
     height: 8px;
     background-color: #ba0c2f;
+}
+
+/* home join section */
+.join-section button{
+    
 }
