@@ -32,25 +32,44 @@ body {
     padding-bottom: 20px;;
 }
 
+
 .navbar a  {
     text-decoration: none;
     color: white;
-    transform: scale(1.05);
-
 }
 
 .navbar-links a {
+    position: relative;
     font-weight: bold;
-    display: flex;
-    align-items: center;
-    transition: all 0.3s ease;
-    padding: 10 10 10 10;
+    display: inline-block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: white;
+    transition: color 0.3s ease;
+    z-index: 1;
 }
 
-
+.navbar-links a::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: linear-gradient(135deg, #0032a0, #0055cc);
+    z-index: -1;
+    transform: translateY(-50%) scaleY(0);
+    transform-origin: center;
+    transition: transform 0.75s ease;
+}
 
 .navbar-links a:hover {
-    color: #0032a0
+    color: white;
+}
+
+.navbar-links a:hover::before {
+    height: 100%;
+    transform: translateY(-50%) scaleY(1);
 }
 
 .navbar ul {
