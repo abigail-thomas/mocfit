@@ -2,3 +2,22 @@
 <a href = "{% url 'workout_generator' 'push' %}">Push Day</a><br>
 <a href = "{% url 'workout_generator' 'pull' %}">Pull Day</a><br>
 <a href = "{% url 'workout_generator' 'legs' %}">Leg Day</a><br>
+
+<h2>Advanced Workout Generator</h2>
+<b>Select the muscles you want to train</b>
+<form method="post" action="{% url 'advanced_workout_generator' %}">
+    {% csrf_token %}
+    
+    <label><input type="checkbox" name="muscles" value="chest"> Chest</label><br>
+    <label><input type="checkbox" name="muscles" value="back"> Back</label><br>
+    <label><input type="checkbox" name="muscles" value="shoulders"> Shoulders</label><br>
+    <label><input type="checkbox" name="muscles" value="biceps"> Biceps</label><br>
+    <label><input type="checkbox" name="muscles" value="triceps"> Triceps</label><br>
+    <label><input type="checkbox" name="muscles" value="quads"> Quads</label><br>
+    <label><input type="checkbox" name="muscles" value="hamstrings"> Hamstrings</label><br>
+    <label><input type="checkbox" name="muscles" value="glutes"> Glutes</label><br>
+    <label><input type="checkbox" name="muscles" value="calves"> Calves</label><br>
+    <label><input type="checkbox" name="muscles" value="abs"> Abs</label><br>
+
+    <button type="submit">Generate Workout</button>
+  </form>

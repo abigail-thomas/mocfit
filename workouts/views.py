@@ -1,6 +1,6 @@
 from django.shortcuts import render
 import random
-from .data import workout_list
+from .data import workout_list, advanced_workout_list
 
 # Create your views here.
 
@@ -18,3 +18,11 @@ def workout_generator(request, workout_type):
         "type": workout_type.capitalize(),
         "exercises": chosen
     })
+
+def advanced_workout_generator(request):
+    if request.method == "POST":
+        selected_muscles = request.POST.getlist("muscles")
+        generated = {}
+        for muscle in selected_muscles:
+            generated[muscle] = advanced_workout_list.get(muscle, [])
+        return render(request, "workouts/advanced_workout_results.html", {"workout": generated})
