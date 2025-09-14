@@ -5,8 +5,8 @@
     {% endfor %}
 </ul>
 
-<a href = "{% url 'generate' workout_type=type|lower %}">
+<a href = "{% url 'workout_generator' workout_type=type|lower %}">
     <button>Generate Again</button>
 </a>
 
-<a href = "{% url 'home' %}">Back</a>
+<a href = "{% url 'workout_generator_page' %}">Back</a>
