@@ -2,16 +2,19 @@
 
 /* body */
 body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+
     line-height: 1.6;
     background: linear-gradient(1deg, #f8f9fa 0%, #e9ecef 100%);
-
+    margin: 0px !important;
 }
 
 
 /* nav bar */
 .navbar {
+    
     background: linear-gradient(135deg, #ba0c2f, #d10e35);
-    position: sticky;
+    position: relative;
     top: 0;
     z-index: 100; /* tryna get it to always show but not working blahhh*/
 }
@@ -28,8 +31,8 @@ body {
 .navbar .navbar-header {
     font-family: "Anton";
     font-size: 3rem;
-    letter-spacing: 1px;;
-    padding-bottom: 20px;;
+    letter-spacing: 1px;
+    padding-bottom: 20px;
 }
 
 
@@ -91,6 +94,7 @@ body {
     background: linear-gradient(135deg, #0032a0, #0055cc);
 }
 
+
 /* home page hero */
 .home-hero {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -102,71 +106,14 @@ body {
 }
 
 .home-hero h1 {
+    text-align: center;
     padding: 20px;
-    font-size: 3rem;
     color: black;
-
-
-}
-.home-hero p {
-    font-size: 1.3rem;
-    margin-bottom: 2.5rem;
-    color: #666;
-    font-weight: 400;
-    text-align: center;;
 }
 
-.home-hero button, .join-section button{
-    padding: 20px;
-    /*border-radius: 35px;*/
-    background: linear-gradient(135deg, #ba0c2f, #d10e35);
-    color: white;
-    box-shadow: 0 8px 25px rgba(186, 12, 47, 0.3);
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-weight: bold;
-    transition: all 0.4s ease;
-    background-size: 200% 200%;
-    border: none;
-}
+.home-hero .cards{
+    font-family: "Roboto Condensed";
 
-
-.home-hero button:hover, .join-section button:hover {
-    transform: scale(1.05);
-    background: linear-gradient(135deg, #0032a0, #0055cc);
-    box-shadow: 0 8px 25px rgba(12, 21, 186, 0.3);
-        border: none !important;
-
-}
-
-.home-content {
-    /*background-color: #f5f5f5;;*/
-}
-
-/* home content */
-.home-content {
-    margin-top: 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-.home-content h1 {
-background-image: linear-gradient(135deg, #0032a0, #0055cc);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        color: transparent;    padding-top: 40px;
-    font-size: 3rem;
-
-}
-.home-content h3 {
-    color: #d10e35;
-}
-.home-content p {
-    color: #0032a0;
-}
-
-.home-content .cards {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -174,43 +121,31 @@ background-image: linear-gradient(135deg, #0032a0, #0055cc);
     margin: 20px;
     margin-bottom: 40px;
 }
-.home-content .card { /* responsive design later, change to cols on smaller screen*/
+
+.home-hero .card {
+    background-color: white;
     margin: 20px;
-    padding: 20px;
+    padding: 40px;
     height: fit-content;
-    min-height: 200px;
     max-width: 30%;
     transition: all 0.5s ease;
     border: none;
-
+    border-radius: 10px;
 }
 
-.home-content .card:hover {
+.home-hero a {
+    text-decoration: none;
+    color: black;
+    font-size: 1.75rem;;
+    font-weight: bold;
+}
+
+.home-hero .card:hover {
     transform: scale(1.05);
-}
+            color: white;
 
-.sm-container-red {
-    height: 8px;
-    background-color: #ba0c2f;
-}
+    background: linear-gradient(135deg, #0032a0, #0055cc);
+    box-shadow: 0 8px 25px rgba(12, 21, 186, 0.3);
+        border: none !important;
 
-/* home join section */
-.join-section {
-    padding: 40px;
-    background: linear-gradient(135deg, #ba0c2f, #d10e35);
-    color: white;
-    text-align: center;
-}
-.join-section h1{
-        font-size: 3rem;
-        color: white;
-}
-
-.join-section p {
-    margin: 20px;
-}
-
-.join-section button {
-        background: linear-gradient(135deg, #ba0c2f, #d10e35);
-    border: 2px solid white;
 }

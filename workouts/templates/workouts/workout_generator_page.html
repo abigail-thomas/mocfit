@@ -1,7 +1,35 @@
-<h1>Random Workout Generator</h1>
-<a href = "{% url 'workout_generator' 'push' %}">Push Day</a><br>
-<a href = "{% url 'workout_generator' 'pull' %}">Pull Day</a><br>
-<a href = "{% url 'workout_generator' 'legs' %}">Leg Day</a><br>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+      {% load static %}
+    <link rel="stylesheet" href="{% static '/workouts/style.css' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MocFit+</title>
+</head>
+<body>
+  <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header"><a href="">MocFit+</a></div>
+            <ul class="navbar-links">
+                <li class="item"><a href="/">Home</a></li>
+                <li class="item"><a href="/workouts/">Workouts</a></li>
+                <li class="item"><a href="">Community</a></li>
+                <li class="item"><a href="">Login</a></li>
+            </ul>
+        </div>
+        
+    </nav>
+    <div class="sm-container-blue"></div>
+
+    <div class="home-hero">
+        <h1>Random Workout Generator</h1>
+        <div class="cards">
+          <a class="card" href = "{% url 'workout_generator' 'push' %}">Push Day</a><br>
+          <a class="card" href = "{% url 'workout_generator' 'pull' %}">Pull Day</a><br>
+          <a class="card" href = "{% url 'workout_generator' 'legs' %}">Leg Day</a><br>
+        </div>
+
+    </div>
 
 <h2>Advanced Workout Generator</h2>
 <b>Select the muscles you want to train</b>
@@ -21,3 +49,6 @@
 
     <button type="submit">Generate Workout</button>
   </form>
+</body>
+</html>
+
