@@ -160,6 +160,12 @@ background-image: linear-gradient(135deg, #0032a0, #0055cc);
     font-size: 3rem;
 
 }
+.home-content h3 {
+    color: #d10e35;
+}
+.home-content p {
+    color: #0032a0;
+}
 
 .home-content .cards {
     display: flex;
@@ -176,6 +182,7 @@ background-image: linear-gradient(135deg, #0032a0, #0055cc);
     min-height: 200px;
     max-width: 30%;
     transition: all 0.5s ease;
+    border: none;
 
 }
 
