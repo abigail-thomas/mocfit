@@ -20,8 +20,9 @@
         
     </nav>
     <div class="sm-container-blue"></div>
+    
 
-    <div class="home-hero">
+   <div class="home-hero">
         <h1>Random Workout Generator</h1>
         <div class="cards">
           <a class="card" href = "{% url 'workout_generator' 'push' %}">Push Day</a><br>
@@ -29,26 +30,40 @@
           <a class="card" href = "{% url 'workout_generator' 'legs' %}">Leg Day</a><br>
         </div>
 
+    
     </div>
 
-<h2>Advanced Workout Generator</h2>
-<b>Select the muscles you want to train</b>
-<form method="post" action="{% url 'advanced_workout_generator' %}">
-    {% csrf_token %}
-    
-    <label><input type="checkbox" name="muscles" value="chest"> Chest</label><br>
-    <label><input type="checkbox" name="muscles" value="back"> Back</label><br>
-    <label><input type="checkbox" name="muscles" value="shoulders"> Shoulders</label><br>
-    <label><input type="checkbox" name="muscles" value="biceps"> Biceps</label><br>
-    <label><input type="checkbox" name="muscles" value="triceps"> Triceps</label><br>
-    <label><input type="checkbox" name="muscles" value="quads"> Quads</label><br>
-    <label><input type="checkbox" name="muscles" value="hamstrings"> Hamstrings</label><br>
-    <label><input type="checkbox" name="muscles" value="glutes"> Glutes</label><br>
-    <label><input type="checkbox" name="muscles" value="calves"> Calves</label><br>
-    <label><input type="checkbox" name="muscles" value="abs"> Abs</label><br>
+  <section class="advanced-workout">
+        <h1>Advanced Workout Generator</h1>
 
-    <button type="submit">Generate Workout</button>
-  </form>
+
+
+  <form method="post" action="{% url 'advanced_workout_generator' %}">
+      {% csrf_token %}
+      <label for="muscle"><h4>Select the muscles you want to train</h4></label>
+      <div class="row">
+        <select name="muscles" id="muscle" multiple_size="10">
+        <option value="chest">Chest</option>
+        <option value="back">Back</option>
+        <option value="shoulders">Shoulders</option>
+        <option value="biceps">Biceps</option>
+        <option value="triceps">Triceps</option>
+        <option value="quads">Quads</option>
+        <option value="hamstrings">Hamstrings</option>
+        <option value="glutes">Glutes</option>
+        <option value="calves">Calves</option>
+        <option value="abs">Abs</option>
+      </select>
+      <button class="workout-gen" type="submit">Generate Workout</button>
+
+      </div>
+         </form>
+
+  </section>
+
+    <footer>
+        <p>MocFit+ © 2025</p>
+    </footer>
 </body>
 </html>
 

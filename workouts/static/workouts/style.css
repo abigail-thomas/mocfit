@@ -3,20 +3,40 @@
 /* body */
 body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-
+    margin: 0px;
+    padding: 0px;
     line-height: 1.6;
     background: linear-gradient(1deg, #f8f9fa 0%, #e9ecef 100%);
-    margin: 0px !important;
+}
+
+/* global styles */
+h1 {
+    font-size: 2rem;
+    font-weight: normal;
+    margin: 0px;
+    padding: 20px 0 0 0;
+    line-height: 1.2;
+    text-align:center;
+    color:black;
+}
+
+h4 {
+    font-size: 1.3rem;
+    margin-bottom: 2.5rem;
+    color: #666;
+    font-weight: 400;
+    text-align: center;
 }
 
 
 /* nav bar */
 .navbar {
-    
     background: linear-gradient(135deg, #ba0c2f, #d10e35);
     position: relative;
     top: 0;
     z-index: 100; /* tryna get it to always show but not working blahhh*/
+        height: 176px;
+
 }
 
 .navbar .container {
@@ -81,6 +101,8 @@ body {
     align-items: center;
     margin: 0;
     gap: 1.5rem;
+    padding: 0px !important;
+
 }
 
 .navbar li {
@@ -96,6 +118,7 @@ body {
 
 
 /* home page hero */
+/* home page hero */
 .home-hero {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     padding: 40px;
@@ -105,14 +128,8 @@ body {
     flex-direction: column;
 }
 
-.home-hero h1 {
-    text-align: center;
-    padding: 20px;
-    color: black;
-}
 
 .home-hero .cards{
-    font-family: "Roboto Condensed";
 
     display: flex;
     align-items: center;
@@ -123,21 +140,19 @@ body {
 }
 
 .home-hero .card {
-    background-color: white;
+    background: linear-gradient(135deg, #ba0c2f, #d10e35);
     margin: 20px;
+    color: white;
     padding: 40px;
     height: fit-content;
     max-width: 30%;
     transition: all 0.5s ease;
-    border: none;
-    border-radius: 10px;
 }
 
 .home-hero a {
     text-decoration: none;
     color: black;
-    font-size: 1.75rem;;
-    font-weight: bold;
+    font-size: 1.25rem;;
 }
 
 .home-hero .card:hover {
@@ -148,4 +163,87 @@ body {
     box-shadow: 0 8px 25px rgba(12, 21, 186, 0.3);
         border: none !important;
 
+}
+
+/* form dropdown */
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+label h4 {
+    margin-bottom: 20px;
+}
+
+select {
+    padding: 20px;
+    font-size: 1rem;
+    /*border-radius: 35px;*/
+    background: linear-gradient(135deg, #ba0c2f, #d10e35);
+    color: white;
+    box-shadow: 0 8px 25px rgba(186, 12, 47, 0.3);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    transition: all 0.4s ease;
+    background-size: 200% 200%;
+    border: none;
+    width: 240px;
+}
+
+select:focus {
+    outline: none;;
+}
+
+option {
+    color: black;
+
+}
+
+.row {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+button.workout-gen{
+            width: 240px;
+
+    padding: 20px;
+    font-size: 1rem;
+    /*border-radius: 35px;*/
+    background: linear-gradient(135deg, #ba0c2f, #d10e35);
+    color: white;
+    box-shadow: 0 8px 25px rgba(186, 12, 47, 0.3);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    transition: all 0.4s ease;
+    background-size: 200% 200%;
+    border: none;
+}
+
+
+button.workout-gen:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #0032a0, #0055cc);
+    box-shadow: 0 8px 25px rgba(12, 21, 186, 0.3);
+    border: none !important;
+
+}
+
+/* footer */
+footer {
+    background: linear-gradient(135deg, #0032a0, #0055cc);
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+footer p{
+    color: white !important;
+    padding: 5px !important;
+    margin: 0px;
+    font-size: 15px;
 }
