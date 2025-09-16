@@ -1,0 +1,69 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+      {% load static %}
+    <link rel="stylesheet" href="{% static '/workouts/style.css' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MocFit+</title>
+</head>
+<body>
+  <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header"><a href="">MocFit+</a></div>
+            <ul class="navbar-links">
+                <li class="item"><a href="/">Home</a></li>
+                <li class="item"><a href="/workouts/">Workouts</a></li>
+                <li class="item"><a href="">Community</a></li>
+                <li class="item"><a href="">Login</a></li>
+            </ul>
+        </div>
+        
+    </nav>
+    <div class="sm-container-blue"></div>
+    
+
+   <div class="home-hero">
+        <h1>Random Workout Generator</h1>
+        <div class="cards">
+          <a class="card" href = "{% url 'workout_generator' 'push' %}">Push Day</a><br>
+          <a class="card" href = "{% url 'workout_generator' 'pull' %}">Pull Day</a><br>
+          <a class="card" href = "{% url 'workout_generator' 'legs' %}">Leg Day</a><br>
+        </div>
+
+    
+    </div>
+
+  <section class="advanced-workout">
+        <h1>Advanced Workout Generator</h1>
+
+
+
+  <form method="post" action="{% url 'advanced_workout_generator' %}">
+      {% csrf_token %}
+      <label for="muscle"><h4>Select the muscles you want to train</h4></label>
+      <div class="row">
+        <select name="muscles" id="muscle" multiple_size="10">
+        <option value="chest">Chest</option>
+        <option value="back">Back</option>
+        <option value="shoulders">Shoulders</option>
+        <option value="biceps">Biceps</option>
+        <option value="triceps">Triceps</option>
+        <option value="quads">Quads</option>
+        <option value="hamstrings">Hamstrings</option>
+        <option value="glutes">Glutes</option>
+        <option value="calves">Calves</option>
+        <option value="abs">Abs</option>
+      </select>
+      <button class="workout-gen" type="submit">Generate Workout</button>
+
+      </div>
+         </form>
+
+  </section>
+
+    <footer>
+        <p>MocFit+ © 2025</p>
+    </footer>
+</body>
+</html>
+
