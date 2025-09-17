@@ -1,0 +1,33 @@
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/workouts/style.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header"><a href="">MocFit+</a></div>
+            <ul class="navbar-links">
+                <li class="item"><a href="/">Home</a></li>
+                <li class="item"><a href="/workouts/">Workouts</a></li>
+                <li class="item"><a href="">Community</a></li>
+                <li class="item"><a href="/accounts/">Login</a></li>
+            </ul>
+        </div>
+        
+    </nav>
+    <div class="sm-container-blue"></div>
+    
+    <h1>This is the Homepage</h1>
+
+    <a href="{% url 'register' %}"> Register Here</a>
+
+    <a href="{% url 'my_login' %}"> Login Here</a>
+
+</body>
+</html>
