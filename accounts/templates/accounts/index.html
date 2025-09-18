@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     {% load static %}
-    <link rel="stylesheet" href="{% static '/workouts/style.css' %}">
+    <link rel="stylesheet" href="{% static '/accounts/style.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>MocFit+</title>
 </head>
 <body>
     <nav class="navbar">
@@ -23,11 +23,34 @@
     </nav>
     <div class="sm-container-blue"></div>
     
-    <h1>This is the Homepage</h1>
+    <div class="login-container">
+        <h1>Login</h1>
+        <form method="POST" autocomplete="off">
+            {% csrf_token %}
 
+            <label for="id_username">Username: </label>
+            {{ loginform.username }}
+            <input type="text" name="username" id="id_username" class="login-input" placeholder="Enter username">
+            <label for="">Password: </label>
+            {{ loginform.password }}
+
+            <input type="text" name="password" id="id_password" class="login-input" placeholder="Enter password">
+            <button><a href="{% url 'my_login' %}">Login</a></button>
+
+
+        </form>
+        <div class="register-div">
+            <h4>First time user?</h4>
+            <a href="{% url 'register' %}">Register Now</a>
+        </div>
+    
+    </div>
+
+  <!--
     <a href="{% url 'register' %}"> Register Here</a>
 
     <a href="{% url 'my_login' %}"> Login Here</a>
 
+  -->  
 </body>
 </html>
