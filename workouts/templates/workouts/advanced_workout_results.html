@@ -4,22 +4,23 @@
 <body>
     <h2>Your Customized Workout</h2>
 
-    {% if workout %}
-        <ul>
-            {% for muscle, exercises in workout.items %}
-                <li>
-                    <strong>{{ muscle|title }}:</strong>
-                    <ul>
-                        {% for exercise in exercises %}
-                            <li>{{ exercise }}</li>
-                        {% endfor %}
-                    </ul>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No muscles selected. Please go back and pick some.</p>
-    {% endif %}
+    {% for muscle, exercises in workout.items %}
+  <h2>{{ muscle }}</h2>
+  <ul>
+    {% for exercise in exercises %}
+      <li>
+        <strong>{{ exercise.name }}</strong>  
+        ({{ exercise.get_difficulty_display }} | {{ exercise.equipment|default:"No equipment" }})
+        <p>{{ exercise.description }}</p>
+        {% if exercise.image_url %}
+          <img src="{{ exercise.image_url }}" alt="{{ exercise.name }}" width="150">
+        {% endif %}
+      </li>
+    {% empty %}
+      <li>No muscles selected. Please go back and pick some.</li>
+    {% endfor %}
+  </ul>
+{% endfor %}
 
     <a href = "{% url 'workout_generator_page' %}">Back</a>
 </body>
