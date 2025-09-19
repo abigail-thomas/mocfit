@@ -34,12 +34,3 @@ def advanced_workout_generator(request):
                 generated[muscle_name] = []
         
         return render(request, "workouts/advanced_workout_results.html", {"workout": generated})
-
-# this function pulled from the workout list in data.py instead of the database in models.py
-# def advanced_workout_generator(request):
-#     if request.method == "POST":
-#         selected_muscles = request.POST.getlist("muscles")
-#         generated = {}
-#         for muscle in selected_muscles:
-#             generated[muscle] = advanced_workout_list.get(muscle, [])
-#         return render(request, "workouts/advanced_workout_results.html", {"workout": generated})
