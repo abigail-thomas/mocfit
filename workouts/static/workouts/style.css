@@ -192,8 +192,10 @@ select {
 }
 
 select:focus {
-    outline: none;;
+    outline: none;
 }
+
+
 
 option {
     color: black;

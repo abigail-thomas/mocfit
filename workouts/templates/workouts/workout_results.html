@@ -1,3 +1,13 @@
+<html>
+    <head>
+  <meta charset="UTF-8">
+      {% load static %}
+    <link rel="stylesheet" href="{% static '/workouts/style.css' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MocFit+</title>
+</head>
+<body>
+    
 <h1>{{ type}} Workout</h1>
 <ul>
     {% for exercise in exercises %}
@@ -5,8 +15,14 @@
     {% endfor %}
 </ul>
 
+
+
 <a href = "{% url 'workout_generator' workout_type=type|lower %}">
     <button>Generate Again</button>
 </a>
 
 <a href = "{% url 'workout_generator_page' %}">Back</a>
+  
+
+</body>
+</html>
