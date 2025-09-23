@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
-from django.contrib.auth.models import auth
-from . forms import CreateUserForm, LoginForm
+from django.contrib import auth
+from .forms import CreateUserForm, LoginForm, ProfileForm
 
 # - Athentication models and functions
 from django.contrib.auth import authenticate, login, logout
@@ -55,6 +55,7 @@ def my_login(request):
                 auth.login(request, user)
 
                 return redirect("dashboard")
+            
     context = {'loginform': form}
 
     return render(request, 'accounts/my_login.html', context=context)
@@ -76,3 +77,14 @@ def user_logout(request):
     return redirect("")
 
 
+@login_required
+def update_profile(request):
+    profile = request.user.profile
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+    else:
+        form = ProfileForm(instance=profile)
+    return render(request, 'accounts/update_profile.html', {'form': form})
