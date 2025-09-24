@@ -135,12 +135,62 @@ div.login-container  {
     flex-direction: column;
     justify-content: center;
 }
+.login-container input[type="text"],
+        .login-container input[type="email"],
+        .login-container input[type="password"],
+        .login-container input[type="tel"],
+        .login-container input[type="url"],
+        .login-container textarea,
+        .login-container select {
+            margin: 10px 0;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border 0.3s ease;
+            width: 100%;
+            box-sizing: border-box;
+        }
 
+        /* Focus states for inputs */
+        .login-container input:focus,
+        .login-container textarea:focus,
+        .login-container select:focus {
+            outline: none;
+            border-color: #0055cc;
+        }
+
+   .login-container input[type="submit"] {
+            margin: 20px auto 10px auto;
+            width: 200px;
+            padding: 20px;
+            font-size: 1rem;
+            background: linear-gradient(135deg, #ba0c2f, #d10e35);
+            color: white;
+            box-shadow: 0 8px 25px rgba(186, 12, 47, 0.3);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-weight: bold;
+            transition: all 0.4s ease;
+            background-size: 200% 200%;
+            border: none;
+            cursor: pointer;
+        }
+        .login-container input[type="submit"]:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #0032a0, #0055cc);
+            box-shadow: 0 8px 25px rgba(12, 21, 186, 0.3);
+        }
+
+.helptext {
+    font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+}
+        
 .login-container input {
     margin: 10px 0;
     padding: 12px;
     border: 1px solid #ccc;
-    border-radius: 8px;
     font-size: 14px;
     transition: border 0.3s ease;
 }

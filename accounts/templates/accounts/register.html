@@ -1,16 +1,65 @@
 <html>
+    <head>
+        <meta charset="UTF-8">
+        {% load static %}
+        <link rel="stylesheet" href="{% static '/accounts/style.css' %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MocFit+</title>
+    </head>
+    <body>
+         <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header"><a href="">MocFit+</a></div>
+            <ul class="navbar-links">
+                <li class="item"><a href="/">Home</a></li>
+                <li class="item"><a href="/workouts/">Workouts</a></li>
+                <li class="item"><a href="">Community</a></li>
+                <li class="item"><a href="/accounts/">Login</a></li>
+            </ul>
+        </div>
+        
+    </nav>
+    <div class="sm-container-blue"></div>
+    <div class="login-container">
+        <h1>Register</h1>
+        <form method="POST" autocomplete="off">
+            {% csrf_token %}
 
-    <h1>Register Now!</h1>
+            <p>
+                <label for="id_username">Username:</label>
+                <input type="text" name="username" maxlength="150" required id="id_username">
+            </p>
+            <p>
+                <label for="id_email">Email:</label>
+                <input type="email" name="email" required id="id_email">
+            </p>
+            <p>
+                <label for="id_password1">Password:</label>
+                <input type="password" name="password1" required id="id_password1">
+                <span class="helptext">Your password must contain at least 8 characters.</span>
+            </p>
+            <p>
+                <label for="id_password2">Confirm Password:</label>
+                <input type="password" name="password2" required id="id_password2">
+            </p>
+            <!-- {{registerform.as_p}}
+            <input type="submit" value="Register"/>
 
-    <form method="POST" autocomplete="off">
+           <button><a href="{% url 'register' %}">Register</a></button>
 
-        {% csrf_token %}
+            --> 
 
-        {{registerform.as_p}}
+        </form>
+        <div class="register-div">
+            <h4>Already have an account?</h4>
+            <a href="/accounts/">Login Here</a>
+        </div>
+    
+    </div>
 
-        <input type="submit" value="Register"/>
 
 
-    </form>
 
+
+    </body>
 </html>
