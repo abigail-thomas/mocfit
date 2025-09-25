@@ -7,6 +7,25 @@ class MuscleGroup(models.Model):
     def __str__(self):
         return self.name
 
+class Goal(models.Model):
+    name = models.CharField(max_length = 20, unique = True)
+
+    def __str__(self):
+        return self.name
+
+class Equipment(models.Model):
+    name = models.CharField(max_length = 50, unique = True)
+
+    def __str__(self):
+        return self.name
+
+class MuscleGroupCategory(models.Model):
+    name = models.CharField(max_length = 50, unique = True)
+    muscles = models.ManyToManyField("MuscleGroup", related_name = "categories")
+
+    def __str__(self):
+        return self.name
+
 class Exercise(models.Model):
     DIFFICULTY_CHOICES = [
         ("beginner", "Beginner"),
@@ -16,8 +35,9 @@ class Exercise(models.Model):
 
     name = models.CharField(max_length = 100, unique = True)
     muscles = models.ManyToManyField(MuscleGroup, related_name = "exercises")
-    equipment = models.CharField(max_length = 100, blank = True, null = True)
+    equipment = models.ManyToManyField(Equipment, blank=True)
     difficulty = models.CharField(max_length = 20, choices = DIFFICULTY_CHOICES, default = "beginner")
+    goals = models.ManyToManyField(Goal, blank=True)
     description = models.TextField(blank = True, null = True)
     image_url = models.URLField(blank = True, null = True)
 
