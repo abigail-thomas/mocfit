@@ -25,9 +25,24 @@
     
     <div class="login-container">
         <h1>Login</h1>
-        <form method="POST" autocomplete="off">
+        <form method="POST" autocomplete="off" action="{% url 'dashboard' %}">
             {% csrf_token %}
+            <div class="login">
+                {{ loginform.username.label_tag }}
+                {{ loginform.username }}
 
+                {{ loginform.password.label_tag }}
+                {{ loginform.password }}
+            </div>
+            
+            <div class="show-password">
+                <input type="checkbox" id="togglePasswordLogin">
+                <label for="togglePasswordLogin">Show Password</label>
+            </div>
+            <input type="submit" value="Login"/>
+
+
+           <!--
             <label for="id_username">Username: </label>
             {{ loginform.username }}
             <input type="text" name="username" id="id_username" class="login-input" placeholder="Enter username">
@@ -39,8 +54,12 @@
                 <input type="checkbox" id="togglePasswordLogin">
                 <label for="togglePasswordLogin">Show Password</label>
             </div>
-            <button><a href="{% url 'dashboard' %}">Login</a></button>
+            <input type="submit" value="Login"/>
 
+           <button><a href="{% url 'dashboard' %}">Login</a></button>
+
+            -->
+           
 
         </form>
         <div class="register-div">

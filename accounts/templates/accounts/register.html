@@ -25,7 +25,29 @@
         <form method="POST" autocomplete="off">
             {% csrf_token %}
 
-            <p>
+            <div class="login">
+                {{ registerform.username.label_tag }}
+                {{ registerform.username }}
+
+                {{ registerform.email.label_tag }}
+                {{ registerform.email }}
+
+                {{ registerform.password1.label_tag }}
+                {{ registerform.password1 }}
+
+                {{ registerform.password2.label_tag }}
+                {{ registerform.password2 }}
+
+            </div>
+            <div class="show-password">
+                <input type="checkbox" id="togglePasswordRegister">
+                <label for="togglePasswordRegister">Show Password</label>
+            </div>
+            
+            <input type="submit" value="Register"/>
+
+
+          <!-- <p>
                 <label for="id_username">Username:</label>
                 <input type="text" name="username" maxlength="150" required id="id_username">
             </p>
@@ -48,11 +70,14 @@
                 <label for="togglePasswordRegister">Show Password</label>
             </div>
             
+            <input type="submit" value="Register"/>
 
-            <button><a href="/accounts/dashboard/">Register</a></button>
 
+            --> 
             <!-- {{registerform.as_p}}
              {% url 'dashboard' %}
+                         <button><a href="/accounts/dashboard/">Register</a></button>
+
              <input type="submit" value="Register"/>
 
 
