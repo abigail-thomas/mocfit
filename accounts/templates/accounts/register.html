@@ -34,18 +34,28 @@
                 <input type="email" name="email" required id="id_email">
             </p>
             <p>
-                <label for="id_password1">Password:</label>
-                <input type="password" name="password1" required id="id_password1">
+                <label for="id_password">Password:</label>
+                <input type="password" name="password" required id="id_password" autocomplete="new-password">
                 <span class="helptext">Your password must contain at least 8 characters.</span>
             </p>
             <p>
                 <label for="id_password2">Confirm Password:</label>
-                <input type="password" name="password2" required id="id_password2">
+                <input type="password" name="password2" required id="id_password2" autocomplete="new-password">
+                
             </p>
-            <!-- {{registerform.as_p}}
-            <input type="submit" value="Register"/>
+            <div class="show-password">
+                <input type="checkbox" id="togglePasswordRegister">
+                <label for="togglePasswordRegister">Show Password</label>
+            </div>
+            
 
-           <button><a href="{% url 'register' %}">Register</a></button>
+            <button><a href="/accounts/dashboard/">Register</a></button>
+
+            <!-- {{registerform.as_p}}
+             {% url 'dashboard' %}
+             <input type="submit" value="Register"/>
+
+
 
             --> 
 
@@ -60,6 +70,8 @@
 
 
 
+    
+    <script src="{%static '/accounts/script.js' %}"></script>
 
     </body>
 </html>

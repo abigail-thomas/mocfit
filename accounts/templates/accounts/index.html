@@ -34,8 +34,12 @@
             <label for="">Password: </label>
             {{ loginform.password }}
 
-            <input type="text" name="password" id="id_password" class="login-input" placeholder="Enter password">
-            <button><a href="{% url 'my_login' %}">Login</a></button>
+            <input type="password" name="password" id="id_password" autocomplete="current-password" class="login-input" placeholder="Enter password">
+            <div class="show-password">
+                <input type="checkbox" id="togglePasswordLogin">
+                <label for="togglePasswordLogin">Show Password</label>
+            </div>
+            <button><a href="{% url 'dashboard' %}">Login</a></button>
 
 
         </form>
@@ -51,6 +55,8 @@
 
     <a href="{% url 'my_login' %}"> Login Here</a>
 
-  -->  
+  -->
+
+  <script src="{%static '/accounts/script.js' %}"></script>
 </body>
 </html>

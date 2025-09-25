@@ -160,7 +160,7 @@ div.login-container  {
             border-color: #0055cc;
         }
 
-   .login-container input[type="submit"] {
+.login-container input[type="submit"] {
             margin: 20px auto 10px auto;
             width: 200px;
             padding: 20px;
