@@ -1,4 +1,5 @@
 # - Athentication models and functions
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
@@ -27,17 +28,15 @@ def register(request):
             print("worked")
             return redirect("dashboard")
         else:
-            print(form.errors)
-
-        
+            print(form.errors) # debugging
     else:
-        form = UserCreationForm()
+        form = CreateUserForm() 
 
-
-    context = {'registerform':form}
-
-    
-
+    errors = form.errors.as_text() # get the errors in string format
+    context = {
+        'registerform':form,
+        'errors' : errors,
+        }
     return render(request, 'accounts/register.html', context=context)
 
 
@@ -60,6 +59,10 @@ def my_login(request):
             #    auth.login(request, user)
             #    # redirect to dashboard
                 #return redirect("dashboard")
+        else:
+            messages.error(request, "Invalid username or password. Please try again")
+            return render(request, 'accounts/index.html', context=context)
+
     else:
         form = AuthenticationForm()
 

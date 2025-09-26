@@ -21,6 +21,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     );
 
-
-    
+    /*const errorDiv = document.getElementById("form-errors");
+    console.log(errorDiv);
+    if (errorDiv) {
+        const errors = errorDiv.dataset.errors;
+        if (errors && errors.trim().length > 0) {
+            console.log(errors);
+            alert(errors);
+        }
+    }*/
 });

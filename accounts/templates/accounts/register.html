@@ -85,6 +85,21 @@
             --> 
 
         </form>
+
+        {% if registerform.errors %}
+        <div id="form-errors">
+            <ul>
+                {% for field, errors in registerform.errors.items %}
+                    {% for error in errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+        <!-- https://www.w3schools.com/django/ref_filters_escapejs.php -->
+        {% endif %}
+        
+        
         <div class="register-div">
             <h4>Already have an account?</h4>
             <a href="/accounts/">Login Here</a>
