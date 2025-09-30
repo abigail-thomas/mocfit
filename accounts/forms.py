@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 
 from django import forms
 from django.forms.widgets import PasswordInput, TextInput
+
+from .models import Profile
 # - Create/Register user (Model Form)
 
 class CreateUserForm(UserCreationForm):
@@ -22,6 +24,9 @@ class LoginForm(AuthenticationForm):
     password = forms.CharField(widget=PasswordInput())
     
 
-
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['height', 'weight', 'birth_date']
 
 
