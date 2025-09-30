@@ -61,7 +61,6 @@ def my_login(request):
                 #return redirect("dashboard")
         else:
             messages.error(request, "Invalid username or password. Please try again")
-            return render(request, 'accounts/index.html', context=context)
 
     else:
         form = AuthenticationForm()
