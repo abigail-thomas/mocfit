@@ -26,3 +26,36 @@
 
 </body>
 </html>
+<head>
+    <title>{{ category }} Workout</title>
+</head>
+<body>
+    <h1>{{ category|title }} Workout</h1>
+
+    {% if exercises %}
+        <ul>
+            {% for exercise in exercises %}
+                <li>
+                    <strong>{{ exercise.name }}</strong>
+                    ({{ exercise.get_difficulty_display }} | 
+                    {% if exercise.equipment.all %}
+                        {% for eq in exercise.equipment.all %}
+                            {{ eq.name }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        No equipment
+                    {% endif %})
+                    <p>{{ exercise.description }}</p>
+
+                    {% if exercise.image_url %}
+                        <img src="{{ exercise.image_url }}" alt="{{ exercise.name }}" width="150">
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No exercises found for this category. Check the muscles assigned to it.</p>
+    {% endif %}
+
+    <a href="{% url 'workout_generator_page' %}">Back to Home</a>
+</body>

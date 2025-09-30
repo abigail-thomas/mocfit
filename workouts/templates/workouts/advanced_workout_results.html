@@ -3,23 +3,41 @@
 </head>
 <body>
     <h2>Your Customized Workout</h2>
+    <p><strong>Goal:</strong> {{ goal|default:"Any" }}</p>
+    <p><strong>Workout Length:</strong> {{ length|title }}</p>
 
-    {% if workout %}
+    {% for muscle, exercises in workout.items %}
+        <h3>{{ muscle }}</h3>
         <ul>
-            {% for muscle, exercises in workout.items %}
+            {% for exercise in exercises %}
                 <li>
-                    <strong>{{ muscle|title }}:</strong>
-                    <ul>
-                        {% for exercise in exercises %}
-                            <li>{{ exercise }}</li>
-                        {% endfor %}
-                    </ul>
+                    <strong>{{ exercise.name }}</strong>  
+                    ({{ exercise.get_difficulty_display }} | 
+                    {% if exercise.equipment.all %} 
+                        {% for eq in exercise.equipment.all %}{{ eq.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
+                    {% else %}No equipment{% endif %})
+                    <p>{{ exercise.description }}</p>
+
+                    <!-- Sets/Reps by Goal -->
+                    {% if goal == "strength" %}
+                        <em>4–6 reps × 4–5 sets</em>
+                    {% elif goal == "hypertrophy" %}
+                        <em>8–12 reps × 3–4 sets</em>
+                    {% elif goal == "endurance" %}
+                        <em>15–20 reps × 2–3 sets</em>
+                    {% else %}
+                        <em>8–10 reps × 3 sets</em>
+                    {% endif %}
+
+                    {% if exercise.image_url %}
+                        <br><img src="{{ exercise.image_url }}" alt="{{ exercise.name }}" width="150">
+                    {% endif %}
                 </li>
+            {% empty %}
+                <li>No exercises found for this muscle.</li>
             {% endfor %}
         </ul>
-    {% else %}
-        <p>No muscles selected. Please go back and pick some.</p>
-    {% endif %}
+    {% endfor %}
 
-    <a href = "{% url 'workout_generator_page' %}">Back</a>
+    <a href="{% url 'workout_generator_page' %}">Back</a>
 </body>
