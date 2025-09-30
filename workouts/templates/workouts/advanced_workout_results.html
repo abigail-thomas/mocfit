@@ -13,22 +13,39 @@
                 <li>
                     <strong>{{ exercise.name }}</strong>  
                     ({{ exercise.get_difficulty_display }} | 
-                    {% if exercise.equipment.all %} 
-                        {% for eq in exercise.equipment.all %}{{ eq.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
-                    {% else %}No equipment{% endif %})
-                    <p>{{ exercise.description }}</p>
+                    {% if exercise.equipment.all %}
+                        {% for eq in exercise.equipment.all %}
+                            {{ eq.name }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    {% else %}No equipment{% endif %}
+                    {% if exercise.mechanics %} | {{ exercise.get_mechanics_display }}{% endif %})
+                    
+                    <!-- ✅ Show muscles -->
+                    <br>
+                    <small>
+                        Primary: {{ exercise.primary_muscle.all|join:", " }}<br>
+                        {% if exercise.secondary_muscles.all %}
+                            Secondary: {{ exercise.secondary_muscles.all|join:", " }}
+                        {% endif %}
+                    </small>
+
+                    <!-- Description -->
+                    {% if exercise.description %}
+                        <p>{{ exercise.description }}</p>
+                    {% endif %}
 
                     <!-- Sets/Reps by Goal -->
-                    {% if goal == "strength" %}
+                    {% if goal == "Strength" %}
                         <em>4–6 reps × 4–5 sets</em>
-                    {% elif goal == "hypertrophy" %}
+                    {% elif goal == "Hypertrophy" %}
                         <em>8–12 reps × 3–4 sets</em>
-                    {% elif goal == "endurance" %}
+                    {% elif goal == "Endurance" %}
                         <em>15–20 reps × 2–3 sets</em>
                     {% else %}
                         <em>8–10 reps × 3 sets</em>
                     {% endif %}
 
+                    <!-- Image -->
                     {% if exercise.image_url %}
                         <br><img src="{{ exercise.image_url }}" alt="{{ exercise.name }}" width="150">
                     {% endif %}
