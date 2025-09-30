@@ -1,0 +1,10 @@
+COMMUNITY_PAGE
+
+Trying to make a monnunity page with a user-interface that allows them to post pictures
+and add text to descrie, Like instagram. Also have a page where they can scroll through other peoples posts and
+make comments on them
+
+git installed pillow
+
+this is for importing images -- will see how this all works
+
