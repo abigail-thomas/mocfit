@@ -39,7 +39,8 @@ class Exercise(models.Model):
     ]
 
     name = models.CharField(max_length = 100, unique = True)
-    muscles = models.ManyToManyField(MuscleGroup, related_name = "exericses")
+    primary_muscle = models.ManyToManyField(MuscleGroup, related_name = "primary_exericses", blank = True)
+    secondary_muscles = models.ManyToManyField(MuscleGroup, related_name = "secondary_exercises", blank = True)
     mechanics = models.CharField(max_length = 20, choices = MECHANICS_CHOICES, blank = True)
     equipment = models.ManyToManyField(Equipment, blank=True)
     difficulty = models.CharField(max_length = 20, choices = DIFFICULTY_CHOICES, default = "beginner")

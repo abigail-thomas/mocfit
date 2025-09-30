@@ -8,7 +8,12 @@ from .models import Exercise, MuscleGroup, Goal, Equipment, MuscleGroupCategory
 
 def workout_generator_page(request):
     categories = MuscleGroupCategory.objects.all()
-    return render(request, "workouts/workout_generator_page.html", {"categories": categories})
+
+    goals = Goal.objects.all()
+    equipment = Equipment.objects.all()
+
+    context = {"categories": categories, "goals": goals, "equipment": equipment}
+    return render(request, "workouts/workout_generator_page.html", context)
 
 def workout_generator(request):
     if request.method == "POST":
