@@ -48,6 +48,19 @@
       <label><input type="checkbox" name="muscles" value="glutes"> Glutes</label><br>
       <label><input type="checkbox" name="muscles" value="calves"> Calves</label><br>
       <label><input type="checkbox" name="muscles" value="abs"> Abs</label><br><br>
+<h2>Advanced Workout Generator</h2>
+<b>Select the muscles you want to train</b>
+<form method="post" action="{% url 'advanced_workout_generator' %}">
+    {% csrf_token %}
+    
+    <!-- ✅ Muscles from DB instead of hardcoded -->
+    {% for m in muscles %}
+        <label>
+            <input type="checkbox" name="muscles" value="{{ m.name }}">
+            {{ m.name }}
+        </label><br>
+    {% endfor %}
+    <br>
 
       <!-- Difficulty -->
       <label>Difficulty:</label>

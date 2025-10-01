@@ -11,8 +11,9 @@ def workout_generator_page(request):
 
     goals = Goal.objects.all()
     equipment = Equipment.objects.all()
+    muscles = MuscleGroup.objects.all()
 
-    context = {"categories": categories, "goals": goals, "equipment": equipment}
+    context = {"categories": categories, "goals": goals, "equipment": equipment, "muscles": muscles}
     return render(request, "workouts/workout_generator_page.html", context)
 
 def workout_generator(request):
@@ -21,7 +22,9 @@ def workout_generator(request):
         try:
             category = MuscleGroupCategory.objects.get(name__iexact=selected_category)
             muscles = category.muscles.all()
-            exercises = Exercise.objects.filter(muscles__in=muscles).distinct()
+
+            # ✅ filter by primary muscles only
+            exercises = Exercise.objects.filter(primary_muscle__in=muscles).distinct()
         except MuscleGroupCategory.DoesNotExist:
             exercises = []
 
@@ -55,16 +58,17 @@ def advanced_workout_generator(request):
 
         for muscle_name in selected_muscles:
             try:
-                muscle = MuscleGroup.objects.get(name = muscle_name)
-                exercises = Exercise.objects.filter(muscles = muscle)
+                muscle = MuscleGroup.objects.get(name=muscle_name)
+
+                exercises = Exercise.objects.filter(primary_muscle=muscle)
 
                 if selected_difficulty:
-                    exercises = exercises.filter(difficulty = selected_difficulty)
+                    exercises = exercises.filter(difficulty=selected_difficulty)
                 if selected_goal:
-                    exercises = exercises.filter(goals__name = selected_goal)
+                    exercises = exercises.filter(goals__name=selected_goal)
                 if selected_equipment:
-                    exercises.filter(equipment__name = selected_equipment)
-                
+                    exercises = exercises.filter(equipment__name=selected_equipment)
+
                 exercises = list(exercises)
                 if exercises:
                     num_to_pick = min(len(exercises), max(1, target_exercises // len(selected_muscles)))
@@ -73,10 +77,19 @@ def advanced_workout_generator(request):
                 generated[muscle.name] = exercises
             except MuscleGroup.DoesNotExist:
                 generated[muscle_name] = []
-        
-        return render(request, "workouts/advanced_workout_results.html", {"workout": generated, "goal": selected_goal, "length": selected_length})
+
+        return render(
+            request,
+            "workouts/advanced_workout_results.html",
+            {"workout": generated, "goal": selected_goal, "length": selected_length}
+        )
+
     else:
         muscles = MuscleGroup.objects.all()
         goals = Goal.objects.all()
         equipment = Equipment.objects.all()
-        return render(request, "workouts/advanced_workout_results.html", {"muscles": muscles, "goals": goals, "equipment": equipment})
+        return render(
+            request,
+            "workouts/workout_generator_page.html",
+            {"muscles": muscles, "goals": goals, "equipment": equipment}
+        )

@@ -44,8 +44,21 @@
                         {% endfor %}
                     {% else %}
                         No equipment
-                    {% endif %})
-                    <p>{{ exercise.description }}</p>
+                    {% endif %}
+                    {% if exercise.mechanics %} | {{ exercise.get_mechanics_display }}{% endif %})
+                    
+                    <!-- ✅ Show muscles -->
+                    <br>
+                    <small>
+                        Primary: {{ exercise.primary_muscle.all|join:", " }}<br>
+                        {% if exercise.secondary_muscles.all %}
+                            Secondary: {{ exercise.secondary_muscles.all|join:", " }}
+                        {% endif %}
+                    </small>
+
+                    {% if exercise.description %}
+                        <p>{{ exercise.description }}</p>
+                    {% endif %}
 
                     {% if exercise.image_url %}
                         <img src="{{ exercise.image_url }}" alt="{{ exercise.name }}" width="150">
