@@ -8,28 +8,10 @@
 </head>
 <body>
     
-<h1>{{ type}} Workout</h1>
-<ul>
-    {% for exercise in exercises %}
-        <li>{{ exercise }}</li>
-    {% endfor %}
-</ul>
-
-
-
-<a href = "{% url 'workout_generator' workout_type=type|lower %}">
-    <button>Generate Again</button>
-</a>
-
-<a href = "{% url 'workout_generator_page' %}">Back</a>
-  
-
-</body>
-</html>
 <head>
     <title>{{ category }} Workout</title>
 </head>
-<body>
+
     <h1>{{ category|title }} Workout</h1>
 
     {% if exercises %}
@@ -71,4 +53,6 @@
     {% endif %}
 
     <a href="{% url 'workout_generator_page' %}">Back to Home</a>
+  
+
 </body>
