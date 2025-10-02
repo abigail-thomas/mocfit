@@ -21,16 +21,6 @@
     </nav>
     <div class="sm-container-blue"></div>
     
-      
-  <h1>Random Workout Generator</h1>
-  <form method="post" action="{% url 'workout_generator' %}">
-      {% csrf_token %}
-      {% for category in categories %}
-          <button type="submit" name="category" value="{{ category.name }}">
-              {{ category.name }} Day
-          </button><br><br>
-      {% endfor %}
-  </form>
 <h1>Random Workout Generator</h1>
 <form method="post" action="{% url 'workout_generator' %}">
     {% csrf_token %}
