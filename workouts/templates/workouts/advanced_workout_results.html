@@ -9,7 +9,8 @@
     {% for muscle, exercises in workout.items %}
         <h3>{{ muscle }}</h3>
         <ul>
-            {% for exercise in exercises %}
+            {% for entry in exercises %}
+                {% with exercise=entry.exercise %}
                 <li>
                     <strong>{{ exercise.name }}</strong>  
                     ({{ exercise.get_difficulty_display }} | 
@@ -19,11 +20,11 @@
                         {% endfor %}
                     {% else %}No equipment{% endif %}
                     {% if exercise.mechanics %} | {{ exercise.get_mechanics_display }}{% endif %})
-                    
+
                     <!-- ✅ Show muscles -->
                     <br>
                     <small>
-                        Primary: {{ exercise.primary_muscle.all|join:", " }}<br>
+                        Primary: {{ exercise.primary_muscle }}<br>
                         {% if exercise.secondary_muscles.all %}
                             Secondary: {{ exercise.secondary_muscles.all|join:", " }}
                         {% endif %}
@@ -34,22 +35,15 @@
                         <p>{{ exercise.description }}</p>
                     {% endif %}
 
-                    <!-- Sets/Reps by Goal -->
-                    {% if goal == "Strength" %}
-                        <em>4–6 reps × 4–5 sets</em>
-                    {% elif goal == "Hypertrophy" %}
-                        <em>8–12 reps × 3–4 sets</em>
-                    {% elif goal == "Endurance" %}
-                        <em>15–20 reps × 2–3 sets</em>
-                    {% else %}
-                        <em>8–10 reps × 3 sets</em>
-                    {% endif %}
+                    <!-- Sets/Reps (from generator) -->
+                    <em>{{ entry.reps }} reps × {{ entry.sets }} sets</em>
 
                     <!-- Image -->
                     {% if exercise.image_url %}
                         <br><img src="{{ exercise.image_url }}" alt="{{ exercise.name }}" width="150">
                     {% endif %}
                 </li>
+                {% endwith %}
             {% empty %}
                 <li>No exercises found for this muscle.</li>
             {% endfor %}

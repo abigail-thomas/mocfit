@@ -8,54 +8,64 @@
     {% endfor %}
 </form>
 
+<hr>
+
 <h2>Advanced Workout Generator</h2>
-<b>Select the muscles you want to train</b>
+<p><b>Select your preferences and generate a custom workout plan.</b></p>
+
 <form method="post" action="{% url 'advanced_workout_generator' %}">
     {% csrf_token %}
-    
-    <!-- ✅ Muscles from DB instead of hardcoded -->
-    {% for m in muscles %}
-        <label>
-            <input type="checkbox" name="muscles" value="{{ m.name }}">
-            {{ m.name }}
-        </label><br>
-    {% endfor %}
+
+    <!-- ✅ Muscle selection -->
+    <fieldset>
+        <legend><b>Muscles to Train</b></legend>
+        {% for m in muscles %}
+            <label>
+                <input type="checkbox" name="muscles" value="{{ m.name }}">
+                {{ m.name }}
+            </label><br>
+        {% endfor %}
+    </fieldset>
     <br>
 
     <!-- Difficulty -->
-    <label>Difficulty:</label>
-    <select name="difficulty">
+    <label for="difficulty"><b>Difficulty:</b></label>
+    <select id="difficulty" name="difficulty">
         <option value="">Any</option>
         <option value="beginner">Beginner</option>
         <option value="intermediate">Intermediate</option>
         <option value="advanced">Advanced</option>
-    </select><br><br>
+    </select>
+    <br><br>
 
     <!-- Goal -->
-    <label>Goal:</label>
-    <select name="goal">
+    <label for="goal"><b>Training Goal:</b></label>
+    <select id="goal" name="goal">
         <option value="">Any</option>
         {% for g in goals %}
             <option value="{{ g.name }}">{{ g.name }}</option>
         {% endfor %}
-    </select><br><br>
+    </select>
+    <br><br>
 
     <!-- Equipment -->
-    <label>Equipment:</label>
-    <select name="equipment">
+    <label for="equipment"><b>Available Equipment:</b></label>
+    <select id="equipment" name="equipment">
         <option value="">Any</option>
         {% for e in equipment %}
             <option value="{{ e.name }}">{{ e.name }}</option>
         {% endfor %}
-    </select><br><br>
+    </select>
+    <br><br>
 
     <!-- Workout Length -->
-    <label>Workout Length:</label>
-    <select name="length">
-        <option value="short">Short (3–4 exercises)</option>
-        <option value="medium">Medium (5–7 exercises)</option>
-        <option value="long">Long (8+ exercises)</option>
-    </select><br><br>
+    <label for="length"><b>Workout Length:</b></label>
+    <select id="length" name="length">
+        <option value="short">Short (~4 exercises, mostly compound)</option>
+        <option value="medium">Medium (~6 exercises, compound + accessory)</option>
+        <option value="long">Long (~8 exercises, full routine)</option>
+    </select>
+    <br><br>
 
-    <button type="submit">Generate Workout</button>
+    <button type="submit"><b>Generate Workout</b></button>
 </form>
