@@ -24,7 +24,7 @@
                     <!-- ✅ Show muscles -->
                     <br>
                     <small>
-                        Primary: {{ exercise.primary_muscle }}<br>
+                        Primary: {{ exercise.primary_muscle.all|join:", " }}<br>
                         {% if exercise.secondary_muscles.all %}
                             Secondary: {{ exercise.secondary_muscles.all|join:", " }}
                         {% endif %}
