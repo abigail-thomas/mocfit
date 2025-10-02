@@ -3,10 +3,11 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.contrib.auth.models import auth
+# from django.contrib.auth.models import auth
+from django.contrib import auth
 from django.shortcuts import redirect, render
 
-from .forms import CreateUserForm, LoginForm
+from .forms import CreateUserForm, LoginForm, ProfileForm
 
 
 def homepage(request):
@@ -80,6 +81,18 @@ def user_logout(request):
 
     auth.logout(request)
 
-    return redirect('accounts/my_login')
+    return redirect('.')
 
 
+@login_required(login_url="my_login")
+def update_profile(request):
+    profile = request.user.profile
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+    else:
+        form = ProfileForm(instance=profile)
+
+    return render(request, 'accounts/update_profile.html', {'form': form})
