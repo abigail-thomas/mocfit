@@ -1,0 +1,104 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+      {% load static %}
+    <link rel="stylesheet" href="{% static '/workouts/style.css' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MocFit+</title>
+</head>
+<body>
+  <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header"><a href="">MocFit+</a></div>
+            <ul class="navbar-links">
+                <li class="item"><a href="/">Home</a></li>
+                <li class="item"><a href="/workouts/">Workouts</a></li>
+                <li class="item"><a href="">Community</a></li>
+                <li class="item"><a href="/accounts/">Login</a></li>
+            </ul>
+        </div>
+        
+    </nav>
+    <div class="sm-container-blue"></div>
+    
+      
+  <h1>Random Workout Generator</h1>
+  <form method="post" action="{% url 'workout_generator' %}">
+      {% csrf_token %}
+      {% for category in categories %}
+          <button type="submit" name="category" value="{{ category.name }}">
+              {{ category.name }} Day
+          </button><br><br>
+      {% endfor %}
+  </form>
+<h1>Random Workout Generator</h1>
+<form method="post" action="{% url 'workout_generator' %}">
+    {% csrf_token %}
+    {% for category in categories %}
+        <button type="submit" name="category" value="{{ category.name }}">
+            {{ category.name }} Day
+        </button><br><br>
+    {% endfor %}
+</form>
+
+<hr>
+
+<h2>Advanced Workout Generator</h2>
+<p><b>Select your preferences and generate a custom workout plan.</b></p>
+
+<form method="post" action="{% url 'advanced_workout_generator' %}">
+    {% csrf_token %}
+
+    <!-- ✅ Muscle selection -->
+    <fieldset>
+        <legend><b>Muscles to Train</b></legend>
+        {% for m in muscles %}
+            <label>
+                <input type="checkbox" name="muscles" value="{{ m.name }}">
+                {{ m.name }}
+            </label><br>
+        {% endfor %}
+    </fieldset>
+    <br>
+
+    <!-- Difficulty -->
+    <label for="difficulty"><b>Difficulty:</b></label>
+    <select id="difficulty" name="difficulty">
+        <option value="">Any</option>
+        <option value="beginner">Beginner</option>
+        <option value="intermediate">Intermediate</option>
+        <option value="advanced">Advanced</option>
+    </select>
+    <br><br>
+
+    <!-- Goal -->
+    <label for="goal"><b>Training Goal:</b></label>
+    <select id="goal" name="goal">
+        <option value="">Any</option>
+        {% for g in goals %}
+            <option value="{{ g.name }}">{{ g.name }}</option>
+        {% endfor %}
+    </select>
+    <br><br>
+
+    <!-- Equipment -->
+    <label for="equipment"><b>Available Equipment:</b></label>
+    <select id="equipment" name="equipment">
+        <option value="">Any</option>
+        {% for e in equipment %}
+            <option value="{{ e.name }}">{{ e.name }}</option>
+        {% endfor %}
+    </select>
+    <br><br>
+
+    <!-- Workout Length -->
+    <label for="length"><b>Workout Length:</b></label>
+    <select id="length" name="length">
+        <option value="short">Short (~4 exercises, mostly compound)</option>
+        <option value="medium">Medium (~6 exercises, compound + accessory)</option>
+        <option value="long">Long (~8 exercises, full routine)</option>
+    </select>
+    <br><br>
+
+    <button type="submit"><b>Generate Workout</b></button>
+</form>

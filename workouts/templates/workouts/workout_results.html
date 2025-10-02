@@ -1,0 +1,58 @@
+<html>
+    <head>
+  <meta charset="UTF-8">
+      {% load static %}
+    <link rel="stylesheet" href="{% static '/workouts/style.css' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MocFit+</title>
+</head>
+<body>
+    
+<head>
+    <title>{{ category }} Workout</title>
+</head>
+
+    <h1>{{ category|title }} Workout</h1>
+
+    {% if exercises %}
+        <ul>
+            {% for exercise in exercises %}
+                <li>
+                    <strong>{{ exercise.name }}</strong>
+                    ({{ exercise.get_difficulty_display }} | 
+                    {% if exercise.equipment.all %}
+                        {% for eq in exercise.equipment.all %}
+                            {{ eq.name }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        No equipment
+                    {% endif %}
+                    {% if exercise.mechanics %} | {{ exercise.get_mechanics_display }}{% endif %})
+                    
+                    <!-- ✅ Show muscles -->
+                    <br>
+                    <small>
+                        Primary: {{ exercise.primary_muscle.all|join:", " }}<br>
+                        {% if exercise.secondary_muscles.all %}
+                            Secondary: {{ exercise.secondary_muscles.all|join:", " }}
+                        {% endif %}
+                    </small>
+
+                    {% if exercise.description %}
+                        <p>{{ exercise.description }}</p>
+                    {% endif %}
+
+                    {% if exercise.image_url %}
+                        <img src="{{ exercise.image_url }}" alt="{{ exercise.name }}" width="150">
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No exercises found for this category. Check the muscles assigned to it.</p>
+    {% endif %}
+
+    <a href="{% url 'workout_generator_page' %}">Back to Home</a>
+  
+
+</body>
