@@ -47,6 +47,7 @@ def advanced_workout_generator(request):
         selected_equipment = request.POST.get("equipment")
         selected_length = request.POST.get("length")
 
+        # Workout size scaling
         length_map = {
             "short": 4,
             "medium": 6,
@@ -54,12 +55,22 @@ def advanced_workout_generator(request):
         }
         target_exercises = length_map.get(selected_length, 6)
 
+        # Sets/Reps templates by goal
+        goal_sets_reps = {
+            "strength": {"sets": 4, "reps": "4-6"},
+            "hypertrophy": {"sets": 3, "reps": "8-12"},
+            "endurance": {"sets": 2, "reps": "15-20"},
+        }
+        default_sr = {"sets": 3, "reps": "10-12"}
+        sr = goal_sets_reps.get(selected_goal, default_sr)
+
         generated = {}
 
         for muscle_name in selected_muscles:
             try:
                 muscle = MuscleGroup.objects.get(name=muscle_name)
 
+                # Base queryset
                 exercises = Exercise.objects.filter(primary_muscle=muscle)
 
                 if selected_difficulty:
@@ -69,19 +80,44 @@ def advanced_workout_generator(request):
                 if selected_equipment:
                     exercises = exercises.filter(equipment__name=selected_equipment)
 
-                exercises = list(exercises)
-                if exercises:
-                    num_to_pick = min(len(exercises), max(1, target_exercises // len(selected_muscles)))
-                    exercises = random.sample(exercises, num_to_pick)
+                # Split into compound & isolation
+                compounds = list(exercises.filter(mechanics="compound"))
+                isolations = list(exercises.filter(mechanics="isolation"))
 
-                generated[muscle.name] = exercises
+                chosen = []
+
+                # Always try to pick one compound
+                if compounds:
+                    chosen.append(random.choice(compounds))
+
+                # Fill with isolations/remaining compounds
+                remaining_slots = max(1, target_exercises // len(selected_muscles)) - len(chosen)
+                if remaining_slots > 0:
+                    pool = isolations if isolations else compounds
+                    if pool:
+                        chosen.extend(random.sample(pool, min(len(pool), remaining_slots)))
+
+                # Attach sets/reps to each exercise
+                generated[muscle.name] = [
+                    {
+                        "exercise": ex,
+                        "sets": sr["sets"],
+                        "reps": sr["reps"],
+                    }
+                    for ex in chosen
+                ]
+
             except MuscleGroup.DoesNotExist:
                 generated[muscle_name] = []
 
         return render(
             request,
             "workouts/advanced_workout_results.html",
-            {"workout": generated, "goal": selected_goal, "length": selected_length}
+            {
+                "workout": generated,
+                "goal": selected_goal,
+                "length": selected_length,
+            },
         )
 
     else:
