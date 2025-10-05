@@ -1,3 +1,5 @@
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,61 +9,109 @@
     <title>MocFit+</title>
 </head>
 <body>
+    <div class="bg-gradient"></div>
 
     <nav class="navbar">
-        <div class="container">
-            <div class="navbar-header"><a href="">MocFit+</a></div>
-            <ul class="navbar-links">
-                <li class="item"><a href="/">Home</a></li>
-                <li class="item"><a href="/workouts/">Workouts</a></li>
-                <li class="item"><a href="/community/">Community</a></li>
-                <li class="item"><a href="/accounts/">Login</a></li>
+        <div class="nav-container">
+            <a href="/" class="logo">MocFit+</a>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/workouts/">Workouts</a></li>
+                <li><a href="/community/">Community</a></li>
+                <li><a href="/accounts/">Login</a></li>
             </ul>
         </div>
-        
     </nav>
-    <div class="sm-container-blue"></div>
 
-    <div class="home-hero">
-        <h1>Some Phrase Here</h1>
-        <h4>Join the ultimate fitness community design for FSC Students. blah blah blah</h4>
-        <button onclick="location.href='/workouts/'">Workout Generator</button>
-    </div>
-
-    <div class="home-content">
-        <h1>header something</h1>
-        <div class="cards">
-            <div class="card">
-                <h3>Something</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta iure atque quisquam deleniti debitis adipisci dolorem, magni aliquid repellendus ex autem numquam nisi doloremque nobis beatae quae amet! Tenetur, minus.</p>
-            </div>
-            <div class="card">
-                <h3>Something</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta iure atque quisquam deleniti debitis adipisci dolorem, magni aliquid repellendus ex autem numquam nisi doloremque nobis beatae quae amet! Tenetur, minus.</p>
-            </div>
-            <div class="card">
-                <h3>Something</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta iure atque quisquam deleniti debitis adipisci dolorem, magni aliquid repellendus ex autem numquam nisi doloremque nobis beatae quae amet! Tenetur, minus.</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="sm-container-blue"></div>
-    <section>
-        <div class="join-section">
-            <h1>Ready to Start Your Moc Fitness Journey?</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus quisquam vel rem incidunt id nulla voluptatum? Doloremque error harum ipsa molestiae consequuntur, odit cum alias, distinctio at expedita dolores? Illo!</p>
-            <button onclick="location.href='/accounts/'">Join Today</button>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Transform Your Fitness Journey</h1>
+            <h2>Join the ultimate fitness community designed exclusively for FSC students. Train smarter, connect deeper, achieve more.</h2>
+            <button onclick="location.href='/workouts/'">Start Training</button>
         </div>
     </section>
 
     
 
+    
+
+    <section class="join-section">
+        <div class="join-content">
+            <h1>Ready to Start Your Fitness Journey?</h1>
+            <p>Join hundreds of FSC students who are already transforming their lives. Get unlimited access to workouts, community features, and expert guidance.</p>
+            <button class="btn" onclick="location.href='/accounts/'">Join MocFit+ Today</button>
+        </div>
+    </section>
+
     <footer>
-        <p>MocFit+ © 2025</p>
+        <p>MocFit+ © 2025 | Built for Students by Students</p>
     </footer>
-
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Hamburger menu toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            }
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll animation for feature cards
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, index * 100);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
 </body>
 </html>
