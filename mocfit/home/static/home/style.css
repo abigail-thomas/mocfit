@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Roboto&family=Michroma&family=Ramabhadra:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Michroma&family=Ramabhadra&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
 /* body */
 body {
     line-height: 1.6;
@@ -8,8 +9,7 @@ body {
 
     padding: 0px !important;
     /*font-family: Verdana, Geneva, Tahoma, sans-serif;*/
-    font-family:'Roboto';
-
+    font-family: 'Roboto';
 }
 
 /* global styles */
@@ -21,6 +21,8 @@ h1 {
     line-height: 1.2;
     text-align:center;
     color: white;
+    font-family: 'Bebas Neue';
+    letter-spacing: 2px;
 }
 
 h4 {
@@ -67,7 +69,7 @@ h4 {
 }
 
 .logo {
-    font-family: "Michroma";
+    font-family: 'Michroma';
     font-size: 2rem;
     letter-spacing: 1px;
     font-style: italic;
@@ -250,7 +252,7 @@ color:  rgb(202, 201, 201);
     gap: 20px;
 
 }
-.cards-section h1 {
+.cards-section h1, .community h1, .join-section h1 {
     color: white;
     text-align: center;
     font-size: 3rem;
@@ -299,7 +301,7 @@ color:  rgb(202, 201, 201);
 }
 
 /* list section , fade in stuff */
-.list {
+.community {
     border-top: 1px solid rgb(76, 75, 75);
     border-bottom: 1px solid rgb(76, 75, 75);
     min-height: 50vh;
@@ -317,12 +319,6 @@ color:  rgb(202, 201, 201);
     padding: 80px 40px 80px 40px;
     position: relative;
 
-}
-.join-section h1{
-    color: white;
-    text-align: center;
-    font-size: 3rem;
-    font-weight: 700;
 }
 
 .join-section p {
