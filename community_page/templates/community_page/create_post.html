@@ -1,0 +1,11 @@
+{% extends "community_page/base.html" %}
+{% block title %}Create Post{% endblock %}
+{% block content %}
+<h2>Create a Post</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Post</button>
+</form>
+<a href="{% url 'community_home' %}">Back to Feed</a>
+{% endblock %}

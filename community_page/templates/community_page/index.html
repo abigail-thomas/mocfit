@@ -1,0 +1,44 @@
+{% extends "community_page/base.html" %}
+{% block title %}Community Feed{% endblock %}
+{% block content %}
+<h1>Community Feed</h1>
+<a href="{% url 'create_post' %}" class="btn">+ Create Post</a>
+
+{% for post in posts %}
+<div class="post">
+    <h3>{{ post.author.username }}</h3>
+    <p>{{ post.content }}</p>
+    {% if post.image %}
+        <img src="{{ post.image.url }}" alt="Post image" width="400">
+    {% endif %}
+    <p><small>{{ post.created_at|date:"F j, Y, g:i a" }}</small></p>
+
+    <form action="{% url 'like_post' post.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit">
+            {% if user in post.likes.all %}
+                ❤️ Unlike ({{ post.total_likes }})
+            {% else %}
+                🤍 Like ({{ post.total_likes }})
+            {% endif %}
+        </button>
+    </form>
+
+    <h4>Comments:</h4>
+    {% for comment in post.comments.all %}
+        <p><b>{{ comment.author.username }}</b>: {{ comment.content }}</p>
+    {% empty %}
+        <p>No comments yet.</p>
+    {% endfor %}
+
+    {% if user.is_authenticated %}
+    <form action="{% url 'add_comment' post.id %}" method="post">
+        {% csrf_token %}
+        {{ comment_form.content }}
+        <button type="submit">Comment</button>
+    </form>
+    {% endif %}
+</div>
+<hr>
+{% endfor %}
+{% endblock %}
