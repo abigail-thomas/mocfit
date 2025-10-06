@@ -260,15 +260,25 @@ color:  rgb(202, 201, 201);
 }
 
 .card {
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    /*border: 1px solid rgba(255, 255, 255, 0.1);*/
     padding: 5px 5px 5px 20px;
-    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    /*background: rgba(255, 255, 255, 0.03);*/
     transition: all 0.4s ease;
     margin-bottom: 10px;
 }
+.card i {
+    color: #d10e35;
+    font-size: 25px;
+}
+.card span {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
 .card h2 {
-    color: #d10e35;
+    color: white;
 
 }
 
@@ -278,11 +288,23 @@ color:  rgb(202, 201, 201);
 }
 
 .card:hover h2{
-    color: #0055cc;
+    /*color: #0055cc;*/
     transition: all 0.4s ease;
 }
 .card:hover {
     transform: scale(1.025);
+    background: rgba(255, 255, 255, 0.03);
+
+
+}
+
+/* list section , fade in stuff */
+.list {
+    border-top: 1px solid rgb(76, 75, 75);
+    border-bottom: 1px solid rgb(76, 75, 75);
+    min-height: 50vh;
+    padding: 120px 40px 80px 40px;
+
 }
 
 /* home join section */
@@ -342,7 +364,7 @@ footer p{
 
 
 /* responsive */
-@media (max-width: 1024px) {
+@media (max-width: 1070px) {
     .nav-container {
         padding: 20px 30px;
     }
