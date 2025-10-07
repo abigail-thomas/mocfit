@@ -1,8 +1,10 @@
 <h1>Your Achievements</h1>
 <ul>
   {% for ua in achievements %}
-    <li>{{ ua.achievement.name }} - earned on {{ ua.date_earned|date:"M d, Y" }}</li>
+    <li>{{ ua.achievement.name }} - earned on {{ ua.date_earned|date:"M d, Y, h:i A" }}</li>
   {% empty %}
     <li>No achievements yet! Log in to earn some.</li>
   {% endfor %}
+  <a href="{% url 'dashboard' %}">Dashboard</a><br>
+  <a href="{% url 'home.index' %}">Home</a><br>
 </ul>
