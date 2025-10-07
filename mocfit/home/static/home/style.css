@@ -227,7 +227,7 @@ color:  rgb(202, 201, 201);
     gap: 20px;
 
 }
-.cards-section h1, .community h1, .join-section h1, .anywhere h1 {
+.cards-section h1, .community h1, .join-section h1, .anywhere h1, .browse h1 {
     color: white;
     text-align: center;
     font-size: 3rem;
@@ -342,6 +342,38 @@ i {
     transform: scale(1.1);
     color:#0032a0;
 }
+
+.browse .cards-box {
+    display:grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: 1fr;
+    justify-content: center;
+    align-items: center;
+    margin: 5px 15px;
+    gap: 5px;
+    text-align: center;
+}
+
+.browse .card-box {
+    padding: 20px 10px;
+    max-width: 90px;
+}
+
+.browse .card-box p {
+    padding: 0;
+}
+
+.browse .card-box:hover i {
+    transform: scale(1) !important;
+    color: #d10e35;
+}
+
+.browse .card-box:hover {
+    transform: scale(1.04) !important;
+            transition: all .4s ease;
+
+}
+
 
 
 /* home join section */
