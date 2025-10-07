@@ -308,6 +308,23 @@ i {
 
 }
 
+.community .cards {
+    
+        margin: 5px 15px;
+    gap: 2px;
+}
+
+.community .card{
+    padding: 2px 2px 2px 2px;
+
+}
+
+.community .card:hover{
+    transform: scale(1);
+        /*background: linear-gradient(135deg, #292727 0%, #101111 100%) !important;*/
+        background-color: transparent;
+}
+
 /* home join section */
 .join-section {
     min-height: 75vh;
