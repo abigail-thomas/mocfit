@@ -240,6 +240,8 @@ color:  rgb(202, 201, 201);
 
 }
 
+
+
 .cards {
     display:grid;
     grid-template-columns: repeat(3, 1fr);
@@ -267,7 +269,7 @@ color:  rgb(202, 201, 201);
     transition: all 0.4s ease;
     margin-bottom: 10px;
 }
-.card i {
+i {
     color: #d10e35;
     font-size: 25px;
 }
@@ -318,13 +320,27 @@ color:  rgb(202, 201, 201);
 
 }
 
+.join-section .checklist {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 20px 80px 20px 80px;
+
+}
+
+
+.join-section .checklist span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
 .join-section p {
-    margin: 20px;
     font-size: 1.2rem;
     color:  rgb(202, 201, 201);
     font-weight: 400;
-    margin-bottom: 50px;
-
 }
 
 
