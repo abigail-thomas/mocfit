@@ -1,0 +1,8 @@
+<h1>Your Achievements</h1>
+<ul>
+  {% for ua in achievements %}
+    <li>{{ ua.achievement.name }} - earned on {{ ua.date_earned|date:"M d, Y" }}</li>
+  {% empty %}
+    <li>No achievements yet! Log in to earn some.</li>
+  {% endfor %}
+</ul>
