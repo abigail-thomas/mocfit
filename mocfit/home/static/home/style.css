@@ -104,29 +104,10 @@ h4 {
     z-index: 1;
 }
 
-.navbar-links a::before {
-    /*content: "";
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: 0%;
-    background: linear-gradient(135deg, #0032a0, #0055cc);
-    z-index: -1;
-    transform: translateY(-50%) scaleY(0);
-    transform-origin: center;
-    transition: transform 0.75s ease;*/
-}
-
 .nav-links a:hover, .nav-links a:active  {
     color: white;
 }
 
-
-.navbar-links a:hover::before {
-    /*height: 100%;
-    transform: translateY(-50%) scaleY(1);*/
-}
 
 .nav-links {
     list-style: none;
@@ -140,7 +121,6 @@ h4 {
 
 .nav-links li {
     display: inline-block;
-    /*font-family: Verdana, Geneva, Tahoma, sans-serif;*/
     font-size: 1rem;
 }
 
@@ -173,11 +153,6 @@ h4 {
 .hamburger.active span:nth-child(3) {
     transform: rotate(-45deg) translate(7px, -7px);
 }
-/*
-.sm-container-blue {
-    height: 8px;
-    background: linear-gradient(135deg, #0032a0, #0055cc);
-}*/
 
 /* home page hero */
 .hero {
@@ -212,7 +187,6 @@ color:  rgb(202, 201, 201);
 .hero-content button, .join-content button{
     padding: 20px;
     font-size: 1rem;
-    /*border-radius: 35px;*/
     background: linear-gradient(135deg, #ba0c2f, #d10e35);
     color: white;
     box-shadow: 0 8px 25px rgba(186, 12, 47, 0.1);
@@ -263,10 +237,8 @@ color:  rgb(202, 201, 201);
 }
 
 .card {
-    /*border: 1px solid rgba(255, 255, 255, 0.1);*/
     padding: 5px 5px 5px 20px;
     border-radius: 8px;
-    /*background: rgba(255, 255, 255, 0.03);*/
     transition: all 0.4s ease;
     margin-bottom: 10px;
 }
@@ -291,7 +263,6 @@ i {
 }
 
 .card:hover h2{
-    /*color: #0055cc;*/
     transition: all 0.4s ease;
 }
 .card:hover {
@@ -301,13 +272,15 @@ i {
 
 }
 
-/* list section , fade in stuff */
+/* communituy stuff here*/
 .community {
 
     min-height: 50vh;
     padding: 120px 40px 80px 40px;
 
 }
+
+
 
 .community .cards {
     
@@ -324,7 +297,6 @@ i {
 
 .community .card:hover{
     transform: scale(1);
-        /*background: linear-gradient(135deg, #292727 0%, #101111 100%) !important;*/
         background-color: transparent;
 }
 
@@ -333,6 +305,15 @@ i {
     padding: 120px 40px 80px 40px;
 
 }
+
+.anywhere p  {
+    text-align: center;
+        font-size: 1.2rem;
+    color:  rgb(202, 201, 201);
+    font-weight: 400;
+    padding-bottom: 10px;
+}
+
 
 .anywhere .cards-box  {
     display:grid;
@@ -361,6 +342,8 @@ i {
     transform: scale(1.1);
     color:#0032a0;
 }
+
+
 /* home join section */
 .join-section {
     min-height: 75vh;
@@ -390,7 +373,7 @@ i {
     gap: 8px;
 }
 
-.join-section p {
+.join-section p{
     font-size: 1.2rem;
     color:  rgb(202, 201, 201);
     font-weight: 400;
