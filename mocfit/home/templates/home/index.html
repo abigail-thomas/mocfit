@@ -1,67 +1,204 @@
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <!-- google icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=exercisegroup_addshow_charttrophyfinance_modemovingelevationchecksmallhomeweightsports_gymnasticsapartmentheart_arrowsprintaccessibility" />
     {% load static %}
     <link rel="stylesheet" href="{% static '/home/style.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MocFit+</title>
 </head>
 <body>
+    <div class="bg-gradient"></div>
 
     <nav class="navbar">
-        <div class="container">
-            <div class="navbar-header"><a href="">MocFit+</a></div>
-            <ul class="navbar-links">
-                <li class="item"><a href="/">Home</a></li>
-                <li class="item"><a href="/workouts/">Workouts</a></li>
-                <li class="item"><a href="/community/">Community</a></li>
-                <li class="item"><a href="/accounts/">Login</a></li>
+        <div class="nav-container">
+            <a href="/" class="logo">MocFit+</a>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/workouts/">Workouts</a></li>
+                <li><a href="/community/">Community</a></li>
+                <li><a href="/accounts/">Login</a></li>
             </ul>
         </div>
-        
     </nav>
-    <div class="sm-container-blue"></div>
 
-    <div class="home-hero">
-        <h1>Some Phrase Here</h1>
-        <h4>Join the ultimate fitness community design for FSC Students. blah blah blah</h4>
-        <button onclick="location.href='/workouts/'">Workout Generator</button>
-    </div>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Transform Your Fitness Journey</h1>
+            <h2>Join the ultimate fitness community designed exclusively for FSC students. blag blah something here.</h2>
+            <button onclick="location.href='/workouts/'">Start Training</button>
+        </div>
+    </section>
 
-    <div class="home-content">
-        <h1>header something</h1>
+    <section class="cards-section">
+        <h1>Features</h1>
         <div class="cards">
             <div class="card">
-                <h3>Something</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta iure atque quisquam deleniti debitis adipisci dolorem, magni aliquid repellendus ex autem numquam nisi doloremque nobis beatae quae amet! Tenetur, minus.</p>
+                <span>
+                    <i class="material-symbols-outlined">exercise</i>
+                    <h2>Personalized Workouts</h2>
+                </span>
+                <p>stuff here words blah blah blah</p>
             </div>
             <div class="card">
-                <h3>Something</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta iure atque quisquam deleniti debitis adipisci dolorem, magni aliquid repellendus ex autem numquam nisi doloremque nobis beatae quae amet! Tenetur, minus.</p>
+                <span>
+                    <i class="material-symbols-outlined">group_add</i>
+                    <h2>Build Community</h2>
+                </span>
+                <p>stuff here words blah blah blah</p>
             </div>
             <div class="card">
-                <h3>Something</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta iure atque quisquam deleniti debitis adipisci dolorem, magni aliquid repellendus ex autem numquam nisi doloremque nobis beatae quae amet! Tenetur, minus.</p>
+                <span>
+                    <i class="material-symbols-outlined">elevation</i>
+                    <h2>Track Progress</h2>
+                </span>
+                <p>stuff here words blah blah blah</p>
             </div>
         </div>
-    </div>
+        
+    </section>
 
-    <div class="sm-container-blue"></div>
-    <section>
-        <div class="join-section">
-            <h1>Ready to Start Your Moc Fitness Journey?</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus quisquam vel rem incidunt id nulla voluptatum? Doloremque error harum ipsa molestiae consequuntur, odit cum alias, distinctio at expedita dolores? Illo!</p>
-            <button onclick="location.href='/accounts/'">Join Today</button>
+    <section class="anywhere">
+        <h1>Find your Fit, Anywhere</h1>
+        <p>MocFit+ offers workouts for students anywhere blah something here describe things idk</p>
+        <div class="cards-box">
+            <div class="card-box">
+                <i class="material-symbols-outlined">weight</i>
+                <p>School Gym</p>
+            </div>
+            <div class="card-box">
+                <i class="material-symbols-outlined">home</i>
+                <p>At Home</p>
+            </div>
+            <div class="card-box">
+                <i class="material-symbols-outlined">apartment</i>
+                <p>Large Gyms</p>
+            </div>
+            <div class="card-box">
+                <i class="material-symbols-outlined">sports_gymnastics</i>
+                <p>Body Weight</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="browse">
+        <h1>Get Started</h1>
+        <div class="cards-box">
+            <div class="card-box">
+                <i class="material-symbols-outlined">sprint</i>
+                <p>Cardio</p>
+            </div>
+            <div class="card-box">
+                <i class="material-symbols-outlined">accessibility</i>
+                <p>Full Body</p>
+            </div>
+            <div class="card-box">
+                <i class="material-symbols-outlined">apartment</i>
+                <p>Core</p>
+            </div>
+            <div class="card-box">
+                <i class="material-symbols-outlined">sports_gymnastics</i>
+                <p>Push</p>
+            </div>
+            <div class="card-box">
+                <i class="material-symbols-outlined">sports_gymnastics</i>
+                <p>Pull</p>
+            </div>
+            <div class="card-box">
+                <i class="material-symbols-outlined">sports_gymnastics</i>
+                <p>Legs</p>
+            </div>
+        </div>
+    </section>
+
+    
+    <section class="community">
+        <h1>Train Together</h1>
+        <div class="cards">
+            <div class="card">
+                <span>
+                    <i class="material-symbols-outlined">trophy</i>
+                    <h2>Challenge your Friends</h2>
+                </span>
+            </div>
+            <div class="card">
+                <span>
+                    <i class="material-symbols-outlined">finance_mode</i>
+                    <h2>Share your Progress</h2>
+                </span>
+            </div>
+            <div class="card">
+                <span>
+                    <i class="material-symbols-outlined">elevation</i>
+                    <h2>Something Else</h2>
+                </span>
+            </div>
         </div>
     </section>
 
     
 
+    
+
+    <section class="join-section">
+        <div class="join-content">
+            <h1>Ready to Start Your Fitness Journey?</h1>
+            <!--<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit ut labore, ipsum similique repellendus laborum sit aliquid. Eius eveniet repellat provident dolores sit eos eum quis assumenda repudiandae, voluptate deserunt!</p>/-->
+            <div class="checklist">
+                <span><i class="material-symbols-outlined">check_small</i><p>Free to Join, Free to Use</p></span>
+                <span><i class="material-symbols-outlined">check_small</i><p>Workouts for Everyone, Everywhere</p></span>
+                <span><i class="material-symbols-outlined">check_small</i><p>Another One</p></span>
+            </div>
+            <button onclick="location.href='/accounts/'">Join MocFit+</button>
+        </div>
+    </section>
+
     <footer>
-        <p>MocFit+ © 2025</p>
+        <p>MocFit+ © 2025 | Built for Students by Students</p>
     </footer>
 
+    <script>
+        // HAMBURGER !
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // when u click a link, close the menu
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+
+        // the scrolled feature,
+        // since navbar is always visible, change the background from transparent to darker when scrolled down
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+
+        });
+
+        
+
+    </script>
 </body>
 </html>

@@ -21,6 +21,38 @@
     </nav>
     <div class="sm-container-blue"></div>
     
+      <div class="page-container">
+<div class="page-header">
+    <h1>Workout Generator</h1>
+    <p>Create personalized workouts that work with your goals.</p>
+</div>
+     <div class="generator-grid">
+        <div class="generator-card">
+            <h2>Quick Start</h2>
+            <p>Get an instant workout.</p>
+                <form method="post" action="/workout_generator/">
+                    <div class="generator-buttons">
+                        <button type="submit" name="category" value="Push" class="generator-btn">Push Day</button>
+                        <button type="submit" name="category" value="Pull" class="generator-btn">Pull Day</button>
+                        <button type="submit" name="category" value="Legs" class="generator-btn">Legs Day</button>
+                        <button type="submit" name="category" value="Cardio" class="generator-btn">Cardio Day</button>
+                        <button type="submit" name="category" value="Core" class="generator-btn">Core Day</button>
+                        <button type="submit" name="category" value="Full Body" class="generator-btn">Full Body</button>
+                    </div>
+                </form>
+        </div>
+     
+
+ <!--
+      <h1>Random Workout Generator</h1>
+  <form method="post" action="{% url 'workout_generator' %}">
+      {% csrf_token %}
+      {% for category in categories %}
+          <button type="submit" name="category" value="{{ category.name }}">
+              {{ category.name }} Day
+          </button><br><br>
+      {% endfor %}
+  </form>
 <h1>Random Workout Generator</h1>
 <form method="post" action="{% url 'workout_generator' %}">
     {% csrf_token %}
@@ -43,13 +75,13 @@
     <fieldset>
         <legend><b>Muscles to Train</b></legend>
         {% for m in muscles %}
+
             <label>
                 <input type="checkbox" name="muscles" value="{{ m.name }}">
                 {{ m.name }}
             </label><br>
         {% endfor %}
-    </fieldset>
-    <br>
+        <br>
 
     <!-- Difficulty -->
     <label for="difficulty"><b>Difficulty:</b></label>
@@ -90,5 +122,12 @@
     </select>
     <br><br>
 
-    <button type="submit"><b>Generate Workout</b></button>
-</form>
+      <button type="submit">Generate Workout</button>
+  </form>
+
+   
+    <footer>
+        <p>MocFit+ © 2025</p>
+    </footer>
+</body>
+</html>
