@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Michroma&family=Ramabhadra&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Michroma&Oswald&family=Ramabhadra&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
 
 /* body */
 body {
@@ -9,7 +9,7 @@ body {
 
     padding: 0px !important;
     /*font-family: Verdana, Geneva, Tahoma, sans-serif;*/
-    font-family: 'Roboto';
+    font-family: 'Oswald';
 }
 
 /* global styles */
@@ -21,8 +21,7 @@ h1 {
     line-height: 1.2;
     text-align:center;
     color: white;
-    font-family: 'Bebas Neue';
-    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 h4 {
@@ -235,8 +234,7 @@ color:  rgb(202, 201, 201);
 
 /* cards */
 .cards-section {
-    border-top: 1px solid rgb(76, 75, 75);
-    border-bottom: 1px solid rgb(76, 75, 75);
+
     min-height: 50vh;
     padding: 120px 40px 80px 40px;
 
@@ -302,8 +300,7 @@ color:  rgb(202, 201, 201);
 
 /* list section , fade in stuff */
 .community {
-    border-top: 1px solid rgb(76, 75, 75);
-    border-bottom: 1px solid rgb(76, 75, 75);
+
     min-height: 50vh;
     padding: 120px 40px 80px 40px;
 
@@ -337,7 +334,6 @@ color:  rgb(202, 201, 201);
 
 footer {
     /*background: linear-gradient(135deg, #0032a0, #0055cc);*/
-    border-top: 1px solid rgb(76, 75, 75);
     display: flex;
     justify-content: center;
     align-items: center;
