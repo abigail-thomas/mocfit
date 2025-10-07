@@ -252,7 +252,7 @@ color:  rgb(202, 201, 201);
     gap: 20px;
 
 }
-.cards-section h1, .community h1, .join-section h1 {
+.cards-section h1, .community h1, .join-section h1, .anywhere h1 {
     color: white;
     text-align: center;
     font-size: 3rem;
@@ -315,7 +315,9 @@ i {
 }
 
 .community .card{
-    padding: 2px 2px 2px 2px;
+        gap: 10px;
+        margin: 10px;
+    transition: all 0.4s ease;
 
 }
 
@@ -325,6 +327,39 @@ i {
         background-color: transparent;
 }
 
+.anywhere {
+     min-height: 50vh;
+    padding: 120px 40px 80px 40px;
+
+}
+
+.anywhere .cards-box  {
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr;
+    justify-content: center;
+    align-items: center;
+    margin: 5px 15px;
+    gap: 20px;
+}
+
+.card-box {
+    text-transform: uppercase;;
+    color:  rgb(202, 201, 201);
+    text-align: center;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 20px 5px 5px 20px;
+    margin:10px;
+
+
+}
+
+.card-box:hover i {
+        transition: all .4s ease;
+    transform: scale(1.1);
+    color:#0032a0;
+}
 /* home join section */
 .join-section {
     min-height: 75vh;
@@ -399,11 +434,15 @@ footer p{
     }
 
     .cards {
-    display:grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(3, 1fr);
-    gap: 5px;
+        display:grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(3, 1fr);
+        gap: 5px;
 
+    }
+
+    .anywhere .cards-box {
+        grid-template-columns: repeat(2, 1fr);
     }
 
 }
