@@ -305,7 +305,7 @@ i {
 
 }
 
-.anywhere p  {
+.anywhere p , .cards-section p.tag {
     text-align: center;
         font-size: 1.2rem;
     color:  rgb(202, 201, 201);
@@ -411,7 +411,7 @@ i {
     gap: 8px;
 }
 
-.join-section p{
+.join-section p {
     font-size: 1.2rem;
     color:  rgb(202, 201, 201);
     font-weight: 400;
