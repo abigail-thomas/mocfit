@@ -53,7 +53,7 @@ section {
     transition: all 0.3s ease;
 }
 .navbar.scrolled {
-            background: rgba(10, 10, 10, 0.95);
+            background: rgba(31, 29, 39, 0.95);
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
         }
 
