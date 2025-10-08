@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}MocFit{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>MocFit</h1>
+        <nav>
+            <a href="/">Home</a> |
+            <a href="/community/">Community</a> |
+            <a href="/workouts/">Workouts</a> |
+            <a href="/accounts/">Login</a> 
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 MocFit</p>
+    </footer>
+</body>
+</html>

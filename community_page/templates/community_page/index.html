@@ -1,0 +1,101 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/home/style.css' %}">
+    <link rel="stylesheet" href="{% static '/community/community.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community - MocFit+</title>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header"><a href="/">MocFit+</a></div>
+            <ul class="navbar-links">
+                <li class="item"><a href="/">Home</a></li>
+                <li class="item"><a href="/workouts/">Workouts</a></li>
+                <li class="item"><a href="/community/">Community</a></li>
+                <li class="item"><a href="/accounts/">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="sm-container-blue"></div>
+
+    <div class="community-hero">
+        <h1>Community Posts</h1>
+        <h4>See Fellow JoelSwole Enthusiasts</h4>
+        {% if user.is_authenticated %}
+            <a href="{% url 'create_post' %}" style="padding: 20px 40px; font-size: 1rem; background: linear-gradient(135deg, #ba0c2f, #d10e35); color: white; text-decoration: none; display: inline-block; font-weight: bold; border-radius: 5px;">+ Create Post</a>
+        {% else %}
+            <p style="color: #666; margin-top: 20px;">Please <a href="/accounts/" style="color: #ba0c2f; font-weight: bold;">login</a> to create posts</p>
+        {% endif %}
+    </div>
+
+    <div class="posts-container">
+        {% for post in posts %}
+        <div class="post-card">
+            <div class="post-header">
+                <h3>{{ post.author.username }}</h3>
+                <p class="post-date">{{ post.created_at|date:"F j, Y, g:i a" }}</p>
+            </div>
+            
+            <div class="post-content">
+                <p>{{ post.content }}</p>
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="Post image" class="post-image">
+                {% endif %}
+            </div>
+
+            <div class="post-actions">
+                {% if user.is_authenticated %}
+                <form action="{% url 'like_post' post.id %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="like-btn">
+                        {% if user in post.likes.all %}
+                            ❤️ Unlike ({{ post.total_likes }})
+                        {% else %}
+                            🤍 Like ({{ post.total_likes }})
+                        {% endif %}
+                    </button>
+                </form>
+                {% else %}
+                    <span class="like-count">❤️ {{ post.total_likes }} likes</span>
+                {% endif %}
+            </div>
+
+            <div class="comments-section">
+                <h4>Comments</h4>
+                <div class="comments-list">
+                    {% for comment in post.comments.all %}
+                        <div class="comment">
+                            <strong>{{ comment.author.username }}</strong>
+                            <p>{{ comment.content }}</p>
+                        </div>
+                    {% empty %}
+                        <p class="no-comments">No comments yet. Be the first to comment!</p>
+                    {% endfor %}
+                </div>
+
+                {% if user.is_authenticated %}
+                <form action="{% url 'add_comment' post.id %}" method="post" class="comment-form">
+                    {% csrf_token %}
+                    {{ comment_form.content }}
+                    <button type="submit" class="comment-btn">Comment</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <div class="no-posts">
+            <p>No posts yet. Be the first to share something!</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <footer>
+        <p>MocFit+ © 2025</p>
+    </footer>
+
+</body>
+</html>

@@ -50,6 +50,7 @@ def my_login(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
+            next_url = request.GET.get('next') or request.POST.get('next') or 'dashboard'
             return redirect("dashboard")
             # username = request.POST.get('username')
             # password = request.POST.get('password')
