@@ -33,7 +33,7 @@
             <h1>Community Feed</h1>
             <h2>Connect with Fellow FSC Fitness Enthusiasts</h2>
             {% if user.is_authenticated %}
-                <a href="{% url 'create_post' %}" style="padding: 20px 40px; font-size: 1rem; background: linear-gradient(135deg, #ba0c2f, #d10e35); color: white; text-decoration: none; display: inline-block; font-weight: bold; border-radius: 5px;">+ Create Post</a>
+                <a href="{% url 'create_post' %}" style="padding: 30px 60px; font-size: 1.2rem; background: linear-gradient(135deg, #ba0c2f, #d10e35); color: white; text-decoration: none; display: inline-block; font-weight: bold; border-radius: 5px;">+ Create Post</a>
                     <i class="material-symbols-outlined"></i>
                 </button>
             {% else %}
@@ -112,7 +112,7 @@
                         {{ comment_form.content }}
                         <button type="submit" class="comment-submit-btn">
                             <i class="material-symbols-outlined"></i>
-                            
+                            Comment
                         </button>
                     </form>
                     {% endif %}
