@@ -4,6 +4,7 @@ from django.db.models import Count
 from .models import Post
 from .forms import PostForm, CommentForm
 from django.http import JsonResponse
+from django.contrib import messages
 
 def index(request):
     # Order posts by number of likes (descending), then by creation date
@@ -55,3 +56,20 @@ def add_comment(request, post_id):
             comment.post = post
             comment.save()
     return redirect('community_home')
+
+# this is for deleting posts
+@login_required
+def delete_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+
+    # Only author can delete
+    if post.author != request.user:
+        messages.error(request, "You don’t have permission to delete this post.")
+        return redirect('community')
+
+    if request.method == 'POST':
+        post.delete()
+        messages.success(request, "Post deleted successfully!")
+        return JsonResponse({'deleted': True})
+
+    return JsonResponse({'deleted': False})

@@ -260,6 +260,24 @@
     justify-content: flex-start;
 }
 
+/* Delete post button */
+.delete-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ff4c4c;
+    transition: all 0.3s ease;
+}
+
+.delete-btn:hover {
+    background: rgba(255, 0, 0, 0.2);
+    border-color: #ff4c4c;
+    transform: scale(1.05);
+}
+
+.delete-btn i {
+    font-size: 22px;
+}
+
 /* Comments Section */
 .comments-section {
     margin-top: 25px;
