@@ -307,10 +307,9 @@
 
 .comment strong {
     color: #ba0c2f;
-    display: block;
-    margin-bottom: 8px;
     font-size: 1.1rem;
     font-weight: bold;
+    flex: 1;
 }
 
 .comment p {
@@ -319,12 +318,64 @@
     font-size: 1rem;
     line-height: 1.6;
 }
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 100%;
+}
 
 .no-comments {
     color: rgb(150, 150, 150);
     font-style: italic;
     text-align: center;
     padding: 20px;
+}
+.delete-comment-form {
+    display: inline-block;
+}
+
+.delete-comment-btn {
+    background: rgba(255, 0, 0, 0.1);
+    border: 1px solid rgba(255, 76, 76, 0.3);
+    color: #ff4c4c;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.delete-comment-btn:hover {
+    background: rgba(255, 0, 0, 0.2);
+    border-color: #ff4c4c;
+    transform: scale(1.05);
+}
+
+.delete-comment-btn {
+    background: rgba(255, 0, 0, 0.1);
+    border: 1px solid rgba(255, 76, 76, 0.3);
+    color: #ff4c4c;
+    padding: 5px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 0;
+}
+
+.comment-actions {
+  text-align: right;
+}
+
+/* You might need to add this if the form is a block-level element by default */
+.delete-form {
+  display: inline-block;
 }
 
 /* Comment Form */

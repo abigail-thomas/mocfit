@@ -98,7 +98,17 @@
                     <div class="comments-list">
                         {% for comment in post.comments.all %}
                             <div class="comment">
-                                <strong>{{ comment.author.username }}</strong>
+                                <div class="comment-header">
+                                    <strong>{{ comment.author.username }}</strong>
+                                    {% if user == comment.author %}
+                                        <form action="{% url 'delete_comment' comment.id %}" method="post" class="delete-comment-form" data-comment-id="{{ comment.id }}">
+                                            {% csrf_token %}
+                                            <button type="button" class="delete-comment-btn">
+                                                <i class="material-symbols-outlined">delete</i>
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                </div>
                                 <p>{{ comment.content }}</p>
                             </div>
                         {% empty %}
@@ -218,6 +228,39 @@
                 }
             });
         });
+// For delete comment button
+document.querySelectorAll('.delete-comment-btn').forEach(button => {
+    button.addEventListener('click', async () => {
+        const form = button.closest('.delete-comment-form');
+        const commentId = form.dataset.commentId;
+        const csrftoken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        if (!confirm('Are you sure you want to delete this comment?')) return;
+
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrftoken,
+                },
+            });
+
+            const data = await response.json();
+            if (data.deleted) {
+                // Smoothly remove the comment from the page
+                const comment = form.closest('.comment');
+                comment.style.transition = 'opacity 0.3s ease';
+                comment.style.opacity = '0';
+                setTimeout(() => comment.remove(), 300);
+            } else {
+                alert('Failed to delete comment: ' + (data.error || 'Unknown error'));
+            }
+        } catch (error) {
+            console.error('Error deleting comment:', error);
+            alert('Failed to delete comment');
+        }
+    });
+});
     </script>
 </body>
 </html>

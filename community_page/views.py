@@ -5,6 +5,8 @@ from .models import Post
 from .forms import PostForm, CommentForm
 from django.http import JsonResponse
 from django.contrib import messages
+from .models import Comment
+from django.views.decorators.http import require_POST
 
 def index(request):
     # Order posts by number of likes (descending), then by creation date
@@ -73,3 +75,18 @@ def delete_post(request, post_id):
         return JsonResponse({'deleted': True})
 
     return JsonResponse({'deleted': False})
+# this is for the delete comment butto
+@login_required
+@require_POST
+def delete_comment(request, comment_id):
+    try:
+        comment = Comment.objects.get(id=comment_id)
+        
+        # Check if the user is the author of the comment
+        if comment.author == request.user:
+            comment.delete()
+            return JsonResponse({'deleted': True})
+        else:
+            return JsonResponse({'deleted': False, 'error': 'Unauthorized'}, status=403)
+    except Comment.DoesNotExist:
+        return JsonResponse({'deleted': False, 'error': 'Comment not found'}, status=404)
