@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from .models import Post
 from .forms import PostForm, CommentForm
+from django.http import JsonResponse
 
 def index(request):
     # Order posts by number of likes (descending), then by creation date
@@ -34,9 +35,14 @@ def like_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     if request.user in post.likes.all():
         post.likes.remove(request.user)
+        liked = False
     else:
         post.likes.add(request.user)
-    return redirect('community_home')
+        liked = True
+    return JsonResponse({
+        "liked": liked,
+        "total_likes": post.total_likes(),
+    })
 
 @login_required
 def add_comment(request, post_id):
