@@ -34,7 +34,7 @@ h4 {
 }
 
 section {
-    min-height: 75vh;
+    min-height: 50vh;
 }
 
 
@@ -167,6 +167,7 @@ section {
     padding: 120px 40px 80px 40px;
     position: relative;
     background-image: url("% static 'images/gym.jpg' %") !important;
+    min-height: 75vh;
 
 }
 
