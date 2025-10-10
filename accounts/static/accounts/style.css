@@ -159,28 +159,28 @@ section {
 }
 
 /* home page hero */
-.hero {
+.login-container {
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     padding: 120px 40px 80px 40px;
     position: relative;
-    background-image: url("% static 'images/gym.jpg' %") !important;
     min-height: 75vh;
+    /*background: rgba(255, 255, 255, 0.03);*/
 
 }
 
 
-.hero h1 {
+.login-container h1 {
     
-    font-size: 5rem;
+    font-size: 3rem;
     font-weight: 900;
     margin-bottom: 30px;
     color:white;
 }
 
-.hero h2 {
+.login-container h2 {
     font-size: 1.4rem;
 color:  rgb(202, 201, 201);
     font-weight: 400;
@@ -188,7 +188,7 @@ color:  rgb(202, 201, 201);
 }
 
 
-.hero-content button, .join-content button{
+.login-container button {
     padding: 20px;
     font-size: 1rem;
     background: linear-gradient(135deg, #ba0c2f, #d10e35);
@@ -203,7 +203,7 @@ color:  rgb(202, 201, 201);
 
 
 
-.hero-content button:hover, .join-content button:hover {
+.login-container button:hover  {
     transform: scale(1.05);
     background: linear-gradient(135deg, #0032a0, #0055cc);
     box-shadow: 0 8px 25px rgba(12, 21, 186, 0.1);
@@ -211,230 +211,6 @@ color:  rgb(202, 201, 201);
 
 }
 
-/* cards */
-.cards-section {
-    padding: 120px 40px 80px 40px;
-
-
-}
-
-.cards-section .content {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(1, 1fr);
-
-}
-
-
-
-.cards {
-    display:grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
-    justify-content: center;
-    align-items: top;
-    margin: 5px 15px;
-    gap: 20px;
-
-}
-.cards-section h1, .community h1, .join-section h1, .anywhere h1, .browse h1 {
-    color: white;
-    text-align: center;
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 30px;
-
-}
-
-.card {
-    padding: 5px 5px 5px 20px;
-    border-radius: 8px;
-    transition: all 0.4s ease;
-    margin: 10px 10px;
-}
-
-
-i {
-    color: #d10e35;
-    font-size: 25px;
-}
-.card span {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.card h2 {
-    color: white;
-
-}
-
-.card p {
-    color:  rgb(202, 201, 201);
-
-}
-
-.card:hover h2{
-    transition: all 0.4s ease;
-}
-.card:hover {
-    transform: scale(1.025);
-    background: rgba(255, 255, 255, 0.03);
-
-
-}
-
-.cards-section .content .img    {
-    padding: 5px 5px 5px 20px;
-    border-radius: 8px;
-    transition: all 0.4s ease;
-    margin: 10px 10px;
-    border: 2px solid #ba0c2f; /* placeholder for when i put an image here*/
-}
-
-/* communituy stuff here*/
-.community {
-    padding: 120px 40px 80px 40px;
-
-}
-
-
-
-.community .cards {
-    
-        margin: 5px 15px;
-    gap: 2px;
-}
-
-.community .card{
-        gap: 10px;
-        margin: 10px;
-    transition: all 0.4s ease;
-
-}
-
-.community .card:hover{
-    transform: scale(1);
-        background-color: transparent;
-}
-
-
-.anywhere {
-    padding: 120px 40px 80px 40px;
-
-}
-
-.anywhere p , .cards-section p.tag {
-    text-align: center;
-        font-size: 1.2rem;
-    color:  rgb(202, 201, 201);
-    font-weight: 400;
-    padding-bottom: 10px;
-}
-
-
-.anywhere .cards-box  {
-    display:grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: 1fr;
-    justify-content: center;
-    align-items: center;
-    margin: 5px 15px;
-    gap: 20px;
-}
-
-.card-box {
-    text-transform: uppercase;;
-    color:  rgb(202, 201, 201);
-    text-align: center;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.03);
-    padding: 20px 5px 5px 20px;
-    margin:10px;
-
-
-}
-
-.card-box:hover i {
-        transition: all .4s ease;
-    transform: scale(1.1);
-    color:#0032a0;
-}
-
-.browse {
-
-}
-
-.browse .cards-box {
-    display:grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: 1fr;
-    justify-content: center;
-    align-items: center;
-    margin: 5px 15px;
-    gap: 5px;
-    text-align: center;
-}
-
-.browse .card-box {
-    padding: 20px 25px;
-    min-width: 75%;
-    align-self: center;
-    margin-left: auto;
-    margin-right: auto
-}
-
-.browse .card-box p {
-    padding: 0;
-}
-
-.browse .card-box:hover i {
-    transform: scale(1) !important;
-    color: #d10e35;
-}
-
-.browse .card-box:hover {
-    transform: scale(1.04) !important;
-            transition: all .4s ease;
-
-}
-
-
-
-/* home join section */
-.join-section {
-    min-height: 75vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 80px 40px 80px 40px;
-    position: relative;
-
-}
-
-.join-section .checklist {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    flex-direction: column;
-    padding: 20px 80px 20px 80px;
-
-}
-
-
-.join-section .checklist span {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-.join-section p {
-    font-size: 1.2rem;
-    color:  rgb(202, 201, 201);
-    font-weight: 400;
-}
 
 
 
@@ -470,22 +246,11 @@ footer p{
         padding: 20px 30px;
     }
 
-    .hero h1 {
-        font-size: 4rem;
+    .login-container h1 {
+        font-size: 2.5rem;
     }
 
-    .cards {
-        display:grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(3, 1fr);
-        gap: 5px;
-
-    }
-
-    .anywhere .cards-box {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
+    
 }
 
 @media (max-width: 768px) {
@@ -535,31 +300,22 @@ footer p{
         bottom: -8px;
     }
 
-    .hero {
+    .login-container {
         padding: 100px 20px 60px;
         min-height: 90vh;
     }
 
-    .hero h1 {
-        font-size: 2.5rem;
+    .login-container h1 {
+        font-size: 1.75rem;
         margin-bottom: 20px;
     }
 
 
-    .hero h2 {
+    .login-container h2 {
         font-size: 1rem;
         margin-bottom: 40px;
         line-height: 1.6;
     }
-    .browse .cards-box  {
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(3, 1fr); 
-    }
-
-    .join-section h1 {
-        font-size: 2rem;
-    }
-    
 
     footer {
         padding: 25px 20px;
@@ -575,12 +331,12 @@ footer p{
         font-size: 1.3rem;
     }
 
-    .hero h1 {
-        font-size: 2rem;
+    .login-container h1 {
+        font-size: 1rem;
         letter-spacing: -1px;
     }
 
-    .hero h2 {
+    .login-container h2 {
         font-size: 0.95rem;
     }
 
