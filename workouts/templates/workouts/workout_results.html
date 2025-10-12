@@ -1,58 +1,125 @@
+{% load static %}
 <html>
-    <head>
-  <meta charset="UTF-8">
-      {% load static %}
-    <link rel="stylesheet" href="{% static '/workouts/style.css' %}">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MocFit+</title>
-</head>
-<body>
-    
 <head>
-    <title>{{ category }} Workout</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static '/workouts/style.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MocFit+</title>
 </head>
 
-    <h1>{{ category|title }} Workout</h1>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header"><a href="/">MocFit+</a></div>
+            <ul class="navbar-links">
+                <li class="item"><a href="/">Home</a></li>
+                <li class="item"><a href="/workouts/">Workouts</a></li>
+                <li class="item"><a href="/community">Community</a></li>
+                <li class="item"><a href="/accounts/">Login</a></li>
+            </ul>
+        </div>
+    </nav>
 
-    {% if exercises %}
-        <ul>
-            {% for exercise in exercises %}
-                <li>
-                    <strong>{{ exercise.name }}</strong>
-                    ({{ exercise.get_difficulty_display }} | 
-                    {% if exercise.equipment.all %}
-                        {% for eq in exercise.equipment.all %}
-                            {{ eq.name }}{% if not forloop.last %}, {% endif %}
-                        {% endfor %}
-                    {% else %}
-                        No equipment
-                    {% endif %}
-                    {% if exercise.mechanics %} | {{ exercise.get_mechanics_display }}{% endif %})
-                    
-                    <!-- ✅ Show muscles -->
-                    <br>
-                    <small>
-                        Primary: {{ exercise.primary_muscle.all|join:", " }}<br>
-                        {% if exercise.secondary_muscles.all %}
-                            Secondary: {{ exercise.secondary_muscles.all|join:", " }}
-                        {% endif %}
-                    </small>
+    <div class="page-container">
+        {% if category %}
+            <!-- ===================== -->
+            <!-- ✅ QUICK RANDOM WORKOUT -->
+            <!-- ===================== -->
+            <h1>{{ category|title }} Workout</h1>
 
-                    {% if exercise.description %}
-                        <p>{{ exercise.description }}</p>
-                    {% endif %}
+            {% if exercises %}
+                <ul>
+                    {% for exercise in exercises %}
+                        <li>
+                            <strong>{{ exercise.name }}</strong>
+                            ({{ exercise.get_difficulty_display }} | 
+                            {% if exercise.equipment.all %}
+                                {% for eq in exercise.equipment.all %}
+                                    {{ eq.name }}{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                No equipment
+                            {% endif %}
+                            {% if exercise.mechanics %} | {{ exercise.get_mechanics_display }}{% endif %})
+                            
+                            <br>
+                            <small>
+                                Primary: {{ exercise.primary_muscle.all|join:", " }}<br>
+                                {% if exercise.secondary_muscles.all %}
+                                    Secondary: {{ exercise.secondary_muscles.all|join:", " }}
+                                {% endif %}
+                            </small>
 
-                    {% if exercise.image_url %}
-                        <img src="{{ exercise.image_url }}" alt="{{ exercise.name }}" width="150">
-                    {% endif %}
-                </li>
+                            {% if exercise.description %}
+                                <p>{{ exercise.description }}</p>
+                            {% endif %}
+
+                            {% if exercise.image_url %}
+                                <img src="{{ exercise.image_url }}" alt="{{ exercise.name }}" width="150">
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No exercises found for this category. Check the muscles assigned to it.</p>
+            {% endif %}
+
+        {% elif workout %}
+            <!-- ===================== -->
+            <!-- ✅ ADVANCED WORKOUT GENERATOR -->
+            <!-- ===================== -->
+            <h2>Your Customized Workout</h2>
+            <p><strong>Goal:</strong> {{ goal|default:"Any" }}</p>
+            <p><strong>Workout Length:</strong> {{ length|title }}</p>
+
+            {% for muscle, exercises in workout.items %}
+                <h3>{{ muscle }}</h3>
+                <ul>
+                    {% for entry in exercises %}
+                        {% with exercise=entry.exercise %}
+                        <li>
+                            <strong>{{ exercise.name }}</strong>
+                            ({{ exercise.get_difficulty_display }} | 
+                            {% if exercise.equipment.all %}
+                                {% for eq in exercise.equipment.all %}
+                                    {{ eq.name }}{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            {% else %}No equipment{% endif %}
+                            {% if exercise.mechanics %} | {{ exercise.get_mechanics_display }}{% endif %})
+
+                            <br>
+                            <small>
+                                Primary: {{ exercise.primary_muscle.all|join:", " }}<br>
+                                {% if exercise.secondary_muscles.all %}
+                                    Secondary: {{ exercise.secondary_muscles.all|join:", " }}
+                                {% endif %}
+                            </small>
+
+                            {% if exercise.description %}
+                                <p>{{ exercise.description }}</p>
+                            {% endif %}
+
+                            <em>{{ entry.reps }} reps × {{ entry.sets }} sets</em>
+
+                            {% if exercise.image_url %}
+                                <br><img src="{{ exercise.image_url }}" alt="{{ exercise.name }}" width="150">
+                            {% endif %}
+                        </li>
+                        {% endwith %}
+                    {% empty %}
+                        <li>No exercises found for this muscle.</li>
+                    {% endfor %}
+                </ul>
             {% endfor %}
-        </ul>
-    {% else %}
-        <p>No exercises found for this category. Check the muscles assigned to it.</p>
-    {% endif %}
+        {% else %}
+            <p>No workout data found.</p>
+        {% endif %}
 
-    <a href="{% url 'workout_generator_page' %}">Back to Home</a>
-  
+        <a href="{% url 'workout_generator_page' %}" class="btn">Back</a>
+    </div>
 
+    <footer>
+        <p>MocFit+ © 2025</p>
+    </footer>
 </body>
+</html>

@@ -112,7 +112,7 @@ def advanced_workout_generator(request):
 
         return render(
             request,
-            "workouts/advanced_workout_results.html",
+            "workouts/workout_results.html",
             {
                 "workout": generated,
                 "goal": selected_goal,
