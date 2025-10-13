@@ -45,7 +45,13 @@
       <p style="font-size: 0.9em; color: #666; margin-bottom: 10px;">
         Select the muscle groups you want to train. The generator will prioritize compound movements and balance exercise distribution.
       </p>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
+
+      <!-- Select All / Deselect All button -->
+      <button type="button" id="selectAllBtn" class="btn" style="margin-bottom: 10px; border: 1px solid #ccc; background: #f5f5f5; cursor: pointer;">
+        Select All
+      </button>
+
+      <div id="muscleContainer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
         {% for m in muscles %}
           <label style="display: flex; align-items: center;">
             <input type="checkbox" name="muscles" value="{{ m.name }}" style="margin-right: 8px;">
@@ -54,6 +60,20 @@
         {% endfor %}
       </div>
     </fieldset>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const selectAllBtn = document.getElementById('selectAllBtn');
+        const checkboxes = document.querySelectorAll('input[name="muscles"]');
+        let allSelected = false;
+
+        selectAllBtn.addEventListener('click', function() {
+          allSelected = !allSelected;
+          checkboxes.forEach(cb => cb.checked = allSelected);
+          selectAllBtn.textContent = allSelected ? 'Deselect All' : 'Select All';
+        });
+      });
+    </script>
 
     <!-- Centered container -->
     <div style="text-align: center; margin-bottom: 25px;">

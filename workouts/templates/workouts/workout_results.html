@@ -6,87 +6,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Workout Results</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-    }
-    .page-container {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    h1, h2, h3 {
-      margin-bottom: 10px;
-    }
-    .workout-header, .error-box {
-      border: 1px solid #ccc;
-      padding: 15px;
-      margin-bottom: 20px;
-    }
-    .stat-box {
-      border: 1px solid #ccc;
-      padding: 10px;
-      margin: 5px 0;
-    }
-    .exercise-card {
-      border: 1px solid #ccc;
-      padding: 15px;
-      margin-bottom: 15px;
-    }
-    .exercise-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .exercise-meta, .muscle-tags {
-      margin: 10px 0;
-    }
-    .meta-badge, .muscle-tag {
-      border: 1px solid #ccc;
-      padding: 3px 6px;
-      margin-right: 5px;
-      display: inline-block;
-    }
-    .sets-reps-box {
-      border: 1px solid #ccc;
-      padding: 8px;
-      margin: 10px 0;
-    }
-    .exercise-description {
-      border: 1px solid #ccc;
-      padding: 8px;
-      margin: 10px 0;
-    }
-    .exercise-image {
-      max-width: 100%;
-      height: auto;
-      border: 1px solid #ccc;
-      margin-top: 10px;
-    }
-    .action-buttons {
-      margin: 30px 0;
-      text-align: center;
-    }
-    .btn {
-      border: 1px solid #ccc;
-      padding: 8px 15px;
-      text-decoration: none;
-      margin: 0 5px;
-      display: inline-block;
-      color: black;
-    }
-    footer {
-      text-align: center;
-      margin-top: 30px;
-      font-size: 0.9em;
-      border-top: 1px solid #ccc;
-      padding-top: 10px;
-    }
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .page-container { max-width: 800px; margin: 0 auto; }
+    h1, h2, h3 { margin-bottom: 10px; }
+    .workout-header, .error-box { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; }
+    .stat-box { border: 1px solid #ccc; padding: 10px; margin: 5px 0; }
+    .exercise-card { border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; }
+    .exercise-header { display: flex; justify-content: space-between; align-items: center; }
+    .exercise-meta, .muscle-tags { margin: 10px 0; }
+    .meta-badge, .muscle-tag { border: 1px solid #ccc; padding: 3px 6px; margin-right: 5px; display: inline-block; }
+    .sets-reps-box, .exercise-description { border: 1px solid #ccc; padding: 8px; margin: 10px 0; }
+    .exercise-image { max-width: 100%; height: auto; border: 1px solid #ccc; margin-top: 10px; }
+    .action-buttons { margin: 30px 0; text-align: center; }
+    .btn { border: 1px solid #ccc; padding: 8px 15px; text-decoration: none; margin: 0 5px; display: inline-block; color: black; }
+    footer { text-align: center; margin-top: 30px; font-size: 0.9em; border-top: 1px solid #ccc; padding-top: 10px; }
   </style>
 </head>
-
 <body>
   <div class="page-container">
 
+    <!-- Error message -->
     {% if error_message %}
       <div class="error-box">
         <h3>Error</h3>
@@ -95,6 +34,7 @@
       </div>
 
     {% elif category and exercises %}
+      <!-- Random preset workout -->
       <div class="workout-header">
         <h1>{{ category|title }} Workout</h1>
         <div class="stat-box">
@@ -135,9 +75,7 @@
           </div>
 
           {% if exercise.description %}
-            <div class="exercise-description">
-              {{ exercise.description }}
-            </div>
+            <div class="exercise-description">{{ exercise.description }}</div>
           {% endif %}
 
           {% if exercise.image_url %}
@@ -147,13 +85,18 @@
       {% endfor %}
 
     {% elif workout %}
+      <!-- Generated advanced workout -->
       <div class="workout-header">
         <h1>Your Workout Plan</h1>
+        <div class="stat-box">
+          <p>Exercises: {{ total_exercises|default:"0" }}</p>
+          <p>Goal: {{ goal|title|default:"Hypertrophy" }}</p>
+          <p>Estimated Duration: {{ estimated_duration|default:"45 min" }}</p>
+        </div>
       </div>
 
       {% for muscle, exercises in workout.items %}
         <h2>{{ muscle }}</h2>
-
         {% for entry in exercises %}
           {% with exercise=entry.exercise %}
           <div class="exercise-card">
@@ -199,9 +142,7 @@
             {% endif %}
 
             {% if exercise.description %}
-              <div class="exercise-description">
-                {{ exercise.description }}
-              </div>
+              <div class="exercise-description">{{ exercise.description }}</div>
             {% endif %}
 
             {% if exercise.image_url %}

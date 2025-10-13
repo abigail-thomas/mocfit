@@ -32,7 +32,6 @@ def workout_generator(request):
         return render(request, "workouts/workout_results.html", {
             "category": selected_category,
             "exercises": exercises,
-            "exercise_count": exercises.count()
         })
     else:
         categories = MuscleGroupCategory.objects.all()
@@ -148,7 +147,6 @@ def advanced_workout_generator(request):
                 "total_exercises": len(ordered_exercises),
                 "estimated_duration": estimate_workout_duration(ordered_exercises, params),
                 "total_volume": total_volume,
-                "exercise_count": len(exercises)
             },
         )
 
