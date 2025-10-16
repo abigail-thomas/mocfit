@@ -208,6 +208,7 @@
                 const postId = form.dataset.postId;
                 const csrftoken = form.querySelector('[name=csrfmiddlewaretoken]').value;
 
+                // this is text that pops up when the delete butto is clicked
                 if (!confirm('Are you sure you want to delete this post?')) return;
 
                 try {
@@ -237,7 +238,7 @@
             const form = button.closest('.delete-comment-form');
             const commentId = form.dataset.commentId;
             const csrftoken = form.querySelector('[name=csrfmiddlewaretoken]').value;
-
+            // text that pops up when delete button is clicked
             if (!confirm('Are you sure you want to delete this comment?')) return;
 
             try {
@@ -266,14 +267,21 @@
     });
 // for comment button 
 // keeps page from reloading when commenting
+        // this forced the page when submit is clicked to run the code that is given below
         document.querySelectorAll('.comment-form').forEach(form => {
             form.addEventListener('submit', async (e) => {
+
+                // This is the most crucial line.
+                //  It cancels the browser's default form submission behavior,
+                //  which is to reload the page.
                 e.preventDefault();
                 
+                // these lines of code gets the user-typed content
                 const textarea = form.querySelector('textarea');
                 const content = textarea.value.trim();
                 const csrftoken = form.querySelector('[name=csrfmiddlewaretoken]').value;
                 
+                // if no content in the form to gather tect from this will pop up
                 if (!content) {
                     alert('Please enter a comment');
                     return;
@@ -288,7 +296,7 @@
                         },
                         body: `content=${encodeURIComponent(content)}`
                     });
-                    
+                    // This line parses that JSON string into a usable JavaScript object
                     const data = await response.json();
                     
                     if (data.success) {
@@ -306,10 +314,18 @@
                         
                         // Create new comment element
                         const newComment = document.createElement('div');
+                        // adigns css class comment to our new div and applys the styles to the comment
                         newComment.className = 'comment';
+                        // before comment is added tis makes it completely invisable
                         newComment.style.opacity = '0';
+                        // this animates the change smoothly over .3 seconds
                         newComment.style.transition = 'opacity 0.3s ease';
                         
+                        // this is putting a whole string of code dirctly into the div
+                        // This isn't a normal string. It's a template literal. 
+                        // This special type of string in JavaScript allows us to do two amazing things:
+                        // 1. write html on multiple lines without error
+                        // 2. tring interpolation.
                         newComment.innerHTML = `
                             <div class="comment-header">
                                 <div class="comment-author-info">
