@@ -1,149 +1,680 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-      {% load static %}
-    <link rel="stylesheet" href="{% static '/workouts/style.css' %}">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MocFit+</title>
+  <title>MocFit+ | Workout Generator</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Michroma&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Oswald', sans-serif;
+      background: linear-gradient(135deg, #292727 0%, #101111 100%);
+      color: white;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: transparent;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .navbar.scrolled {
+      background: rgba(10, 10, 10, 0.95);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .logo {
+      font-family: 'Michroma', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 1px;
+      font-weight: bold;
+      color: #ba0c2f;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: rgb(197, 194, 194);
+      font-weight: bold;
+      padding: 10px 15px;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: white;
+    }
+
+    /* Main Content */
+    .main-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 140px 40px 80px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-align: center;
+      color: white;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin: 40px 0 20px;
+      color: white;
+      text-align: center;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin: 60px 0;
+    }
+
+    /* Form Sections */
+    .generator-section {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      padding: 40px;
+      margin-bottom: 40px;
+      transition: all 0.4s ease;
+    }
+
+    .generator-section:hover {
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateY(-2px);
+    }
+
+    /* Buttons */
+    button[type="submit"], .btn {
+      padding: 15px 30px;
+      font-size: 1rem;
+      font-family: 'Oswald', sans-serif;
+      font-weight: bold;
+      background: linear-gradient(135deg, #ba0c2f, #d10e35);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      text-transform: uppercase;
+      box-shadow: 0 8px 25px rgba(186, 12, 47, 0.3);
+    }
+
+    button[type="submit"]:hover, .btn:hover {
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #0032a0, #0055cc);
+      box-shadow: 0 8px 25px rgba(0, 50, 160, 0.4);
+    }
+
+    .category-buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin: 30px 0;
+    }
+
+    .category-buttons button {
+      width: 100%;
+    }
+
+    /* Fieldset */
+    fieldset {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 25px;
+      margin-bottom: 25px;
+    }
+
+    legend {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: white;
+      padding: 0 10px;
+    }
+
+    fieldset p {
+      color: rgb(202, 201, 201);
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+    }
+
+    /* Muscle Selection Grid */
+    #muscleContainer {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+    }
+
+    #muscleContainer label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      cursor: pointer;
+      padding: 15px 20px;
+      border-radius: 8px;
+      transition: all 0.4s ease;
+      background: linear-gradient(135deg, #ba0c2f, #d10e35);
+      box-shadow: 0 8px 25px rgba(186, 12, 47, 0.3);
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 0.95rem;
+      position: relative;
+    }
+
+    #muscleContainer label:hover {
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #0032a0, #0055cc);
+      box-shadow: 0 8px 25px rgba(0, 50, 160, 0.4);
+    }
+
+    #muscleContainer input[type="checkbox"] {
+      display: none;
+    }
+
+    #muscleContainer label::after {
+      content: "✓";
+      position: absolute;
+      left: 10px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      opacity: 0;
+      transform: scale(0);
+      transition: all 0.3s ease;
+    }
+
+    #muscleContainer label.checked::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Select All Button */
+    #selectAllBtn {
+      padding: 15px 30px;
+      font-size: 1rem;
+      font-family: 'Oswald', sans-serif;
+      font-weight: bold;
+      background: linear-gradient(135deg, #ba0c2f, #d10e35);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      text-transform: uppercase;
+      box-shadow: 0 8px 25px rgba(186, 12, 47, 0.3);
+      margin-bottom: 20px;
+    }
+
+    #selectAllBtn:hover {
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #0032a0, #0055cc);
+      box-shadow: 0 8px 25px rgba(0, 50, 160, 0.4);
+    }
+
+    /* Form Controls Container */
+    .form-controls {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 10px;
+    }
+
+    select {
+      width: 100%;
+      max-width: 500px;
+      padding: 12px;
+      font-size: 1rem;
+      font-family: 'Oswald', sans-serif;
+      background: rgba(255, 255, 255, 0.05);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    select:hover, select:focus {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: #ba0c2f;
+      outline: none;
+    }
+
+    select option {
+      background: #1a1a1a;
+      color: white;
+    }
+
+    .form-hint {
+      font-size: 0.85rem;
+      color: rgb(202, 201, 201);
+      margin-top: 8px;
+    }
+
+    /* Submit Button Container */
+    .submit-container {
+      text-align: center;
+      margin: 40px 0;
+    }
+
+    .submit-container button {
+      padding: 18px 50px;
+      font-size: 1.1rem;
+    }
+
+    /* Smart Features Box */
+    .features-box {
+      background: rgba(255, 255, 255, 0.03);
+      color: white;
+      border-radius: 12px;
+      padding: 30px;
+      margin: 40px auto;
+      max-width: 900px;
+      transition: all 0.4s ease;
+    }
+
+    .features-box:hover {
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateY(-2px);
+    }
+
+    .features-box h3 {
+      color: white;
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .features-box ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .features-box li {
+      padding: 12px 0;
+      color: rgb(202, 201, 201);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .features-box li:last-child {
+      border-bottom: none;
+    }
+
+    .features-box li b {
+      color: white;
+    }
+
+    .features-box li::before {
+      content: "✓";
+      color: #d10e35;
+      font-weight: bold;
+      margin-right: 10px;
+      font-size: 1.2rem;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      margin-top: 60px;
+    }
+
+    footer p {
+      color: white;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    /* Workout Toggle Buttons */
+    .workout-toggle-container {
+      display: flex;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      overflow: hidden;
+      max-width: 600px;
+      margin: 30px auto 50px;
+    }
+
+    .workout-toggle {
+      flex: 1;
+      padding: 15px 30px;
+      font-size: 1.1rem;
+      font-family: 'Oswald', sans-serif;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .main-content {
+        padding: 120px 20px 60px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .generator-section {
+        padding: 25px;
+      }
+
+      .category-buttons {
+        grid-template-columns: 1fr;
+      }
+
+      #muscleContainer {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        gap: 20px;
+      }
+    }
+  </style>
 </head>
 <body>
   <nav class="navbar">
-        <div class="container">
-            <div class="navbar-header"><a href="">MocFit+</a></div>
-            <ul class="navbar-links">
-                <li class="item"><a href="/">Home</a></li>
-                <li class="item"><a href="/workouts/">Workouts</a></li>
-                <li class="item"><a href="">Community</a></li>
-                <li class="item"><a href="/accounts/">Login</a></li>
-            </ul>
-        </div>
+    <div class="nav-container">
+      <a href="/" class="logo">MocFit+</a>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/workouts/">Workouts</a></li>
+        <li><a href="/community/">Community</a></li>
+        <li><a href="/accounts/">Login</a></li>
+      </ul>
+    </div>
+  </nav>
 
-    </nav>
-    <div class="sm-container-blue"></div>
+  <div class="main-content">
+    <h1>Workout Generator</h1>
 
-<h1>Random Workout Generator</h1>
-<form method="post" action="{% url 'workout_generator' %}">
-    {% csrf_token %}
-    {% for category in categories %}
-        <button type="submit" name="category" value="{{ category.name }}">
-            {{ category.name }} Day
-        </button><br><br>
-    {% endfor %}
-</form>
-
-<hr>
-
-<h2>Advanced Workout Generator</h2>
-<p><b>Select your preferences and generate a custom workout plan.</b></p>
-
-<form method="post" action="{% url 'advanced_workout_generator' %}">
-    {% csrf_token %}
-
-    <!-- Muscle selection -->
-    <fieldset style="margin-bottom: 25px;">
-      <legend><b>Target Muscles</b></legend>
-      <p style="font-size: 0.9em; color: #666; margin-bottom: 10px;">
-        Select the muscle groups you want to train. The generator will prioritize compound movements and balance exercise distribution.
-      </p>
-
-      <!-- Select All / Deselect All button -->
-      <button type="button" id="selectAllBtn" class="btn" style="margin-bottom: 10px; border: 1px solid #ccc; background: #f5f5f5; cursor: pointer;">
-        Select All
+    <!-- Workout Type Selector -->
+    <div class="workout-toggle-container">
+      <button type="button" id="quickBtn" class="workout-toggle" style="background: linear-gradient(135deg, #ba0c2f, #d10e35); color: white;">
+        Quick Workout
       </button>
-
-      <div id="muscleContainer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
-        {% for m in muscles %}
-          <label style="display: flex; align-items: center;">
-            <input type="checkbox" name="muscles" value="{{ m.name }}" style="margin-right: 8px;">
-            {{ m.name }}
-          </label>
-        {% endfor %}
-      </div>
-    </fieldset>
-
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const selectAllBtn = document.getElementById('selectAllBtn');
-        const checkboxes = document.querySelectorAll('input[name="muscles"]');
-        let allSelected = false;
-
-        selectAllBtn.addEventListener('click', function() {
-          allSelected = !allSelected;
-          checkboxes.forEach(cb => cb.checked = allSelected);
-          selectAllBtn.textContent = allSelected ? 'Deselect All' : 'Select All';
-        });
-      });
-    </script>
-
-    <!-- Centered container -->
-    <div style="text-align: center; margin-bottom: 25px;">
-    
-        <!-- Difficulty -->
-        <div style="margin-bottom: 20px;">
-            <label for="difficulty"><b>Training Experience:</b></label><br>
-            <select id="difficulty" name="difficulty" style="width: 100%; max-width: 400px; padding: 8px; margin-top: 5px; display: inline-block;">
-            <option value="">Any Level</option>
-            <option value="beginner">Beginner (New to training)</option>
-            <option value="intermediate" selected>Intermediate (6+ months experience)</option>
-            <option value="advanced">Advanced (2+ years experience)</option>
-            </select>
-        </div>
-
-        <!-- Goal -->
-        <div style="margin-bottom: 20px;">
-            <label for="goal"><b>Training Goal:</b></label><br>
-            <select id="goal" name="goal" style="width: 100%; max-width: 400px; padding: 8px; margin-top: 5px; display: inline-block;">
-            <option value="">General Fitness</option>
-            {% for g in goals %}
-                <option value="{{ g.name }}" {% if g.name == "hypertrophy" %}selected{% endif %}>
-                {{ g.name|title }}
-                {% if g.name == "strength" %}(4 sets × 4-6 reps, 3-5 min rest){% endif %}
-                {% if g.name == "hypertrophy" %}(3 sets × 8-12 reps, 1-2 min rest){% endif %}
-                {% if g.name == "endurance" %}(2 sets × 15-20 reps, 30-60 sec rest){% endif %}
-                </option>
-            {% endfor %}
-            </select>
-        </div>
-
-        <!-- Equipment -->
-        <div style="margin-bottom: 20px;">
-            <label for="equipment"><b>Available Equipment:</b></label><br>
-            <select id="equipment" name="equipment" style="width: 100%; max-width: 400px; padding: 8px; margin-top: 5px; display: inline-block;">
-            <option value="">All Equipment</option>
-            {% for e in equipment %}
-                <option value="{{ e.name }}">{{ e.name }}</option>
-            {% endfor %}
-            </select>
-        </div>
-
-        <!-- Workout Length -->
-        <div style="margin-bottom: 25px;">
-            <label for="length"><b>Workout Duration:</b></label><br>
-            <select id="length" name="length" style="width: 100%; max-width: 400px; padding: 8px; margin-top: 5px; display: inline-block;">
-            <option value="short">Short (5 exercises, ~25-35 minutes)</option>
-            <option value="medium" selected>Medium (8 exercises, ~40-55 minutes)</option>
-            <option value="long">Long (12 exercises, ~60-80 minutes)</option>
-            </select>
-            <p style="font-size: 0.85em; color: #666; margin-top: 5px;">
-            Duration includes rest periods. Compounds prioritized first, then isolation exercises.
-            </p>
-        </div>
-
+      <button type="button" id="advancedBtn" class="workout-toggle" style="background: transparent; color: rgb(202, 201, 201);">
+        Advanced Workout
+      </button>
     </div>
 
-    <button type="submit"><b>Generate Workout</b></button>
+    <!-- Random Workout Generator -->
+    <div class="generator-section" id="quickWorkout">
+      <h2>Quick Workout</h2>
+      <form method="post" action="{% url 'workout_generator' %}">
+        {% csrf_token %}
+        <div class="category-buttons">
+          {% for category in categories %}
+            <button type="submit" name="category" value="{{ category.name }}">
+              {{ category.name }} Day
+            </button>
+          {% endfor %}
+        </div>
+      </form>
+    </div>
 
-    <div style="margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 8px; max-width: 800px; margin-left: auto; margin-right: auto;">
-    <h3 style="margin-top: 0;">  Smart Features</h3>
-    <ul style="text-align: left; line-height: 1.8;">
-      <li><b>Exercise Scoring:</b> Prioritizes effective movements based on your goals</li>
-      <li><b>Optimal Ordering:</b> Compounds first when you're fresh, isolations later</li>
-      <li><b>Variety Tracking:</b> Avoids repeating recent exercises for better adaptation</li>
-      <li><b>Balanced Volume:</b> Distributes sets evenly across selected muscle groups</li>
-      <li><b>Rest Guidance:</b> Provides appropriate rest times based on training goal</li>
-      <li><b>Exercise Notes:</b> Includes form cues and performance tips</li>
-    </ul>
+    <hr id="hrDivider">
+
+    <!-- Advanced Workout Generator -->
+    <div class="generator-section" id="advancedWorkout" style="display: none;">
+      <h2>Advanced Workout Generator</h2>
+      <p style="text-align: center; color: rgb(202, 201, 201); margin-bottom: 30px;">
+        <b>Select your preferences and generate a custom workout plan.</b>
+      </p>
+
+      <form method="post" action="{% url 'advanced_workout_generator' %}">
+        {% csrf_token %}
+        
+        <!-- Muscle Selection -->
+        <fieldset>
+          <legend><b>Target Muscles</b></legend>
+          <p>
+            Select the muscle groups you want to train. The generator will prioritize compound movements and balance exercise distribution.
+          </p>
+
+          <button type="button" id="selectAllBtn" class="btn">Select All</button>
+
+          <div id="muscleContainer">
+            {% for m in muscles %}
+              <label>
+                <input type="checkbox" name="muscles" value="{{ m.name }}">
+                {{ m.name }}
+              </label>
+            {% endfor %}
+          </div>
+        </fieldset>
+
+        <!-- Form Controls -->
+        <div class="form-controls">
+          <!-- Difficulty -->
+          <div class="form-group">
+            <label for="difficulty">Training Experience:</label>
+            <select id="difficulty" name="difficulty">
+              <option value="">Any Level</option>
+              <option value="beginner">Beginner (New to training)</option>
+              <option value="intermediate" selected>Intermediate (6+ months experience)</option>
+              <option value="advanced">Advanced (2+ years experience)</option>
+            </select>
+          </div>
+
+          <!-- Goal -->
+          <div class="form-group">
+            <label for="goal">Training Goal:</label>
+            <select id="goal" name="goal">
+              <option value="">General Fitness</option>
+              {% for g in goals %}
+                <option value="{{ g.name }}" {% if g.name == "Muscle Growth" %}selected{% endif %}>
+                  {{ g.name|title }}
+                  {% if g.name == "Strength" %}(4 sets × 4-6 reps, 3-5 min rest){% endif %}
+                  {% if g.name == "Muscle Growth" %}(3 sets × 8-12 reps, 1-2 min rest){% endif %}
+                  {% if g.name == "Endurance" %}(2 sets × 15-20 reps, 30-60 sec rest){% endif %}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <!-- Equipment -->
+          <div class="form-group">
+            <label for="equipment">Available Equipment:</label>
+            <select id="equipment" name="equipment">
+              <option value="">All Equipment</option>
+              {% for e in equipment %}
+                <option value="{{ e.name }}">{{ e.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <!-- Workout Length -->
+          <div class="form-group">
+            <label for="length">Workout Duration:</label>
+            <select id="length" name="length">
+              <option value="short">Short (5 exercises, ~25-35 minutes)</option>
+              <option value="medium" selected>Medium (8 exercises, ~40-55 minutes)</option>
+              <option value="long">Long (12 exercises, ~60-80 minutes)</option>
+            </select>
+            <p class="form-hint">
+              Duration includes rest periods. Compounds prioritized first, then isolation exercises.
+            </p>
+          </div>
+        </div>
+
+        <div class="submit-container">
+          <button type="submit"><b>Generate Workout</b></button>
+        </div>
+
+        <!-- Smart Features -->
+        <div class="features-box">
+          <h3>Smart Features</h3>
+          <ul>
+            <li><b>Exercise Scoring:</b> Prioritizes effective movements based on your goals</li>
+            <li><b>Optimal Ordering:</b> Compounds first when you're fresh, isolations later</li>
+            <li><b>Variety Tracking:</b> Avoids repeating recent exercises for better adaptation</li>
+            <li><b>Balanced Volume:</b> Distributes sets evenly across selected muscle groups</li>
+            <li><b>Rest Guidance:</b> Provides appropriate rest times based on training goal</li>
+            <li><b>Exercise Notes:</b> Includes form cues and performance tips</li>
+          </ul>
+        </div>
+      </form>
+    </div>
   </div>
 
-  <hr style="margin: 40px auto; max-width: 800px;">
-</form>
+  <footer>
+    <p>MocFit+ © 2025 | Built for Students by Students</p>
+  </footer>
+
+  <script>
+    // Workout Type Switcher
+    const quickBtn = document.getElementById('quickBtn');
+    const advancedBtn = document.getElementById('advancedBtn');
+    const quickWorkout = document.getElementById('quickWorkout');
+    const advancedWorkout = document.getElementById('advancedWorkout');
+    const hrElement = document.getElementById('hrDivider');
+
+    quickBtn.addEventListener('click', function() {
+      quickWorkout.style.display = 'block';
+      advancedWorkout.style.display = 'none';
+      hrElement.style.display = 'block';
+      
+      quickBtn.style.background = 'linear-gradient(135deg, #ba0c2f, #d10e35)';
+      quickBtn.style.color = 'white';
+      advancedBtn.style.background = 'transparent';
+      advancedBtn.style.color = 'rgb(202, 201, 201)';
+    });
+
+    advancedBtn.addEventListener('click', function() {
+      quickWorkout.style.display = 'none';
+      advancedWorkout.style.display = 'block';
+      hrElement.style.display = 'none';
+      
+      advancedBtn.style.background = 'linear-gradient(135deg, #ba0c2f, #d10e35)';
+      advancedBtn.style.color = 'white';
+      quickBtn.style.background = 'transparent';
+      quickBtn.style.color = 'rgb(202, 201, 201)';
+    });
+
+    // Hover effects for inactive buttons
+    quickBtn.addEventListener('mouseenter', function() {
+      if (this.style.background === 'transparent') {
+        this.style.color = 'white';
+      }
+    });
+
+    quickBtn.addEventListener('mouseleave', function() {
+      if (this.style.background === 'transparent') {
+        this.style.color = 'rgb(202, 201, 201)';
+      }
+    });
+
+    advancedBtn.addEventListener('mouseenter', function() {
+      if (this.style.background === 'transparent') {
+        this.style.color = 'white';
+      }
+    });
+
+    advancedBtn.addEventListener('mouseleave', function() {
+      if (this.style.background === 'transparent') {
+        this.style.color = 'rgb(202, 201, 201)';
+      }
+    });
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Select All / Deselect All
+    document.addEventListener('DOMContentLoaded', function() {
+      const selectAllBtn = document.getElementById('selectAllBtn');
+      const checkboxes = document.querySelectorAll('input[name="muscles"]');
+      const labels = document.querySelectorAll('#muscleContainer label');
+
+      // Toggle individual muscle
+      labels.forEach((label, index) => {
+        label.addEventListener('click', function(e) {
+          e.preventDefault();
+          const checkbox = checkboxes[index];
+          checkbox.checked = !checkbox.checked;
+          
+          if (checkbox.checked) {
+            label.classList.add('checked');
+          } else {
+            label.classList.remove('checked');
+          }
+        });
+      });
+
+      // Select/Deselect all
+      selectAllBtn.addEventListener('click', function() {
+        const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+        
+        checkboxes.forEach((cb, index) => {
+          cb.checked = !allChecked;
+          if (cb.checked) {
+            labels[index].classList.add('checked');
+          } else {
+            labels[index].classList.remove('checked');
+          }
+        });
+        
+        selectAllBtn.textContent = allChecked ? 'Select All' : 'Deselect All';
+      });
+    });
+  </script>
+</body>
+</html>
