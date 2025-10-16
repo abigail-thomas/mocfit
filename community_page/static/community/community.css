@@ -321,9 +321,28 @@
 .comment-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 10px;
     width: 100%;
+}
+/* for comment date and time*/
+.comment-author-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.comment-author-info strong {
+    color: #ba0c2f;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.comment-date {
+    color: rgb(150, 150, 150);
+    font-size: 0.85rem;
+    font-weight: normal;
 }
 
 .no-comments {

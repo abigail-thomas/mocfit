@@ -48,16 +48,32 @@ def like_post(request, post_id):
     })
 
 @login_required
+@require_POST
 def add_comment(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.author = request.user
-            comment.post = post
-            comment.save()
-    return redirect('community_home')
+    form = CommentForm(request.POST)
+    
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.author = request.user
+        comment.post = post
+        comment.save()
+        
+        return JsonResponse({
+            'success': True,
+            'comment': {
+                'id': comment.id,
+                'author': comment.author.username,
+                'content': comment.content,
+                'created_at': comment.created_at.strftime('%m/%d/%Y at %I:%M %p'),
+                'is_author': True  # Since the person who just posted is always the author
+            }
+        })
+    
+    return JsonResponse({
+        'success': False,
+        'error': 'Invalid form data'
+    }, status=400)
 
 # this is for deleting posts
 @login_required
