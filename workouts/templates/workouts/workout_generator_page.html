@@ -71,6 +71,37 @@
     .nav-links a:hover {
       color: white;
     }
+    
+ /* hamburger menu */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+    z-index: 1001;
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+/* make the 3 hamburger lines turn into an X*/
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+/* dissappear his ahh */
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
 
     /* Main Content */
     .main-content {
@@ -421,21 +452,147 @@
         gap: 20px;
       }
     }
+    
+/* responsive */
+@media (max-width: 1070px) {
+    .nav-container {
+        padding: 20px 30px;
+    }
+
+    .hero h1 {
+        font-size: 4rem;
+    }
+
+    .cards {
+        display:grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(3, 1fr);
+        gap: 5px;
+
+    }
+
+    .anywhere .cards-box {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+
+
+    .nav-container {
+        padding: 15px 20px;
+    }
+
+    .logo {
+        font-size: 1.5rem;
+    }
+
+    .nav-links {
+        background: linear-gradient(135deg, #ba0c2f, #d10e35);
+        opacity: 0.9;
+        position: fixed;
+        top: 70px;
+        right: -101%;
+        width: 100%;
+        height: calc(100vh - 70px);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        padding: 100px;
+        gap: 30px;
+        transition: right 0.4s ease;
+        text-align: right !important;
+
+    }
+
+
+    .nav-links.active {
+        right: 0;
+    }
+
+    .nav-links a {
+        top: 90px;
+        font-size: 2rem;
+        padding-top: 20px;
+        opacity: 1;
+    }
+
+    .nav-links a::after {
+        bottom: -8px;
+    }
+
+    .hero {
+        padding: 100px 20px 60px;
+        min-height: 90vh;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+
+
+    .hero h2 {
+        font-size: 1rem;
+        margin-bottom: 40px;
+        line-height: 1.6;
+    }
+    .browse .cards-box  {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(3, 1fr); 
+    }
+
+    .join-section h1 {
+        font-size: 2rem;
+    }
+    
+
+    footer {
+        padding: 25px 20px;
+    }
+
+    footer p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 1.3rem;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+        letter-spacing: -1px;
+    }
+
+    .hero h2 {
+        font-size: 0.95rem;
+    }
+
+}
   </style>
 </head>
 <body>
-  <nav class="navbar">
-    <div class="nav-container">
-      <a href="/" class="logo">MocFit+</a>
-      <ul class="nav-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/workouts/">Workouts</a></li>
-        <li><a href="/community/">Community</a></li>
-        <li><a href="/accounts/">Login</a></li>
-      </ul>
-    </div>
-  </nav>
-
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">MocFit+</a>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/workouts/">Workouts</a></li>
+                <li><a href="/community/">Community</a></li>
+                <li><a href="/accounts/">Login</a></li>
+            </ul>
+        </div>
+    </nav>
   <div class="main-content">
     <h1>Workout Generator</h1>
 
@@ -572,6 +729,9 @@
   <footer>
     <p>MocFit+ © 2025 | Built for Students by Students</p>
   </footer>
+
+      {% load static %}
+    <script src="{% static 'workouts/script.js' %}"></script>
 
   <script>
     // Workout Type Switcher
