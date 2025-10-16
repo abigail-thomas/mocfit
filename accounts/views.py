@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-
-from django.contrib import auth
-from .forms import CreateUserForm, LoginForm, ProfileForm
-
 # - Athentication models and functions
+# from django.contrib.auth.models import auth
+from django.contrib import auth, messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.shortcuts import redirect, render
+
+from .forms import CreateUserForm, LoginForm, ProfileForm
 
 
 def homepage(request):
@@ -16,20 +17,26 @@ def homepage(request):
 
 
 def register(request):
-    form = CreateUserForm()
+    print("register")
+    # form = CreateUserForm()
 
     if request.method == "POST":
-
         form = CreateUserForm(request.POST)
-
         if form.is_valid():
+            user = form.save()
+            login(request, user)
+            print("worked")
+            return redirect("dashboard")
+        else:
+            print(form.errors) # debugging
+    else:
+        form = CreateUserForm() 
 
-            form.save()
-
-            return redirect("my_login")
-
-    context = {'registerform':form}
-
+    errors = form.errors.as_text() # get the errors in string format
+    context = {
+        'registerform':form,
+        'errors' : errors,
+        }
     return render(request, 'accounts/register.html', context=context)
 
 
@@ -37,35 +44,35 @@ def register(request):
 
 def my_login(request):
 
-    form = LoginForm()
-
     if request.method =='POST':
-        
-        form = LoginForm(request, data=request.POST)
-
+        form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            next_url = request.GET.get('next') or request.POST.get('next') or 'dashboard'
+            return redirect("dashboard")
+            # username = request.POST.get('username')
+            # password = request.POST.get('password')
 
-            username = request.POST.get('username')
-            password = request.POST.get('password')
+            # user = authenticate(request, username=username, password=password)
 
-            user = authenticate(request, username=username, password=password)
+            #if user is not None:
+            #    auth.login(request, user)
+            #    # redirect to dashboard
+                #return redirect("dashboard")
+        else:
+            messages.error(request, "Invalid username or password. Please try again")
 
-            if user is not None:
+    else:
+        form = AuthenticationForm()
 
-                auth.login(request, user)
-
-                return redirect("dashboard")
-            
     context = {'loginform': form}
-
-    return render(request, 'accounts/my_login.html', context=context)
+    return render(request, 'accounts/index.html', context=context)
 
 
 
 @login_required(login_url="my_login")
 def dashboard(request):
-
-
     return render(request, 'accounts/dashboard.html')
 
 
@@ -74,10 +81,10 @@ def user_logout(request):
 
     auth.logout(request)
 
-    return redirect("")
+    return redirect('.')
 
 
-@login_required
+@login_required(login_url="my_login")
 def update_profile(request):
     profile = request.user.profile
     if request.method == 'POST':
@@ -87,4 +94,6 @@ def update_profile(request):
             return redirect('dashboard')
     else:
         form = ProfileForm(instance=profile)
+
     return render(request, 'accounts/update_profile.html', {'form': form})
+	

@@ -1,12 +1,39 @@
-from django.db import models
+		formsfrom django import forms
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
+from django.forms.widgets import PasswordInput, TextInput
+from .models import Profile
 
-# Create your models here.
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    height = models.FloatField(null=True, blank=True)
-    weight = models.FloatField(null=True, blank=True)
-    birth_date = models.DateField(null=True, blank=True)
+# - Create/Register user (Model Form)
 
-    def __str__(self):
-        return self.user.username
+class CreateUserForm(UserCreationForm):
+    
+    class Meta:
+
+        model = User
+        ## can add firstname lastname
+        fields = ['username', 'email', 'password1', 'password2']
+
+
+# - Authenticate a user (model form)
+
+
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'login-input',
+            'placeholder': 'Enter username'
+        }))
+
+
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'login-input',
+            'placeholder': 'Enter password'
+        }))
+    
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['height', 'weight', 'birth_date']
+		
