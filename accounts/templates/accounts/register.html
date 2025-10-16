@@ -1,117 +1,16 @@
 <html>
-    <head>
-        <meta charset="UTF-8">
-        {% load static %}
-        <link rel="stylesheet" href="{% static '/accounts/style.css' %}">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>MocFit+</title>
-    </head>
-    <body>
-         <nav class="navbar">
-        <div class="container">
-            <div class="navbar-header"><a href="">MocFit+</a></div>
-            <ul class="navbar-links">
-                <li class="item"><a href="/">Home</a></li>
-                <li class="item"><a href="/workouts/">Workouts</a></li>
-                <li class="item"><a href="">Community</a></li>
-                <li class="item"><a href="/accounts/">Login</a></li>
-            </ul>
-        </div>
-        
-    </nav>
-    <div class="sm-container-blue"></div>
-    <div class="login-container">
-        <h1>Register</h1>
-        <form method="POST" autocomplete="off">
-            {% csrf_token %}
 
-            <div class="login">
-                {{ registerform.username.label_tag }}
-                {{ registerform.username }}
+    <h1>Register Now!</h1>
 
-                {{ registerform.email.label_tag }}
-                {{ registerform.email }}
+    <form method="POST" autocomplete="off">
 
-                {{ registerform.password1.label_tag }}
-                {{ registerform.password1 }}
+        {% csrf_token %}
 
-                {{ registerform.password2.label_tag }}
-                {{ registerform.password2 }}
+        {{registerform.as_p}}
 
-            </div>
-            <div class="show-password">
-                <input type="checkbox" id="togglePasswordRegister">
-                <label for="togglePasswordRegister">Show Password</label>
-            </div>
-            
-            <input type="submit" value="Register"/>
+        <input type="submit" value="Register"/>
 
 
-          <!-- <p>
-                <label for="id_username">Username:</label>
-                <input type="text" name="username" maxlength="150" required id="id_username">
-            </p>
-            <p>
-                <label for="id_email">Email:</label>
-                <input type="email" name="email" required id="id_email">
-            </p>
-            <p>
-                <label for="id_password">Password:</label>
-                <input type="password" name="password" required id="id_password" autocomplete="new-password">
-                <span class="helptext">Your password must contain at least 8 characters.</span>
-            </p>
-            <p>
-                <label for="id_password2">Confirm Password:</label>
-                <input type="password" name="password2" required id="id_password2" autocomplete="new-password">
-                
-            </p>
-            <div class="show-password">
-                <input type="checkbox" id="togglePasswordRegister">
-                <label for="togglePasswordRegister">Show Password</label>
-            </div>
-            
-            <input type="submit" value="Register"/>
+    </form>
 
-
-            --> 
-            <!-- {{registerform.as_p}}
-             {% url 'dashboard' %}
-                         <button><a href="/accounts/dashboard/">Register</a></button>
-
-             <input type="submit" value="Register"/>
-
-
-
-            --> 
-
-        </form>
-
-        {% if registerform.errors %}
-        <div id="form-errors">
-            <ul>
-                {% for field, errors in registerform.errors.items %}
-                    {% for error in errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                {% endfor %}
-            </ul>
-        </div>
-        <!-- https://www.w3schools.com/django/ref_filters_escapejs.php -->
-        {% endif %}
-        
-        
-        <div class="register-div">
-            <h4>Already have an account?</h4>
-            <a href="/accounts/">Login Here</a>
-        </div>
-    
-    </div>
-
-
-
-
-    
-    <script src="{%static '/accounts/script.js' %}"></script>
-
-    </body>
 </html>
