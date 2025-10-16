@@ -164,7 +164,7 @@
     }
 
     button[type="submit"]:hover, .btn:hover {
-      transform: scale(1.05);
+      transform: scale(1.01);
       background: linear-gradient(135deg, #0032a0, #0055cc);
       box-shadow: 0 8px 25px rgba(0, 50, 160, 0.4);
     }
@@ -226,7 +226,7 @@
     }
 
     #muscleContainer label:hover {
-      transform: scale(1.05);
+      transform: scale(1.01);
       background: linear-gradient(135deg, #0032a0, #0055cc);
       box-shadow: 0 8px 25px rgba(0, 50, 160, 0.4);
     }
@@ -235,8 +235,12 @@
       display: none;
     }
 
+    #muscleContainer label.checked {
+      background: linear-gradient(135deg, #0032a0, #0055cc);
+      box-shadow: 0 8px 25px rgba(0, 50, 160, 0.4);
+    }
     #muscleContainer label::after {
-      content: "✓";
+      /*content: "✓";*/
       position: absolute;
       left: 10px;
       font-size: 1.2rem;
@@ -248,7 +252,7 @@
 
     #muscleContainer label.checked::after {
       opacity: 1;
-      transform: scale(1);
+      transform: scale(1.01);
     }
 
     /* Select All Button */
