@@ -127,6 +127,9 @@ section {
     display: inline-block;
     font-size: 1rem;
 }
+.material-symbols-outlined {
+    font-size: 30px !important;
+}
 
  /* hamburger menu */
 .hamburger {
