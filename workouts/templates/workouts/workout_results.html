@@ -3,10 +3,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="{% static '/workouts/style.css' %}">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Workout Results | MocFit+</title>
+  <title>MocFit+</title>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Michroma&display=swap" rel="stylesheet">
+
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+  <!--<link rel="stylesheet" href="{% static '/workouts/style.css' %}">/-->
   <style>
     * {
       margin: 0;
@@ -22,56 +25,6 @@
       min-height: 100vh;
     }
 
-    /* Navbar */
-    .navbar {
-      background: transparent;
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 1000;
-      transition: all 0.3s ease;
-    }
-
-    .navbar.scrolled {
-      background: rgba(10, 10, 10, 0.95);
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    }
-
-    .nav-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px;
-    }
-
-    .logo {
-      font-family: 'Michroma', sans-serif;
-      font-size: 2rem;
-      letter-spacing: 1px;
-      font-weight: bold;
-      color: #ba0c2f;
-      text-decoration: none;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 40px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: rgb(197, 194, 194);
-      font-weight: bold;
-      padding: 10px 15px;
-      transition: color 0.3s ease;
-    }
-
-    .nav-links a:hover {
-      color: white;
-    }
 
     /* Main Content */
     .page-container {
@@ -365,17 +318,6 @@
   </style>
 </head>
 <body>
-  <nav class="navbar">
-    <div class="nav-container">
-      <a href="/" class="logo">MocFit+</a>
-      <ul class="nav-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/workouts/">Workouts</a></li>
-        <li><a href="/community/">Community</a></li>
-        <li><a href="/accounts/">Login</a></li>
-      </ul>
-    </div>
-  </nav>
 
   <div class="page-container">
 
