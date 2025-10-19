@@ -4,12 +4,9 @@
 /* body */
 body {
     line-height: 1.6;
-    /*background: linear-gradient(1deg, #f8f9fa 0%, #e9ecef 100%);*/
     margin: 0px !important;
-        background: linear-gradient(135deg, #292727 0%, #101111 100%);
-
+    background: linear-gradient(135deg, #292727 0%, #101111 100%);
     padding-top: 70px;
-    /*font-family: Verdana, Geneva, Tahoma, sans-serif;*/
     font-family: 'Oswald';
 }
 
@@ -20,11 +17,25 @@ h1 {
     margin: 0px;
     padding: 20px 0 0 0;
     line-height: 1.2;
-    text-align:center;
+    text-align: center;
     color: white;
     text-transform: uppercase;
 }
 
+h2 {
+    color: white;
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+
+}
+
+
+h3 {
+
+}
 h4 {
     font-size: 1.3rem;
     margin-bottom: 2.5rem;
@@ -34,7 +45,9 @@ h4 {
 }
 
 section {
-    min-height: 50vh;
+    min-height: 40vh;
+    padding: 80px 40px 80px 40px;
+
 }
 
 
@@ -45,23 +58,21 @@ section {
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 120px 40px 80px 40px;
+    padding: 80px 40px 80px 40px;
     position: relative;
     min-height: 75vh;
-
-
 }
 
 
 .hero h1 {
-    
+
     font-size: 5rem;
     font-weight: 900;
     margin-bottom: 30px;
     color:white;
 }
 
-.hero h2 {
+.hero h4 {
     font-size: 1.4rem;
 color:  rgb(202, 201, 201);
     font-weight: 400;
@@ -93,45 +104,21 @@ color:  rgb(202, 201, 201);
 }
 
 /* cards */
-.cards-section {
-    padding: 120px 40px 80px 40px;
-
-
-}
-
-.cards-section .content {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(1, 1fr);
-
-}
-
-
-
 .cards {
     display:grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
     grid-template-rows: 1fr;
     justify-content: center;
     align-items: top;
-    margin: 5px 15px;
-    gap: 20px;
-
-}
-.cards-section h1, .community h1, .join-section h1, .anywhere h1, .browse h1 {
-    color: white;
-    text-align: center;
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 30px;
+    margin: 5px;
 
 }
 
 .card {
-    padding: 5px 5px 5px 20px;
+    padding: 5px 20px;
     border-radius: 8px;
     transition: all 0.4s ease;
-    margin: 10px 10px;
+    margin: 5px;
 }
 
 
@@ -145,7 +132,7 @@ i {
     gap: 10px;
 }
 
-.card h2 {
+.card h3 {
     color: white;
 
 }
@@ -165,49 +152,53 @@ i {
 
 }
 
-.cards-section .content .img    {
-    padding: 5px 5px 5px 20px;
-    border-radius: 8px;
-    transition: all 0.4s ease;
-    margin: 10px 10px;
-    border: 2px solid #ba0c2f; /* placeholder for when i put an image here*/
-}
 
 /* communituy stuff here*/
 .community {
-    padding: 120px 40px 80px 40px;
-
+    padding: 60px 20px;
+    
 }
 
-
-
 .community .cards {
-    
-        margin: 5px 15px;
+    margin: 5px 15px;
     gap: 2px;
+    display:grid;
+    grid-template-rows: repeat(4, 1fr);
+    grid-template-columns: 1fr;
+    justify-content: center;
+    align-items: center;
+    margin: 5px auto;
+    max-width: 500px;
 }
 
 .community .card{
-        gap: 10px;
-        margin: 10px;
+    gap: 10px;
+    margin: 10px;
     transition: all 0.4s ease;
+    max-width: 100%;
 
+
+}
+
+.community .card span {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: left;
 }
 
 .community .card:hover{
-    transform: scale(1);
-        background-color: transparent;
+    transform: scale(1.025);
+    background: rgba(255, 255, 255, 0.03);
 }
 
 
-.anywhere {
-    padding: 120px 40px 80px 40px;
 
-}
 
+/* anywhere section */
 .anywhere p , .cards-section p.tag {
     text-align: center;
-        font-size: 1.2rem;
+    font-size: 1.2rem;
     color:  rgb(202, 201, 201);
     font-weight: 400;
     padding-bottom: 10px;
@@ -284,12 +275,10 @@ i {
 
 /* home join section */
 .join-section {
-    min-height: 75vh;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 80px 40px 80px 40px;
     position: relative;
 
 }
@@ -299,7 +288,7 @@ i {
     justify-content: center;
     align-items: flex-start;
     flex-direction: column;
-    padding: 20px 80px 20px 80px;
+    padding: 20px 40px 20px 40px;
 
 }
 
@@ -315,8 +304,13 @@ i {
     font-size: 1.2rem;
     color:  rgb(202, 201, 201);
     font-weight: 400;
+    text-align: start;
 }
 
+
+.join-section i {
+    color: #0055cc
+}
 
 
 
@@ -355,18 +349,23 @@ footer p{
         font-size: 4rem;
     }
 
-    .cards {
-        display:grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(3, 1fr);
-        gap: 5px;
-
+    h2 {
+        font-size: 2.5rem;
+        letter-spacing: -1px;
     }
+
 
     .anywhere .cards-box {
         grid-template-columns: repeat(2, 1fr);
     }
 
+}
+
+@media (max-width: 867px) {
+    .cards {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(3, 1fr);
+    }
 }
 
 @media (max-width: 768px) {
@@ -417,17 +416,20 @@ footer p{
     }
 
     .hero {
-        padding: 100px 20px 60px;
+        padding: 20px 20px;
         min-height: 90vh;
     }
 
-    .hero h1 {
+    .hero h1{
         font-size: 2.5rem;
         margin-bottom: 20px;
     }
+        h2 {
+        font-size: 2rem;
+        letter-spacing: -1px;
+    }
 
-
-    .hero h2 {
+    .hero h4 {
         font-size: 1rem;
         margin-bottom: 40px;
         line-height: 1.6;
@@ -436,11 +438,6 @@ footer p{
         grid-template-columns: 1fr;
         grid-template-rows: repeat(3, 1fr); 
     }
-
-    .join-section h1 {
-        font-size: 2rem;
-    }
-    
 
     footer {
         padding: 25px 20px;
@@ -456,12 +453,13 @@ footer p{
         font-size: 1.3rem;
     }
 
-    .hero h1 {
+    .hero h1{
         font-size: 2rem;
         letter-spacing: -1px;
     }
 
-    .hero h2 {
+
+    .hero h4 {
         font-size: 0.95rem;
     }
 
