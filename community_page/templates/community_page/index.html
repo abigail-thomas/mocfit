@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/home/style.css' %}">
+    <link rel="stylesheet" href="{% static '/community/community.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community - MocFit+</title>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">MocFit+</a>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/workouts/">Workouts</a></li>
+                <li><a href="/community/">Community</a></li>
+                <li><a href="/accounts/">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="community-hero">
+        <div class="hero-content">
+            <h1>Community Feed</h1>
+            <h2>Connect with Fellow FSC Fitness Enthusiasts</h2>
+            {% if user.is_authenticated %}
+                <a href="{% url 'create_post' %}" style="padding: 30px 60px; font-size: 1.2rem; background: linear-gradient(135deg, #ba0c2f, #d10e35); color: white; text-decoration: none; display: inline-block; font-weight: bold; border-radius: 5px;">+ Create Post</a>
+                    <i class="material-symbols-outlined"></i>
+                </button>
+            {% else %}
+                <p class="login-prompt">Please <a href="/accounts/">login</a> to create posts and join the conversation</p>
+            {% endif %}
+        </div>
+    </section>
+
+    <section class="posts-section">
+        <div class="posts-container">
+            {% for post in posts %}
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="author-info">
+                        <i class="material-symbols-outlined"></i>
+                        <h3>{{ post.author.username }}</h3>
+                    </div>
+                    <p class="post-date">{{ post.created_at|date:"M j, Y" }}</p>
+                </div>
+                
+                <div class="post-content">
+                    <p>{{ post.content }}</p>
+                    {% if post.image %}
+                        <img src="{{ post.image.url }}" alt="Post image" class="post-image">
+                    {% endif %}
+                </div>
+
+                <div class="post-actions">
+                    <!-- If user is signed in they can like the post-->
+                    {% if user.is_authenticated %}
+                        <form action="{% url 'like_post' post.id %}" method="post" class="like-form" data-post-id="{{ post.id }}">
+                            {% csrf_token %}
+                            <button type="button" class="action-btn like-btn {% if user in post.likes.all %}liked{% endif %}">
+                                <i class="material-symbols-outlined">favorite</i>
+                                <span class="like-count">{{ post.total_likes }}</span>
+                            </button>
+                        </form>
+                    {% else %}
+                        <span class="action-btn">
+                            <i class="material-symbols-outlined"></i>
+                            <span>{{ post.total_likes }}</span>
+                        </span>
+                    {% endif %}
+                    {% if user == post.author %}
+                    <!--This is a button to delete posts
+                    only the creator of the post should be able to delete
+                    -->
+                    <form action="{% url 'delete_post' post.id %}" method="post" class="delete-form" data-post-id="{{ post.id }}">
+                        {% csrf_token %}
+                        <button type="button" class="action-btn delete-btn">
+                            <i class="material-symbols-outlined">delete</i>
+                            <span>Delete</span>
+                        </button>
+                    </form>
+                    {% endif %}
+                    
+
+                </div>
+
+                <div class="comments-section">
+                    <h4>Comments</h4>
+                    <div class="comments-list">
+                        {% for comment in post.comments.all %}
+                            <div class="comment">
+                                <div class="comment-header">
+                                    <div class="comment-author-info">
+                                        <strong>{{ comment.author.username }}</strong>
+                                        <span class="comment-date">{{ comment.created_at|date:"m/d/Y" }} at {{ comment.created_at|date:"g:i A" }}</span>
+                                    </div>
+                                    {% if user == comment.author %}
+                                        <form action="{% url 'delete_comment' comment.id %}" method="post" class="delete-comment-form" data-comment-id="{{ comment.id }}">
+                                            {% csrf_token %}
+                                            <button type="button" class="delete-comment-btn">
+                                                <i class="material-symbols-outlined">delete</i>
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                </div>
+                                <p>{{ comment.content }}</p>
+                            </div>
+                        {% empty %}
+                            <p class="no-comments">No comments yet. Be the first to comment!</p>
+                        {% endfor %}
+                    </div>
+                    <!-- if user is signed in they can comment on a post-->
+                    {% if user.is_authenticated %}
+                    <form action="{% url 'add_comment' post.id %}" method="post" class="comment-form">
+                        {% csrf_token %}
+                        {{ comment_form.content }}
+                        <button type="submit" class="comment-submit-btn">
+                            <i class="material-symbols-outlined"></i>
+                            Comment
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <div class="no-posts">
+                <i class="material-symbols-outlined"></i>
+                <h2>No posts yet</h2>
+                <p>Be the first to share something with the community!</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <footer>
+        <p>MocFit+ © 2025 | Built for Students by Students</p>
+    </footer>
+
+    <script>
+        // Hamburger menu
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        // this adds the abilty to like without reloading page
+        // making it more responsive
+        document.querySelectorAll('.like-btn').forEach(button => {
+            button.addEventListener('click', async () => {
+                const form = button.closest('.like-form');
+                const postId = form.dataset.postId;
+                const countSpan = button.querySelector('.like-count');
+                const csrftoken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+
+                // Toggle the like visually right away
+                const liked = button.classList.toggle('liked');
+                let count = parseInt(countSpan.textContent);
+                countSpan.textContent = liked ? count + 1 : count - 1;
+
+                // Send AJAX POST to Django backend
+                try {
+                    await fetch(form.action, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': csrftoken,
+                        },
+                    });
+                } catch (error) {
+                    console.error('Like request failed:', error);
+                    // Revert the count if request fails
+                    button.classList.toggle('liked');
+                    countSpan.textContent = liked ? count - 1 : count + 1;
+                }
+    });
+});
+        // for delete button
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', async () => {
+                const form = button.closest('.delete-form');
+                const postId = form.dataset.postId;
+                const csrftoken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+
+                // this is text that pops up when the delete butto is clicked
+                if (!confirm('Are you sure you want to delete this post?')) return;
+
+                try {
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': csrftoken,
+                        },
+                    });
+
+                    const data = await response.json();
+                    if (data.deleted) {
+                        // Smoothly remove the post card from the page
+                        const postCard = form.closest('.post-card');
+                        postCard.style.transition = 'opacity 0.3s ease';
+                        postCard.style.opacity = '0';
+                        setTimeout(() => postCard.remove(), 300);
+                    }
+                } catch (error) {
+                    console.error('Error deleting post:', error);
+                }
+            });
+        });
+// For delete comment button
+    document.querySelectorAll('.delete-comment-btn').forEach(button => {
+        button.addEventListener('click', async () => {
+            const form = button.closest('.delete-comment-form');
+            const commentId = form.dataset.commentId;
+            const csrftoken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+            // text that pops up when delete button is clicked
+            if (!confirm('Are you sure you want to delete this comment?')) return;
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrftoken,
+                    },
+                });
+
+                const data = await response.json();
+                if (data.deleted) {
+                    // Smoothly remove the comment from the page
+                    const comment = form.closest('.comment');
+                    comment.style.transition = 'opacity 0.3s ease';
+                    comment.style.opacity = '0';
+                    setTimeout(() => comment.remove(), 300);
+                } else {
+                    alert('Failed to delete comment: ' + (data.error || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error deleting comment:', error);
+                alert('Failed to delete comment');
+            }
+        });
+    });
+// for comment button 
+// keeps page from reloading when commenting
+        // this forced the page when submit is clicked to run the code that is given below
+        document.querySelectorAll('.comment-form').forEach(form => {
+            form.addEventListener('submit', async (e) => {
+
+                // This is the most crucial line.
+                //  It cancels the browser's default form submission behavior,
+                //  which is to reload the page.
+                e.preventDefault();
+                
+                // these lines of code gets the user-typed content
+                const textarea = form.querySelector('textarea');
+                const content = textarea.value.trim();
+                const csrftoken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+                
+                // if no content in the form to gather tect from this will pop up
+                if (!content) {
+                    alert('Please enter a comment');
+                    return;
+                }
+                
+                try {
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': csrftoken,
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `content=${encodeURIComponent(content)}`
+                    });
+                    // This line parses that JSON string into a usable JavaScript object
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        // Clear the textarea
+                        textarea.value = '';
+                        
+                        // Find the comments list for this post
+                        const commentsList = form.closest('.comments-section').querySelector('.comments-list');
+                        
+                        // Remove "no comments" message if it exists
+                        const noComments = commentsList.querySelector('.no-comments');
+                        if (noComments) {
+                            noComments.remove();
+                        }
+                        
+                        // Create new comment element
+                        const newComment = document.createElement('div');
+                        // adigns css class comment to our new div and applys the styles to the comment
+                        newComment.className = 'comment';
+                        // before comment is added tis makes it completely invisable
+                        newComment.style.opacity = '0';
+                        // this animates the change smoothly over .3 seconds
+                        newComment.style.transition = 'opacity 0.3s ease';
+                        
+                        // this is putting a whole string of code dirctly into the div
+                        // This isn't a normal string. It's a template literal. 
+                        // This special type of string in JavaScript allows us to do two amazing things:
+                        // 1. write html on multiple lines without error
+                        // 2. tring interpolation.
+                        newComment.innerHTML = `
+                            <div class="comment-header">
+                                <div class="comment-author-info">
+                                    <strong>${data.comment.author}</strong>
+                                    <span class="comment-date">${data.comment.created_at}</span>
+                                </div>
+                                <form action="/community/comment/${data.comment.id}/delete/" method="post" class="delete-comment-form" data-comment-id="${data.comment.id}">
+                                    <input type="hidden" name="csrfmiddlewaretoken" value="${csrftoken}">
+                                    <button type="button" class="delete-comment-btn">
+                                        <i class="material-symbols-outlined">delete</i>
+                                    </button>
+                                </form>
+                            </div>
+                            <p>${data.comment.content}</p>
+                        `;
+                        
+                        // Add the new comment to the list
+                        commentsList.appendChild(newComment);
+                        
+                        // Fade in animation
+                        setTimeout(() => {
+                            newComment.style.opacity = '1';
+                        }, 10);
+                        
+                        // Attach delete event listener to the new delete button
+                        const deleteBtn = newComment.querySelector('.delete-comment-btn');
+                        deleteBtn.addEventListener('click', async () => {
+                            const deleteForm = deleteBtn.closest('.delete-comment-form');
+                            const commentId = deleteForm.dataset.commentId;
+                            const csrf = deleteForm.querySelector('[name=csrfmiddlewaretoken]').value;
+                            
+                            if (!confirm('Are you sure you want to delete this comment?')) return;
+                            
+                            try {
+                                const delResponse = await fetch(deleteForm.action, {
+                                    method: 'POST',
+                                    headers: {
+                                        'X-CSRFToken': csrf,
+                                    },
+                                });
+                                
+                                const delData = await delResponse.json();
+                                if (delData.deleted) {
+                                    const comment = deleteForm.closest('.comment');
+                                    comment.style.transition = 'opacity 0.3s ease';
+                                    comment.style.opacity = '0';
+                                    setTimeout(() => comment.remove(), 300);
+                                } else {
+                                    alert('Failed to delete comment: ' + (delData.error || 'Unknown error'));
+                                }
+                            } catch (error) {
+                                console.error('Error deleting comment:', error);
+                                alert('Failed to delete comment');
+                            }
+                        });
+                        
+                    } else {
+                        alert('Failed to add comment: ' + (data.error || 'Unknown error'));
+                    }
+                } catch (error) {
+                    console.error('Error adding comment:', error);
+                    alert('Failed to add comment');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

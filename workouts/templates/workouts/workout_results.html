@@ -1,58 +1,546 @@
-<html>
-    <head>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
   <meta charset="UTF-8">
-      {% load static %}
-    <link rel="stylesheet" href="{% static '/workouts/style.css' %}">
+  <link rel="stylesheet" href="{% static '/workouts/style.css' %}">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MocFit+</title>
+  <title>Workout Results | MocFit+</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Michroma&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Oswald', sans-serif;
+      background: linear-gradient(135deg, #292727 0%, #101111 100%);
+      color: white;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: transparent;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .navbar.scrolled {
+      background: rgba(10, 10, 10, 0.95);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .logo {
+      font-family: 'Michroma', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 1px;
+      font-weight: bold;
+      color: #ba0c2f;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: rgb(197, 194, 194);
+      font-weight: bold;
+      padding: 10px 15px;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: white;
+    }
+
+    /* Main Content */
+    .page-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 140px 40px 80px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-align: center;
+      color: white;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin: 50px 0 30px;
+      color: white;
+      text-transform: uppercase;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: white;
+    }
+
+    /* Workout Header */
+    .workout-header {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      padding: 40px;
+      margin-bottom: 40px;
+      text-align: center;
+      transition: all 0.4s ease;
+    }
+
+    .workout-header:hover {
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateY(-2px);
+    }
+
+    .workout-header h1 {
+      margin-bottom: 30px;
+    }
+
+    .stat-box {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .stat-box p {
+      background: rgba(186, 12, 47, 0.2);
+      border: 1px solid rgba(186, 12, 47, 0.4);
+      border-radius: 8px;
+      padding: 15px 30px;
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: white;
+    }
+
+    /* Error Box */
+    .error-box {
+      background: rgba(186, 12, 47, 0.1);
+      border: 2px solid #ba0c2f;
+      border-radius: 12px;
+      padding: 40px;
+      margin: 40px 0;
+      text-align: center;
+    }
+
+    .error-box h3 {
+      color: #d10e35;
+      margin-bottom: 20px;
+    }
+
+    .error-box p {
+      color: rgb(202, 201, 201);
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+    }
+
+    /* Exercise Card */
+    .exercise-card {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 25px;
+      transition: all 0.4s ease;
+    }
+
+    .exercise-card:hover {
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateY(-2px);
+    }
+
+    .exercise-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .exercise-header h3 {
+      margin: 0;
+    }
+
+    .exercise-header span {
+      background: linear-gradient(135deg, #ba0c2f, #d10e35);
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: bold;
+      color: white;
+    }
+
+    /* Meta Badges */
+    .exercise-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 15px 0;
+    }
+
+    .meta-badge {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 8px 15px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: rgb(202, 201, 201);
+      font-weight: 600;
+    }
+
+    /* Muscle Tags */
+    .muscle-tags {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 15px 0;
+    }
+
+    .muscle-tag {
+      background: linear-gradient(135deg, rgba(186, 12, 47, 0.3), rgba(209, 14, 53, 0.3));
+      border: 1px solid rgba(186, 12, 47, 0.5);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: white;
+      font-weight: 600;
+    }
+
+    /* Sets and Reps Box */
+    .sets-reps-box {
+      background: rgba(0, 50, 160, 0.2);
+      border: 1px solid rgba(0, 50, 160, 0.4);
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+
+    .sets-reps-box strong {
+      font-size: 1.15rem;
+      color: white;
+    }
+
+    .sets-reps-box div {
+      color: rgb(202, 201, 201);
+      margin-top: 8px;
+    }
+
+    /* Exercise Description */
+    .exercise-description {
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 3px solid #ba0c2f;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 4px;
+      color: rgb(202, 201, 201);
+      line-height: 1.8;
+    }
+
+    /* Exercise Image */
+    .exercise-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-top: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin: 50px 0;
+    }
+
+    .btn {
+      padding: 15px 30px;
+      font-size: 1rem;
+      font-family: 'Oswald', sans-serif;
+      font-weight: bold;
+      background: linear-gradient(135deg, #ba0c2f, #d10e35);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      text-transform: uppercase;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 8px 25px rgba(186, 12, 47, 0.3);
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #0032a0, #0055cc);
+      box-shadow: 0 8px 25px rgba(0, 50, 160, 0.4);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      margin-top: 60px;
+    }
+
+    footer p {
+      color: white;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .page-container {
+        padding: 120px 20px 60px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .workout-header {
+        padding: 25px;
+      }
+
+      .stat-box {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .exercise-card {
+        padding: 20px;
+      }
+
+      .exercise-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .nav-links {
+        gap: 20px;
+      }
+    }
+  </style>
 </head>
 <body>
-    
-<head>
-    <title>{{ category }} Workout</title>
-</head>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/" class="logo">MocFit+</a>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/workouts/">Workouts</a></li>
+        <li><a href="/community/">Community</a></li>
+        <li><a href="/accounts/">Login</a></li>
+      </ul>
+    </div>
+  </nav>
 
-    <h1>{{ category|title }} Workout</h1>
+  <div class="page-container">
 
-    {% if exercises %}
-        <ul>
-            {% for exercise in exercises %}
-                <li>
-                    <strong>{{ exercise.name }}</strong>
-                    ({{ exercise.get_difficulty_display }} | 
-                    {% if exercise.equipment.all %}
-                        {% for eq in exercise.equipment.all %}
-                            {{ eq.name }}{% if not forloop.last %}, {% endif %}
-                        {% endfor %}
-                    {% else %}
-                        No equipment
-                    {% endif %}
-                    {% if exercise.mechanics %} | {{ exercise.get_mechanics_display }}{% endif %})
-                    
-                    <!-- ✅ Show muscles -->
-                    <br>
-                    <small>
-                        Primary: {{ exercise.primary_muscle.all|join:", " }}<br>
-                        {% if exercise.secondary_muscles.all %}
-                            Secondary: {{ exercise.secondary_muscles.all|join:", " }}
-                        {% endif %}
-                    </small>
+    <!-- Error message -->
+    {% if error_message %}
+      <div class="error-box">
+        <h3>Error</h3>
+        <p>{{ error_message }}</p>
+        <a href="{% url 'workout_generator_page' %}" class="btn">Back to Generator</a>
+      </div>
 
-                    {% if exercise.description %}
-                        <p>{{ exercise.description }}</p>
-                    {% endif %}
+    {% elif category and exercises %}
+      <!-- Random preset workout -->
+      <div class="workout-header">
+        <h1>{{ category|title }} Workout</h1>
+        <div class="stat-box">
+          <p>Exercises: {{ total_exercises|default:"0" }}</p>
+          <p>Goal: {{ goal|title|default:"Hypertrophy" }}</p>
+          <p>Duration: {{ estimated_duration|default:"45 min" }}</p>
+        </div>
+      </div>
 
-                    {% if exercise.image_url %}
-                        <img src="{{ exercise.image_url }}" alt="{{ exercise.name }}" width="150">
-                    {% endif %}
-                </li>
+      {% for exercise in exercises %}
+        <div class="exercise-card">
+          <div class="exercise-header">
+            <h3>{{ exercise.name }}</h3>
+            <span>Exercise #{{ forloop.counter }}</span>
+          </div>
+
+          <div class="exercise-meta">
+            <span class="meta-badge">{{ exercise.get_mechanics_display|default:"Exercise" }}</span>
+            <span class="meta-badge">{{ exercise.get_difficulty_display }}</span>
+            <span class="meta-badge">
+              {% if exercise.equipment.all %}
+                {% for eq in exercise.equipment.all %}
+                  {{ eq.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+              {% else %}
+                Bodyweight
+              {% endif %}
+            </span>
+          </div>
+
+          <div class="muscle-tags">
+            {% for pm in exercise.primary_muscle.all %}
+              <span class="muscle-tag">Primary: {{ pm.name }}</span>
             {% endfor %}
-        </ul>
+            {% for sm in exercise.secondary_muscles.all %}
+              <span class="muscle-tag">Secondary: {{ sm.name }}</span>
+            {% endfor %}
+          </div>
+
+          {% if exercise.description %}
+            <div class="exercise-description">{{ exercise.description }}</div>
+          {% endif %}
+
+          {% if exercise.image_url %}
+            <img src="{{ exercise.image_url }}" alt="{{ exercise.name }}" class="exercise-image">
+          {% endif %}
+        </div>
+      {% endfor %}
+
+    {% elif workout %}
+      <!-- Generated advanced workout -->
+      <div class="workout-header">
+        <h1>Your Workout Plan</h1>
+        <div class="stat-box">
+          <p>Exercises: {{ total_exercises|default:"0" }}</p>
+          <p>Goal: {{ goal|title|default:"Hypertrophy" }}</p>
+          <p>Duration: {{ estimated_duration|default:"45 min" }}</p>
+        </div>
+      </div>
+
+      {% for muscle, exercises in workout.items %}
+        <h2>{{ muscle }}</h2>
+        {% for entry in exercises %}
+          {% with exercise=entry.exercise %}
+          <div class="exercise-card">
+            <div class="exercise-header">
+              <h3>{{ exercise.name }}</h3>
+              {% if entry.order %}
+                <span>Exercise #{{ entry.order }}</span>
+              {% endif %}
+            </div>
+
+            <div class="exercise-meta">
+              <span class="meta-badge">{{ exercise.get_mechanics_display|default:"Exercise" }}</span>
+              <span class="meta-badge">{{ exercise.get_difficulty_display }}</span>
+              <span class="meta-badge">
+                {% if exercise.equipment.all %}
+                  {% for eq in exercise.equipment.all %}
+                    {{ eq.name }}{% if not forloop.last %}, {% endif %}
+                  {% endfor %}
+                {% else %}
+                  Bodyweight
+                {% endif %}
+              </span>
+            </div>
+
+            <div class="muscle-tags">
+              {% for pm in exercise.primary_muscle.all %}
+                <span class="muscle-tag">Primary: {{ pm.name }}</span>
+              {% endfor %}
+              {% for sm in exercise.secondary_muscles.all %}
+                <span class="muscle-tag">Secondary: {{ sm.name }}</span>
+              {% endfor %}
+            </div>
+
+            <div class="sets-reps-box">
+              <strong>{{ entry.sets }} sets × {{ entry.reps }} reps</strong>
+              {% if entry.rest %}
+                <div>Rest: {{ entry.rest }}</div>
+              {% endif %}
+            </div>
+
+            {% if entry.notes %}
+              <div class="exercise-description">{{ entry.notes }}</div>
+            {% endif %}
+
+            {% if exercise.description %}
+              <div class="exercise-description">{{ exercise.description }}</div>
+            {% endif %}
+
+            {% if exercise.image_url %}
+              <img src="{{ exercise.image_url }}" alt="{{ exercise.name }}" class="exercise-image">
+            {% endif %}
+          </div>
+          {% endwith %}
+        {% empty %}
+          <p style="color: rgb(202, 201, 201); text-align: center;">No exercises found for this muscle group.</p>
+        {% endfor %}
+      {% endfor %}
+
     {% else %}
-        <p>No exercises found for this category. Check the muscles assigned to it.</p>
+      <div class="error-box">
+        <h3>No Exercises Generated</h3>
+        <p>Try adjusting your filters or selecting more options.</p>
+        <a href="{% url 'workout_generator_page' %}" class="btn">Back to Generator</a>
+      </div>
     {% endif %}
 
-    <a href="{% url 'workout_generator_page' %}">Back to Home</a>
-  
+    {% if category and exercises or workout %}
+      <div class="action-buttons">
+        <a href="{% url 'workout_generator_page' %}" class="btn">Generate New Workout</a>
+        <a href="#" onclick="window.print(); return false;" class="btn">Print Workout</a>
+        <a href="#" class="btn" onclick="alert('Save feature coming soon!'); return false;">Save Workout</a>
+      </div>
+    {% endif %}
 
+  </div>
+
+  <footer>
+    <p>MocFit+ © 2025 | Built for Students by Students</p>
+  </footer>
+
+  <script>
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+  </script>
 </body>
+</html>
