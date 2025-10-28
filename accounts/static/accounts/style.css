@@ -79,8 +79,8 @@
 
     /* Login Container */
     .login-container {
-      max-width: 500px;
-      margin: 150px auto 80px;
+      min-width: 500px;
+      margin: 150px 150px 80px;
       padding: 50px 40px;
       background: rgba(255, 255, 255, 0.03);
       border-radius: 16px;
@@ -90,11 +90,11 @@
       transition: all 0.4s ease;
     }
 
-    .login-container:hover {
+    /*.login-container:hover {
       background: rgba(255, 255, 255, 0.05);
       transform: translateY(-5px);
       box-shadow: 0 25px 70px rgba(0, 0, 0, 0.6);
-    }
+    }*/
 
     .login-container h1 {
       font-size: 2.5rem;
@@ -117,19 +117,20 @@
 
     .messages .error {
       color: #ff6b85;
-      font-size: 0.95rem;
+      font-size: 0.75rem;
       text-align: center;
       margin: 0;
     }
 
     /* Form */
     .login {
-      margin-bottom: 25px;
+      margin-bottom: 15px;
+
     }
 
     .login label {
       display: block;
-      font-size: 1.1rem;
+      font-size: .75rem;
       font-weight: 600;
       color: white;
       margin-bottom: 10px;
@@ -139,10 +140,11 @@
     }
 
     .login input[type="text"],
-    .login input[type="password"] {
+    .login input[type="password"],
+    .login input[type="email"]  {
       width: 100%;
-      padding: 15px;
-      font-size: 1rem;
+      padding: 8px;
+      font-size: .75rem;
       font-family: 'Oswald', sans-serif;
       background: rgba(255, 255, 255, 0.05);
       color: white;
@@ -152,7 +154,8 @@
     }
 
     .login input[type="text"]:focus,
-    .login input[type="password"]:focus {
+    .login input[type="password"]:focus,
+    .login input[type="email"]:focus {
       background: rgba(255, 255, 255, 0.08);
       border-color: #ba0c2f;
       outline: none;
@@ -180,7 +183,7 @@
     }
 
     .show-password label {
-      font-size: 0.95rem;
+      font-size: 0.75rem;
       color: rgb(202, 201, 201);
       cursor: pointer;
       user-select: none;
@@ -190,7 +193,7 @@
     input[type="submit"] {
       width: 100%;
       padding: 18px;
-      font-size: 1.2rem;
+      font-size: 1rem;
       font-family: 'Oswald', sans-serif;
       font-weight: bold;
       background: linear-gradient(135deg, #ba0c2f, #d10e35);
