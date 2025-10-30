@@ -4,6 +4,6 @@ from . import views
 
 urlpatterns = [
     path("", views.workout_generator_page, name="workout_generator_page"),
-    path("workouts/workout_generator/", views.workout_generator, name="workout_generator"),
-    path("workouts/advanced_workout_generator/", views.advanced_workout_generator, name="advanced_workout_generator"),
+    path("workout_generator/", views.workout_generator, name="workout_generator"),
+    path("advanced_workout_generator/", views.advanced_workout_generator, name="advanced_workout_generator"),
 ]
