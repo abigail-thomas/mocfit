@@ -1,0 +1,393 @@
+/* Achievements page styles - designed to visually match site */
+
+/* Use the same dark background language as home/community */
+.achievements-hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 20px 60px 20px;
+    min-height: 40vh;
+    background: linear-gradient(135deg, rgba(20,20,20,0.6), rgba(10,10,10,0.6));
+}
+
+.achievements-hero .hero-content h1 {
+    font-size: 3.5rem;
+    margin: 0 0 10px 0;
+    color: white;
+    text-transform: uppercase;
+}
+
+.achievements-hero .hero-content h2 {
+    font-size: 1.2rem;
+    color: rgb(202,201,201);
+    margin: 0;
+}
+
+.achievements-section {
+    padding: 40px 20px 80px;
+}
+
+.achievements-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    align-items: stretch;
+}
+
+.achievement-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.achievement-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+}
+
+/* Use site primary accent (#ba0c2f) for icons and heading highlights */
+.achievement-icon i {
+    font-size: 48px;
+    color: #ba0c2f;
+}
+
+.achievement-body h3 {
+    margin: 0 0 6px 0;
+    color: white;
+    font-size: 1.25rem;
+}
+
+.achievement-body .muted {
+    color: rgb(180,180,180);
+    margin: 0 0 8px 0;
+}
+
+.achievement-body .earned {
+    color: rgb(150,150,150);
+    font-size: 0.9rem;
+}
+
+.no-achievements {
+    text-align: center;
+    padding: 40px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 12px;
+}
+
+.no-achievements i {
+    font-size: 80px;
+    color: #ba0c2f;
+    margin-bottom: 10px;
+}
+
+.no-achievements h2 {
+    color: white;
+    margin: 10px 0;
+}
+
+.no-achievements p {
+    color: rgb(200,200,200);
+    margin-bottom: 20px;
+}
+
+.submit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #ba0c2f, #d10e35);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.submit-btn:hover {
+    background: linear-gradient(135deg, #0032a0, #0055cc);
+    transform: scale(1.03);
+}
+
+.back-links {
+    margin-top: 24px;
+    color: rgb(180,180,180);
+    text-align: center;
+}
+
+.back-links a {
+    color: rgb(197,194,194);
+    text-decoration: none;
+    margin: 0 6px;
+    font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .achievements-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .achievements-grid {
+        grid-template-columns: 1fr;
+    }
+    .achievement-card {
+        flex-direction: row;
+    }
+    .achievement-icon i {
+        font-size: 40px;
+    }
+}
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* body */
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 0px;
+    padding: 0px;
+    line-height: 1.6;
+    background: linear-gradient(1deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+/* global styles */
+h1 {
+    font-size: 2rem;
+    font-weight: normal;
+    margin: 0px;
+    padding: 20px 0 0 0;
+    line-height: 1.2;
+    text-align:center;
+    color:black;
+}
+
+h4 {
+    font-size: 1.3rem;
+    margin-bottom: 2.5rem;
+    color: #666;
+    font-weight: 400;
+    text-align: center;
+}
+
+
+/* nav bar */
+.navbar {
+    background: linear-gradient(135deg, #ba0c2f, #d10e35);
+    position: relative;
+    top: 0;
+    z-index: 100; /* tryna get it to always show but not working blahhh*/
+        height: 176px;
+
+}
+
+.navbar .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 40px;
+}
+
+.navbar .navbar-header {
+    font-family: "Anton";
+    font-size: 3rem;
+    letter-spacing: 1px;
+    padding-bottom: 20px;
+}
+
+
+.navbar a  {
+    text-decoration: none;
+    color: white;
+}
+
+.navbar-links a {
+    position: relative;
+    font-weight: bold;
+    display: inline-block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: white;
+    transition: color 0.3s ease;
+    z-index: 1;
+}
+
+.navbar-links a::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: linear-gradient(135deg, #0032a0, #0055cc);
+    z-index: -1;
+    transform: translateY(-50%) scaleY(0);
+    transform-origin: center;
+    transition: transform 0.75s ease;
+}
+
+.navbar-links a:hover {
+    color: white;
+}
+
+.navbar-links a:hover::before {
+    height: 100%;
+    transform: translateY(-50%) scaleY(1);
+}
+
+.navbar ul {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    gap: 1.5rem;
+    padding: 0px !important;
+
+}
+
+.navbar li {
+    display: inline-block;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1rem;
+}
+
+.sm-container-blue {
+    height: 8px;
+    background: linear-gradient(135deg, #0032a0, #0055cc);
+}
+
+/* login form */
+div.login-container  {
+    margin: 50px auto 50px auto;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    justify-content: center;
+    max-width: 900px;
+    
+}
+
+.login-container form {
+        margin: 50px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.login input {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.login label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/*
+.login-container input[type="text"],
+        .login-container input[type="email"],
+        .login-container input[type="password"],
+        .login-container input[type="tel"],
+        .login-container input[type="url"],
+        .login-container textarea,
+        .login-container select {
+            margin: 10px 0;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border 0.3s ease;
+            width: 100%;
+            box-sizing: border-box;
+        }
+*/
+        /* Focus states for inputs */
+        .login-container input:focus,
+        .login-container textarea:focus,
+        .login-container select:focus {
+            outline: none;
+            border-color: #0055cc;
+        }
+
+.login-container input[type="submit"] {
+            margin: 20px auto 10px auto;
+            width: 200px;
+            padding: 20px;
+            font-size: 1rem;
+            background: linear-gradient(135deg, #ba0c2f, #d10e35);
+            color: white;
+            box-shadow: 0 8px 25px rgba(186, 12, 47, 0.3);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-weight: bold;
+            transition: all 0.4s ease;
+            background-size: 200% 200%;
+            border: none;
+            cursor: pointer;
+        }
+        .login-container input[type="submit"]:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #0032a0, #0055cc);
+            box-shadow: 0 8px 25px rgba(12, 21, 186, 0.3);
+        }
+
+.helptext {
+    font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+}
+        
+/*
+.login-container input {
+    margin: 10px 0;
+    padding: 12px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    transition: border 0.3s ease;
+}
+*/
+
+.register-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+}
+
+.register-div h4 {
+    margin-bottom: 2px !important;
+}
+
+.login-container a {
+    text-decoration: none;
+    color: white;
+}
+.register-div a {
+    color: #666;
+    text-decoration:underline;
+
+}
+.register-div a:hover {
+    color: #1d1c1c;
+}
