@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     "mocfit.home",
     "workouts",
     "accounts",
-    'community_page',
+    "achievements",
+    "community_page",
 ]
 
 MIDDLEWARE = [

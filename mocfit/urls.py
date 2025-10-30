@@ -24,6 +24,8 @@ urlpatterns = [
 
     path('workouts/', include("workouts.urls")),
     path('accounts/', include("accounts.urls")),
-    path('community/', include('community_page.urls')),
+    path('achievements/', include("achievements.urls")),
+    path('community/', include("community_page.urls")),
+
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
