@@ -3,21 +3,22 @@
     <head>
         <meta charset="UTF-8" />
         {% load static %}
-        <link rel="stylesheet" href="{% static '/accounts/style.css' %}" />
-        <link rel="stylesheet" href="{% static 'css/nav.css' %}" />
-        <link rel="stylesheet" href="{% static '/home/style.css' %}" />
-        <link rel="stylesheet" href="{% static '/community/community.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+    <link rel="stylesheet" href="{% static '/accounts/style.css' %}">
+        <!--<link rel="stylesheet" href="{% static '/home/style.css' %}" />/-->
+        <!--<link rel="stylesheet" href="{% static '/community/community.css' %}" />/-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Dashboard</title>
     </head>
     <body>
         {% include 'includes/navbar.html' %}
 
-        <h1>This is my dashboard</h1>
 
-        <div class="sm-container-blue"></div>
 
         <div class="login-container">
+            
+            <h1>This is my dashboard</h1>
+
             <!-- <a href="{% url 'update_profile' %}">Update Information Here</a
             ><br />
             <a href="{% url 'user_logout' %}"> Logout Here</a><br />
@@ -39,5 +40,7 @@
                 </button>
             </div>
         </div>
+        {% load static %}
+    <script src="{% static 'js/script.js' %}"></script>
     </body>
 </html>

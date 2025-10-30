@@ -232,7 +232,7 @@
       margin-bottom: 15px;
     }
 
-    .register-div a {
+    .register-div a , button{
       display: inline-block;
       color: #ba0c2f;
       text-decoration: none;
@@ -243,7 +243,7 @@
       letter-spacing: 1px;
     }
 
-    .register-div a:hover {
+    .register-div a:hover, button {
       color: #0055cc;
       transform: translateY(-2px);
     }
@@ -259,7 +259,7 @@
         gap: 20px;
       }
 
-      .navbar-header a {
+      .navbar-header a, button {
         font-size: 1.5rem;
       }
 
