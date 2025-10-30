@@ -52,7 +52,6 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=100, unique=True)),
                 ('mechanics', models.CharField(blank=True, choices=[('isolation', 'Isolation'), ('compound', 'Compound')], max_length=20)),
-                ('mechanics', models.CharField(blank=True, choices=[('isolation', 'Isolation'), ('compound', 'Compound')], max_length=20)),
                 ('difficulty', models.CharField(choices=[('beginner', 'Beginner'), ('intermediate', 'Intermediate'), ('advanced', 'Advanced')], default='beginner', max_length=20)),
                 ('description', models.TextField(blank=True, null=True)),
                 ('image_url', models.URLField(blank=True, null=True)),
