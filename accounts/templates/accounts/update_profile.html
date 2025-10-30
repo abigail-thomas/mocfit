@@ -3,11 +3,14 @@
     <meta charset="UTF-8">
     {% load static %}
     <link rel="stylesheet" href="{% static '/accounts/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+    <link rel="stylesheet" href="{% static '/home/style.css' %}">
+    <link rel="stylesheet" href="{% static '/community/community.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MocFit+</title>
 </head>
 <body>
-    <nav class="navbar">
+    <!-- <nav class="navbar">
         <div class="container">
             <div class="navbar-header"><a href="">MocFit+</a></div>
             <ul class="navbar-links">
@@ -18,7 +21,10 @@
             </ul>
         </div>
         
-    </nav>
+    </nav> -->
+
+    {% include 'includes/navbar.html' %}
+
     <div class="sm-container-blue"></div>
     
     <div class="login-container">

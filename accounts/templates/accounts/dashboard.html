@@ -1,9 +1,43 @@
-    <h1>This is my dashboard</h1>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        {% load static %}
+        <link rel="stylesheet" href="{% static '/accounts/style.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/nav.css' %}" />
+        <link rel="stylesheet" href="{% static '/home/style.css' %}" />
+        <link rel="stylesheet" href="{% static '/community/community.css' %}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dashboard</title>
+    </head>
+    <body>
+        {% include 'includes/navbar.html' %}
 
-    <div>
-        <a href="{% url 'update_profile' %}">Update Information Here</a><br>
-        <a href="{% url 'user_logout' %}"> Logout Here</a><br>
-        <a href="{% url 'my_achievements' %}">Achievements</a><br>
-        <a href="{% url 'home.index' %}">Home</a><br>
-    </div>
+        <h1>This is my dashboard</h1>
+
+        <div class="sm-container-blue"></div>
+
+        <div class="login-container">
+            <!-- <a href="{% url 'update_profile' %}">Update Information Here</a
+            ><br />
+            <a href="{% url 'user_logout' %}"> Logout Here</a><br />
+            <a href="{% url 'my_achievements' %}">Achievements</a><br />
+            <a href="{% url 'home.index' %}">Home</a><br /> -->
+
+            <div class="hero-content">
+                <button onclick="location.href='/accounts/update_profile/'">
+                    Update Information
+                </button>
+                <button onclick="location.href='/achievements/'">
+                    Achievements
+                </button>
+                <button onclick="location.href='/'">
+                    Home
+                </button>
+                <button onclick="location.href='/accounts/user_logout'">
+                    Logout
+                </button>
+            </div>
+        </div>
+    </body>
 </html>
