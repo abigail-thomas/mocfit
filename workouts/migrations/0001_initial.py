@@ -26,6 +26,20 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name='Equipment',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=50, unique=True)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Goal',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=20, unique=True)),
+            ],
+        ),
+        migrations.CreateModel(
             name='MuscleGroup',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
@@ -38,9 +52,22 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=100, unique=True)),
                 ('mechanics', models.CharField(blank=True, choices=[('isolation', 'Isolation'), ('compound', 'Compound')], max_length=20)),
+                ('mechanics', models.CharField(blank=True, choices=[('isolation', 'Isolation'), ('compound', 'Compound')], max_length=20)),
                 ('difficulty', models.CharField(choices=[('beginner', 'Beginner'), ('intermediate', 'Intermediate'), ('advanced', 'Advanced')], default='beginner', max_length=20)),
                 ('description', models.TextField(blank=True, null=True)),
                 ('image_url', models.URLField(blank=True, null=True)),
+                ('equipment', models.ManyToManyField(blank=True, to='workouts.equipment')),
+                ('goals', models.ManyToManyField(blank=True, to='workouts.goal')),
+                ('primary_muscle', models.ManyToManyField(blank=True, related_name='primary_exericses', to='workouts.musclegroup')),
+                ('secondary_muscles', models.ManyToManyField(blank=True, related_name='secondary_exercises', to='workouts.musclegroup')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='MuscleGroupCategory',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=50, unique=True)),
+                ('muscles', models.ManyToManyField(related_name='categories', to='workouts.musclegroup')),
                 ('equipment', models.ManyToManyField(blank=True, to='workouts.equipment')),
                 ('goals', models.ManyToManyField(blank=True, to='workouts.goal')),
                 ('primary_muscle', models.ManyToManyField(blank=True, related_name='primary_exericses', to='workouts.musclegroup')),

@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // if in the register form, use 2 password input
         // else use one password input
         const passwordFields = toggle.id === 'togglePasswordRegister'
-        ? document.querySelectorAll('#id_password, #id_password2')
+        ? document.querySelectorAll('#id_password1, #id_password2')
         : document.querySelectorAll('#id_password');
 
         // make password text visible by changing the type to text

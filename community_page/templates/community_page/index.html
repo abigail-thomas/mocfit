@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
     {% load static %}
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
     <link rel="stylesheet" href="{% static '/home/style.css' %}">
     <link rel="stylesheet" href="{% static '/community/community.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,22 +12,7 @@
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo">MocFit+</a>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/workouts/">Workouts</a></li>
-                <li><a href="/community/">Community</a></li>
-                <li><a href="/accounts/">Login</a></li>
-            </ul>
-        </div>
-    </nav>
+        {% include 'includes/navbar.html' %}
 
     <section class="community-hero">
         <div class="hero-content">
@@ -144,7 +130,8 @@
     <footer>
         <p>MocFit+ © 2025 | Built for Students by Students</p>
     </footer>
-
+    {% load static %}
+    <script src="{% static 'js/script.js' %}"></script>
     <script>
         // Hamburger menu
         const hamburger = document.querySelector('.hamburger');

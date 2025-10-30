@@ -1,0 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Michroma&Oswald&family=Ramabhadra&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
+/* nav bar */
+.navbar {
+    /*background: linear-gradient(135deg, #ba0c2f, #d10e35);*/
+    background: transparent;
+    /*top: 0;
+    z-index: 100;
+    padding: 0px !important;*/
+    position:fixed;
+    top:0;
+    width: 100%;
+    z-index:1000;
+    transition: all 0.3s ease;
+}
+.navbar.scrolled {
+    background: rgba(30, 29, 31, 0.95);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 20px;
+}
+
+.logo {
+    font-family: 'Michroma';
+    font-size: 2rem;
+    letter-spacing: 1px;
+    font-style: italic;
+    font-weight: bold;;
+}
+
+
+.navbar a  {
+    text-decoration: none;
+    color:  #ba0c2f;
+
+}
+
+.nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+        color:  rgb(202, 201, 201);
+
+}
+
+.nav-links a {
+    position: relative;
+    font-weight: bold;
+    display: inline-block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: rgb(197, 194, 194);
+    transition: color 0.3s ease;
+    z-index: 1;
+}
+
+.nav-links a:hover, .nav-links a:active  {
+    color: white;
+}
+
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    gap: 1.5rem;
+    padding: 0px !important;
+    background: transparent;
+}
+
+.nav-links li {
+    display: inline-block;
+    font-size: 1rem;
+}
+.material-symbols-outlined {
+    font-size: 30px !important;
+}
+
+ /* hamburger menu */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+    z-index: 1001;
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+/* make the 3 hamburger lines turn into an X*/
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+/* dissappear his ahh */
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+
+/* responsive */
+@media (max-width: 1070px) {
+    .nav-container {
+        padding: 20px 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+    .nav-container {
+        padding: 15px 20px;
+    }
+
+    .logo {
+        font-size: 1.5rem;
+    }
+
+    .nav-links {
+        background: linear-gradient(135deg, #ba0c2f, #d10e35);
+        opacity: 0.9;
+        position: fixed;
+        top: 70px;
+        right: -101%;
+        width: 100%;
+        height: calc(100vh - 70px);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        padding: 100px;
+        gap: 30px;
+        transition: right 0.4s ease;
+        text-align: right !important;
+
+    }
+
+
+    .nav-links.active {
+        right: 0;
+    }
+
+    .nav-links a {
+        top: 90px;
+        font-size: 2rem;
+        padding-top: 20px;
+        opacity: 1;
+    }
+
+    .nav-links a::after {
+        bottom: -8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 1.3rem;
+    }
+}

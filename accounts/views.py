@@ -1,10 +1,9 @@
 # - Athentication models and functions
-from django.contrib import messages
+# from django.contrib.auth.models import auth
+from django.contrib import auth, messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-# from django.contrib.auth.models import auth
-from django.contrib import auth
 from django.shortcuts import redirect, render
 
 from .forms import CreateUserForm, LoginForm, ProfileForm
@@ -97,3 +96,4 @@ def update_profile(request):
         form = ProfileForm(instance=profile)
 
     return render(request, 'accounts/update_profile.html', {'form': form})
+	
