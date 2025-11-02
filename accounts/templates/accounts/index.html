@@ -49,7 +49,21 @@
     
     </div>
 
-    {% load static %}
-    <script src="{% static 'js/script.js' %}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Login password toggle
+            const toggleLogin = document.getElementById('togglePasswordLogin');
+            const loginPasswordField = document.getElementById('id_password');
+
+            if (toggleLogin && loginPasswordField) {
+                toggleLogin.addEventListener('change', function () {
+                    loginPasswordField.type = this.checked ? 'text' : 'password';
+                });
+            }
+
+        });
+</script>
+
+    
 </body>
 </html>
