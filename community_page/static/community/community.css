@@ -680,3 +680,120 @@
         padding: 25px;
     }
 }
+/* this styles a login wall for the community page */
+/* Login Wall Styles - Add to the end of community.css */
+/* Update the login-wall-overlay to start below navbar */
+.login-wall-overlay {
+    position: fixed;
+    top: 80px; /* Adjust based on your navbar height */
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 80px); /* Full height minus navbar */
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 9998;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+
+}
+
+.login-wall-modal {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 60px 50px;
+    border-radius: 12px;
+    max-width: 600px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.login-wall-modal i.lock-icon {
+    font-size: 5rem;
+    color: #ba0c2f;
+    margin-bottom: 30px;
+    display: block;
+}
+
+.login-wall-modal h2 {
+    color: white;
+    margin-bottom: 20px;
+    font-size: 3rem;
+    font-weight: 900;
+    font-family: 'Oswald';
+    text-transform: uppercase;
+}
+
+.login-wall-modal p {
+    color: rgb(202, 201, 201);
+    margin-bottom: 40px;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    font-family: 'Oswald';
+    font-weight: 400;
+}
+
+.login-wall-modal .login-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 50px;
+    background: linear-gradient(135deg, #ba0c2f, #d10e35);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'Oswald';
+    transition: all 0.4s ease;
+    box-shadow: 0 8px 25px rgba(186, 12, 47, 0.3);
+    text-transform: uppercase;
+}
+
+.login-wall-modal .login-btn:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #0032a0, #0055cc);
+    box-shadow: 0 8px 25px rgba(12, 21, 186, 0.3);
+}
+
+.login-wall-modal .login-btn i {
+    font-size: 24px;
+}
+
+.content-blurred {
+    filter: blur(15px);
+    pointer-events: none;
+    user-select: none;
+    overflow: hidden;
+    height: 100vh;
+}
+
+/* Responsive for login wall */
+@media (max-width: 768px) {
+    .login-wall-modal {
+        padding: 40px 30px;
+        margin: 20px;
+    }
+
+    .login-wall-modal h2 {
+        font-size: 2rem;
+    }
+
+    .login-wall-modal p {
+        font-size: 1rem;
+    }
+}

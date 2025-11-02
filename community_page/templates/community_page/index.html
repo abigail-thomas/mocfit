@@ -11,21 +11,33 @@
     <title>Community - MocFit+</title>
 </head>
 <body>
+    <!-- Navbar stays OUTSIDE the blur wrapper -->
+    {% include 'includes/navbar.html' %}
 
-        {% include 'includes/navbar.html' %}
-
-    <section class="community-hero">
-        <div class="hero-content">
-            <h1>Community Feed</h1>
-            <h2>Connect with Fellow FSC Fitness Enthusiasts</h2>
-            {% if user.is_authenticated %}
-                <a href="{% url 'create_post' %}" style="padding: 30px 60px; font-size: 1.2rem; background: linear-gradient(135deg, #ba0c2f, #d10e35); color: white; text-decoration: none; display: inline-block; font-weight: bold; border-radius: 5px;">+ Create Post</a>
-                    <i class="material-symbols-outlined"></i>
-                </button>
-            {% else %}
-                <p class="login-prompt">Please <a href="/accounts/">login</a> to create posts and join the conversation</p>
-            {% endif %}
+    {% if not user.is_authenticated %}
+    <!-- Login Wall Overlay -->
+    <div class="login-wall-overlay" id="loginWall">
+        <div class="login-wall-modal">
+            <i class="material-symbols-outlined lock-icon">lock</i>
+            <h2>Members Only</h2>
+            <p>Join the MocFit+ community to view posts, connect with fellow FSC fitness enthusiasts, and share your fitness journey!</p>
+            <a href="/accounts/" class="login-btn">
+                <i class="material-symbols-outlined">login</i>
+                Log In to Continue
+            </a>
         </div>
+    </div>
+    {% endif %}
+
+    <!-- Only blur the content BELOW the navbar -->
+    <div id="mainContent" {% if not user.is_authenticated %}class="content-blurred"{% endif %}>
+        
+        <section class="community-hero">
+            <div class="hero-content">
+                <h1>Community Feed</h1>
+                <h2>Connect with Fellow FSC Fitness Enthusiasts</h2>
+                <!-- Rest of hero content... -->
+
     </section>
 
     <section class="posts-section">
@@ -378,6 +390,7 @@
                 }
             });
         });
-    </script>
+
+        </script>
 </body>
 </html>
