@@ -1,3 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Michroma&Oswald&family=Ramabhadra&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
+/* body */
+body {
+    line-height: 1.6;
+    margin: 0px !important;
+    background: linear-gradient(135deg, #292727 0%, #101111 100%);
+    padding-top: 70px;
+    font-family: 'Oswald';
+    max-width: 100%;
+    box-sizing: border-box;
+
+}
+
+/* global styles */
+h1 {
+    font-size: 2rem;
+    font-weight: normal;
+    margin: 0px;
+    padding: 20px 0 0 0;
+    line-height: 1.2;
+    text-align: center;
+    color: white;
+    text-transform: uppercase;
+}
+
+h2 {
+    color: white;
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+
+}
+
+h4 {
+    font-size: 1.3rem;
+    margin-bottom: 2.5rem;
+    color: #666;
+    font-weight: 400;
+    text-align: center;
+}
+
+section {
+    min-height: 40vh;
+    padding: 80px 40px 80px 40px;
+
+}
+
+
 /* Community Hero Section */
 .community-hero {
     display: flex;
