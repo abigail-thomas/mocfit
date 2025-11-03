@@ -1,9 +1,18 @@
-    <h1>This is my dashboard</h1>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MocFit+</title>
+    </head>
+    <body>
+        <h1>This is my dashboard</h1>
 
-    <div>
-        <a href="{% url 'update_profile' %}">Update Information Here</a>
-    </div>
-    <div>
-        <a href="{% url 'user_logout' %}"> Logout Here</a>
-    </div>
+        <div>
+            <a href="{% url 'update_profile' %}">Update Information Here</a>
+        </div>
+        <div>
+            <a href="{% url 'user_logout' %}"> Logout Here</a>
+        </div>
+        
+    </body>
 </html>
