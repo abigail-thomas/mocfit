@@ -2,88 +2,15 @@
 <head>
     <meta charset="UTF-8">
     {% load static %}
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
     <link rel="stylesheet" href="{% static '/accounts/style.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MocFit+</title>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container">
-            <div class="navbar-header"><a href="">MocFit+</a></div>
-            <ul class="navbar-links">
-                <li class="item"><a href="/">Home</a></li>
-                <li class="item"><a href="/workouts/">Workouts</a></li>
-                <li class="item"><a href="/community">Community</a></li>
-                <li class="item"><a href="/accounts/">Login</a></li>
-            </ul>
-        </div>
         
-    </nav>
-    <div class="sm-container-blue"></div>
-    
-    <div class="login-container">
-        <h1>Login</h1>
+    {% include 'includes/navbar.html' %}
 
-        <!-- prin message if user input is invalid -->
-        {% if messages %}
-        <div class="messages">
-            {% for message in messages %}
-                <p class="error">{{ message }}</p>
-            {% endfor %}
-        </div>
-        {% endif %}
-
-        <form method="POST" autocomplete="off" action="{% url 'my_login' %}">
-            {% csrf_token %}
-            <div class="login">
-                {{ loginform.username.label_tag }}
-                {{ loginform.username }}
-
-                {{ loginform.password.label_tag }}
-                {{ loginform.password }}
-            </div>
-            
-            <div class="show-password">
-                <input type="checkbox" id="togglePasswordLogin">
-                <label for="togglePasswordLogin">Show Password</label>
-            </div>
-            <input type="submit" value="Login"/>
-
-
-           <!--
-            <label for="id_username">Username: </label>
-            {{ loginform.username }}
-            <input type="text" name="username" id="id_username" class="login-input" placeholder="Enter username">
-            <label for="">Password: </label>
-            {{ loginform.password }}
-
-            <input type="password" name="password" id="id_password" autocomplete="current-password" class="login-input" placeholder="Enter password">
-            <div class="show-password">
-                <input type="checkbox" id="togglePasswordLogin">
-                <label for="togglePasswordLogin">Show Password</label>
-            </div>
-            <input type="submit" value="Login"/>
-
-           <button><a href="{% url 'dashboard' %}">Login</a></button>
-
-            -->
-           
-
-        </form>
-        <div class="register-div">
-            <h4>First time user?</h4>
-            <a href="{% url 'register' %}">Register Now</a>
-        </div>
-    
-    </div>
-
-  <!--
-    <a href="{% url 'register' %}"> Register Here</a>
-
-    <a href="{% url 'my_login' %}"> Login Here</a>
-
-  -->
-
-  <script src="{%static '/accounts/script.js' %}"></script>
+   
 </body>
 </html>
