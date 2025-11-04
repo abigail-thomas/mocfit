@@ -4,6 +4,12 @@ from collections import defaultdict
 from django.db.models import Q, Count
 from .models import Exercise, MuscleGroup, Goal, Equipment, MuscleGroupCategory
 
+import json
+import requests
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
+
 # Create your views here.
 
 
@@ -266,3 +272,74 @@ def estimate_workout_duration(exercises, params):
     total_minutes = int(len(exercises) * time_per_exercise)
     
     return f"{total_minutes} minutes"
+
+@require_http_methods(["POST"])
+def ai_chat(request):
+    """
+    Handle AI chat requests using Ollama's Phi-3 model
+    """
+    try:
+        # Parse request body
+        data = json.loads(request.body)
+        user_message = data.get('message', '')
+        
+        if not user_message:
+            return JsonResponse({'error': 'No message provided'}, status=400)
+        
+        # Create fitness-focused system prompt
+        system_prompt = """You are a knowledgeable fitness and nutrition AI assistant for MocFit+, 
+a workout generator app. You help users with:
+- Exercise form and technique tips
+- Workout programming advice
+- Nutrition and diet guidance
+- Recovery and injury prevention
+- Fitness goal setting and motivation
+
+Keep responses concise, practical, and encouraging. Focus on science-based advice. 
+If asked about medical conditions or injuries, always recommend consulting a healthcare professional."""
+
+        # Prepare request to Ollama
+        ollama_url = "http://localhost:11434/api/generate"
+        
+        payload = {
+            "model": "phi3",
+            "prompt": f"{system_prompt}\n\nUser: {user_message}\n\nAssistant:",
+            "stream": False,
+            "options": {
+                "temperature": 0.7,
+                "top_p": 0.9,
+                "max_tokens": 500
+            }
+        }
+        
+        # Send request to Ollama
+        response = requests.post(ollama_url, json=payload, timeout=30)
+        response.raise_for_status()
+        
+        # Parse response
+        ai_response = response.json().get('response', '').strip()
+        
+        # Return AI response
+        return JsonResponse({
+            'response': ai_response,
+            'success': True
+        })
+        
+    except requests.exceptions.ConnectionError:
+        return JsonResponse({
+            'error': 'Could not connect to AI service. Make sure Ollama is running.',
+            'success': False
+        }, status=503)
+        
+    except requests.exceptions.Timeout:
+        return JsonResponse({
+            'error': 'AI service took too long to respond. Please try again.',
+            'success': False
+        }, status=504)
+        
+    except Exception as e:
+        print(f"AI Chat Error: {str(e)}")
+        return JsonResponse({
+            'error': 'An unexpected error occurred. Please try again.',
+            'success': False
+        }, status=500)
