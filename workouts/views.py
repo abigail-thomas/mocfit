@@ -302,7 +302,8 @@ If asked about medical conditions or injuries, always recommend consulting a hea
         ollama_url = "http://localhost:11434/api/generate"
         
         payload = {
-            "model": "phi3",
+            # "model": "phi3",  # original
+            "model": "qwen2.5:1.5b",  # CNH: Added during testing of new models
             "prompt": f"{system_prompt}\n\nUser: {user_message}\n\nAssistant:",
             "stream": False,
             "options": {
