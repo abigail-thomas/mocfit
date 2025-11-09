@@ -5,7 +5,11 @@ module.exports = {
     '../**/*.py',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+          'oswald': ['Oswald', 'sans-serif'],
+        }
+    },
   },
   plugins: [],
 }

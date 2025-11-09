@@ -6,10 +6,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MocFit+</title>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Michroma&display=swap" rel="stylesheet">
-
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- flowbite for modal -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+  <link href="{% static 'css/tailwind.css' %}" rel="stylesheet">
+
+
+  <!-- vanilla css styling -->
   <style>
+      @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
     * {
       margin: 0;
       padding: 0;
@@ -317,6 +325,8 @@
   </style>
 </head>
 <body>
+          {% include 'includes/navbar.html' %}
+
 
   <div class="page-container">
 
@@ -462,7 +472,81 @@
       <div class="action-buttons">
         <a href="{% url 'workout_generator_page' %}" class="btn">Generate New Workout</a>
         <a href="#" onclick="window.print(); return false;" class="btn">Print Workout</a>
-        <a href="#" class="btn" onclick="alert('Save feature coming soon!'); return false;">Save Workout</a>
+        
+        <!-- save workout modal pop up using tailwind-->
+        <button
+        data-modal-target="default-modal"
+        data-modal-toggle="default-modal"
+        class="px-8 py-4 bg-gradient-to-br from-[#ba0c2f] to-[#d10e35] text-white rounded-lg font-semibold shadow-lg hover:scale-105 hover:from-blue-800 hover:to-blue-600 transition-transform duration-300"
+        type="button">
+          Save Workout</button>
+          
+<!-- Main modal -->
+<div id="default-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-2xl max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                  Save Workout to Profile
+                </h3>
+                
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="p-4 md:p-5 space-y-4">
+              <form action=""
+                class="max-w-sm mx-auto py-2"
+                id="saveWorkoutForm">
+                  {% csrf_token %}
+                    <label
+                    for="message"
+                    class="block mb-2 text-md font-medium text-gray-900 dark:text-white"
+                    >Title</label>
+                    <input
+                    type="text"
+                    placeholder="Workout Title"
+                    class="px-2 mb-2 rounded-md text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500"
+                    required
+                    >
+                                    
+                    <label
+                    for="message"
+                    class="block mb-2 text-md font-medium text-gray-900 dark:text-white">
+                    Workout Notes</label>
+                    <textarea
+                    id="message"
+                    rows="4"
+                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500"
+                    style="resize:none;">
+                    Write your notes here...
+                  </textarea>
+
+              </form>
+                
+            </div>
+            <!-- Modal footer -->
+            <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                <button
+                id="saveWorkoutBtn"
+                data-modal-hide="default-modal"
+                type="button"
+                class="text-white p-2 bg-gradient-to-br from-[#ba0c2f] to-[#d10e35] text-white rounded-lg font-semibold shadow-lg hover:scale-105 hover:from-blue-800 hover:to-blue-600 transition-transform duration-300"
+                >Save & Close</button>
+                <span id="saveStatus" class="ml-4 text-sm"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <!--<a href="#" class="btn" onclick="alert('Save feature coming soon!'); return false;">Save Workout</a>/-->
       </div>
     {% endif %}
 
@@ -487,5 +571,6 @@
       }
     });
   </script>
+  
 </body>
 </html>
