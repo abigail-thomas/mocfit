@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // else use one password input
         const passwordFields = toggle.id === 'togglePasswordRegister'
         ? document.querySelectorAll('#id_password1, #id_password2')
-        : document.querySelectorAll('#id_password');
+        : document.querySelectorAll('#togglePasswordLogin');
 
         // make password text visible by changing the type to text
         toggle.addEventListener('change', function () {

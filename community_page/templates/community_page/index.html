@@ -10,6 +10,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Community - MocFit+</title>
 </head>
+<!-- this section of code keeps userds who have not been signed in from viewing other users posts
+the posts will be blurred out and a big popup will appear forcing the user to login.
+but this only keeps them from seeing community page, keeping the navbar still visable. 
+
+-->
 <body>
     <!-- Navbar stays OUTSIDE the blur wrapper -->
     {% include 'includes/navbar.html' %}

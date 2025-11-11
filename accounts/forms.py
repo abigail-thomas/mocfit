@@ -29,11 +29,12 @@ class LoginForm(AuthenticationForm):
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={
             'class': 'login-input',
-            'placeholder': 'Enter password'
+            'placeholder': 'Enter password',
+            'id': 'id_password'
         }))
     
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['height', 'weight', 'birth_date']
-		
+	
