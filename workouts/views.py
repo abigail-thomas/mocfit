@@ -1,20 +1,40 @@
-from django.shortcuts import render
 import random
 from collections import defaultdict
-from django.db.models import Q, Count
-from .models import Exercise, MuscleGroup, Goal, Equipment, MuscleGroupCategory
+
+from django.db.models import Count, Q
+from django.shortcuts import render
+
+from .models import Equipment, Exercise, Goal, MuscleGroup, MuscleGroupCategory
 
 # Create your views here.
 
 
 def workout_generator_page(request):
-    categories = MuscleGroupCategory.objects.all()
 
+    categories = MuscleGroupCategory.objects.all()
     goals = Goal.objects.all()
     equipment = Equipment.objects.all()
     muscles = MuscleGroup.objects.all()
 
-    context = {"categories": categories, "goals": goals, "equipment": equipment, "muscles": muscles}
+    # Group muscles by category
+    upper_body = ['Chest', 'Upper Chest', 'Lower Chest', 'Front Deltoids', 'Side Deltoids', 'Rear Deltoids', 'Foremarms', 'Upper Back', 'Lats', 'Lower Back, Traps', 'Biceps', 'Triceps']
+    lower_body = ['Quadriceps', 'Hamstrings', 'Glutes', 'Calves', 'Hip FLexors', 'Adductors', 'Abductors']
+    core = ['Abs', 'Obliques']
+
+    upper_muscles = muscles.filter(name__in=upper_body)
+    lower_muscles = muscles.filter(name__in=lower_body)
+    core_muscles = muscles.filter(name__in=core)
+
+    context = {
+        "categories": categories,
+        "goals": goals,
+        "equipment": equipment,
+        "muscles": muscles,
+        "upper_muscles": upper_muscles,
+        "lower_muscles": lower_muscles,
+        "core_muscles": core_muscles
+    }
+
     return render(request, "workouts/workout_generator_page.html", context)
 
 def workout_generator(request):
