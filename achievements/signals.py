@@ -2,6 +2,7 @@
 from django.contrib.auth.signals import user_logged_in
 from django.dispatch import receiver
 from .models import UserProfile, Achievement, UserAchievement
+from workouts.signals import workout_generated
 
 @receiver(user_logged_in)
 def track_logins_and_award(sender, request, user, **kwargs):
@@ -23,3 +24,9 @@ def track_logins_and_award(sender, request, user, **kwargs):
             defaults={"description": f"Logged in {profile.login_count} times"}
         )
         UserAchievement.objects.get_or_create(user=user, achievement=achievement)
+
+@receiver(workout_generated)
+def increment_workout_counter(sender, user, **kwargs):
+    profile, created = UserProfile.objects.get_or_create(user=user)
+    profile.workouts_generated += 1
+    profile.save()

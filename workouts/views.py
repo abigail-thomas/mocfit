@@ -3,6 +3,7 @@ import random
 from collections import defaultdict
 from django.db.models import Q, Count
 from .models import Exercise, MuscleGroup, Goal, Equipment, MuscleGroupCategory
+from .signals import workout_generated
 
 # Create your views here.
 
@@ -19,6 +20,8 @@ def workout_generator_page(request):
 
 def workout_generator(request):
     if request.method == "POST":
+        if request.user.is_authenticated:
+            workout_generated.send(sender=None, user=request.user)
         selected_category = request.POST.get("category")
         try:
             category = MuscleGroupCategory.objects.get(name__iexact=selected_category)
@@ -42,6 +45,8 @@ def workout_generator(request):
 
 def advanced_workout_generator(request):
     if request.method == "POST":
+        if request.user.is_authenticated:
+            workout_generated.send(sender=None, user=request.user)
         selected_muscles = request.POST.getlist("muscles")
         selected_difficulty = request.POST.get("difficulty")
         selected_goal = request.POST.get("goal")

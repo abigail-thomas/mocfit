@@ -27,6 +27,8 @@
             <div class="hero-content">
                 <h1>Your Achievements</h1>
                 <ul>
+                    <!-- <p>You’ve generated {{ user.userprofile.workouts_generated }} workouts so far!</p> -->
+
                     {% for ua in achievements %}
                     <li>
                         {{ ua.achievement.name }} - earned on {{ ua.date_earned|date:"M d, Y, h:i A" }}

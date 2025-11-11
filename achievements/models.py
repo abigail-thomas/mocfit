@@ -12,6 +12,7 @@ class Achievement(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     login_count = models.PositiveIntegerField(default=0)
+    workouts_generated = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.user.username
