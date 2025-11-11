@@ -26,7 +26,22 @@ def track_logins_and_award(sender, request, user, **kwargs):
         UserAchievement.objects.get_or_create(user=user, achievement=achievement)
 
 @receiver(workout_generated)
-def increment_workout_counter(sender, user, **kwargs):
+def track_workouts_and_award(sender, user, **kwargs):
     profile, created = UserProfile.objects.get_or_create(user=user)
     profile.workouts_generated += 1
     profile.save()
+
+    milestones = {
+        1: "First Workout",
+        5: "Generated 5 workouts",
+        10: "Generated 10 workouts",
+        25: "Generated 25 workouts",
+    }
+
+    if profile.workouts_generated in milestones:
+        achievement_name = milestones[profile.workouts_generated]
+        achievement, _ = Achievement.objects.get_or_create(
+            name=achievement_name,
+            defaults={"description": f"Generated {profile.workouts_generated} workouts"},
+        )
+        UserAchievement.objects.get_or_create(user=user, achievement=achievement)
