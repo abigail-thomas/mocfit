@@ -15,7 +15,7 @@
   <!-- Flowbite -->
   <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
   
-  <!-- Apline.js -->
+  <!-- Alpine.js -->
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
   <script>
@@ -61,11 +61,11 @@
       box-shadow: 0 8px 25px rgba(0, 50, 160, 0.4);
     }
 
-    /* Checkbox custom styles */
-    .muscle-checkbox-label input[type="checkbox"] {
-      display: none;
+    .muscleLabel:hover {
+      background: linear-gradient(135deg, #0032a0, #0055cc) !important;
     }
 
+    /* Checkbox custom styles */
     .muscle-checkbox-label {
       display: flex;
       align-items: center;
@@ -81,16 +81,21 @@
       font-size: 0.875rem;
     }
 
+    .muscle-checkbox-label input[type="checkbox"] {
+      display: none;
+    }
+
     .muscle-checkbox-label:hover {
       transform: scale(1.05);
-      background: linear-gradient(135deg, #0032a0, #0055cc);
-      box-shadow: 0 8px 25px rgba(0, 50, 160, 0.4);
+      background: linear-gradient(135deg, #0032a0, #0055cc) !important;
+      box-shadow: 0 8px 25px rgba(0, 50, 160, 0.4) !important;
     }
 
     .muscle-checkbox-label.checked {
-      background: linear-gradient(135deg, #0032a0, #0055cc);
-      box-shadow: 0 8px 25px rgba(0, 50, 160, 0.4);
+      background: linear-gradient(135deg, #0032a0, #0055cc) !important;
+      box-shadow: 0 8px 25px rgba(0, 50, 160, 0.4) !important;
     }
+
   </style>
 </head>
 <body class="bg-gradient-dark text-white min-h-screen">
@@ -117,7 +122,7 @@
         {% csrf_token %}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {% for category in categories %}
-            <button type="submit" name="category" value="{{ category.name }}" class="w-full py-4 px-8 text-base font-bold bg-gradient-red text-white rounded-lg cursor-pointer transition-all duration-400 uppercase shadow-red hover:scale-105 hover:bg-gradient-blue hover:shadow-blue">
+            <button type="submit" name="category" value="{{ category.name }}" class="muscleLabel w-full py-4 px-8 text-base font-bold bg-gradient-red text-white rounded-lg cursor-pointer transition-all duration-400 uppercase shadow-red hover:scale-105 hover:shadow-blue">
               {{ category.name }} Day
             </button>
           {% endfor %}
@@ -128,7 +133,7 @@
     <hr id="hrDivider" class="border-0 border-t border-white/10 my-12 md:my-16">
 
     <!-- Advanced Workout Generator -->
-    <div class="bg-white/5 rounded-xl p-6 md:p-10 mb-10 transition-all duration-400 hover:bg-white/10 hover:-translate-y-0.5 hidden" id="advancedWorkout">
+    <div class="bg-white/5 rounded-xl p-6 md:p-10 mb-10 transition-all duration-400 hover:bg-white/10 hidden" id="advancedWorkout">
       <h2 class="text-2xl md:text-3xl font-semibold mb-5 text-center">Advanced Workout Generator</h2>
       <p class="text-center text-gray-300 mb-8">
         <b>Select your preferences and generate a custom workout plan.</b>
@@ -157,10 +162,53 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>
               </button>
-              <div id="upperContent" class="hidden p-4 bg-white/5">
-                <div id="upperMuscles" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                  <!-- Upper body muscles will be populated here -->
+              <div id="upperContent" class="hidden p-4 bg-white/5 space-y-3">
+                
+                <!-- Chest Sub-Accordion -->
+                <div class="border border-white/20 rounded-lg overflow-hidden">
+                  <button type="button" id="chestAccordion" class="w-full flex items-center justify-between p-3 bg-white/10 hover:bg-white/15 transition-all duration-300">
+                    <span class="text-base font-semibold">Chest</span>
+                    <svg class="w-4 h-4 transition-transform duration-300" id="chestIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                  </button>
+                  <div id="chestContent" class="hidden p-3 bg-white/5">
+                    <div id="chestMuscles" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      <!-- Chest muscles will be populated here -->
+                    </div>
+                  </div>
                 </div>
+
+                <!-- Back Sub-Accordion -->
+                <div class="border border-white/20 rounded-lg overflow-hidden">
+                  <button type="button" id="backAccordion" class="w-full flex items-center justify-between p-3 bg-white/10 hover:bg-white/15 transition-all duration-300">
+                    <span class="text-base font-semibold">Back</span>
+                    <svg class="w-4 h-4 transition-transform duration-300" id="backIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                  </button>
+                  <div id="backContent" class="hidden p-3 bg-white/5">
+                    <div id="backMuscles" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      <!-- Back muscles will be populated here -->
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Arms Sub-Accordion -->
+                <div class="border border-white/20 rounded-lg overflow-hidden">
+                  <button type="button" id="armsAccordion" class="w-full flex items-center justify-between p-3 bg-white/10 hover:bg-white/15 transition-all duration-300">
+                    <span class="text-base font-semibold">Arms & Shoulders</span>
+                    <svg class="w-4 h-4 transition-transform duration-300" id="armsIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                  </button>
+                  <div id="armsContent" class="hidden p-3 bg-white/5">
+                    <div id="armsMuscles" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      <!-- Arms muscles will be populated here -->
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
 
@@ -205,44 +253,33 @@
 
         <!-- Form Controls -->
         <div class="max-w-2xl mx-auto">
-          <!-- Difficulty -->
-          <div class="mb-6 text-center">
-            <div x-data="{ open: false, selected: 'Intermediate (6+ months experience)' }" class="relative mb-6 text-center">
-              <label class="block text-lg md:text-xl font-semibold mb-2 py-4">Training Experience:</label>
-
-              <button
-                @click="open = !open"
-                type="button"
-                class="w-full mx-auto max-w-lg py-3 px-4 text-white border border-white/20 rounded-lg flex justify-between items-center transition duration-300 hover:bg-white/10 focus:outline-none"
-              >
-                <span x-text="selected"></span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-
-              <div
-                x-show="open"
-                @click.outside="open = false"
-                class="absolute z-50 mt-2 left-1/2 -translate-x-1/2 w-full max-w-lg rounded-lg bg-[#292727] border border-white/10 shadow-xl"
-              >
-                <template x-for="option in [
-                  'Any Level',
-                  'Beginner (New to training)',
-                  'Intermediate (6+ months experience)',
-                  'Advanced (2+ years experience)'
-                ]" :key="option">
-                  <div
-                    @click="selected = option; open = false"
-                    class="px-4 py-2 cursor-pointer hover:bg-[#0032a0] text-gray-200 text-left transition"
-                    x-text="option"
-                  ></div>
-                </template>
-              </div>
-
-              <input type="hidden" name="difficulty" :value="selected">
+          <!-- Difficulty with Alpine.js -->
+          <div x-data="{ open: false, selected: 'Intermediate (6+ months experience)' }" class="relative mb-6 text-center">
+            <label class="block text-lg md:text-xl font-semibold mb-2 py-4">Training Experience:</label>
+            <button
+              @click="open = !open"
+              type="button"
+              class="w-full mx-auto max-w-lg py-3 px-4 text-white bg-white/5 border border-white/20 rounded-lg flex justify-between items-center transition duration-300 hover:bg-white/10 focus:outline-none"
+            >
+              <span x-text="selected"></span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div
+              x-show="open"
+              @click.outside="open = false"
+              class="absolute z-50 mt-2 left-1/2 -translate-x-1/2 w-full max-w-lg rounded-lg bg-[#292727] border border-white/10 shadow-xl"
+            >
+              <template x-for="option in ['Any Level', 'Beginner (New to training)', 'Intermediate (6+ months experience)', 'Advanced (2+ years experience)']" :key="option">
+                <div
+                  @click="selected = option; open = false"
+                  class="px-4 py-2 cursor-pointer hover:bg-[#0032a0] text-gray-200 text-left transition"
+                  x-text="option"
+                ></div>
+              </template>
             </div>
-
+            <input type="hidden" name="difficulty" :value="selected">
           </div>
 
           <!-- Goal -->
@@ -385,115 +422,134 @@
       }
     });
 
-
     // Muscle Group Organization
     document.addEventListener('DOMContentLoaded', function() {
-      // Define muscle groups
+      // Define muscle groups with nested structure
       const muscleGroups = {
-        upper: ['Chest', 'Upper Chest', 'Lower Chest', 'Front Deltoids', 'Side Deltoids', 'Rear Deltoids', 'Foremarms', 'Upper Back', 'Lats', 'Lower Back, Traps', 'Biceps', 'Triceps'],
+        chest: ['Chest', 'Upper Chest', 'Lower Chest'],
+        back: ['Upper Back', 'Lats', 'Lower Back', 'Traps'],
+        arms: ['Front Deltoids', 'Side Deltoids', 'Rear Deltoids', 'Biceps', 'Triceps', 'Forearms'],
         lower: ['Quadriceps', 'Hamstrings', 'Glutes', 'Calves', 'Hip Flexors', 'Adductors', 'Abductors'],
-        abs : ['Abs', 'Obliques']
+        abs: ['Abs', 'Obliques']
       };
 
       // Get all muscles from the hidden data container
       const allMusclesData = document.querySelectorAll('#allMusclesData span');
       const allMuscles = Array.from(allMusclesData).map(span => span.dataset.muscle);
 
-      // Function to create muscle label
+      // Function to create muscle label with checkbox
       function createMuscleLabel(muscleName) {
         const label = document.createElement('label');
-        label.className = 'flex items-center justify-center cursor-pointer py-3 px-4 rounded-lg transition-all duration-400 bg-gradient-red shadow-red font-bold uppercase text-sm hover:scale-105 hover:bg-gradient-blue hover:shadow-blue';
+        label.className = 'muscle-checkbox-label';
         label.innerHTML = `
+          <input type="checkbox" name="muscles" value="${muscleName}">
           ${muscleName}
         `;
         return label;
       }
 
-      // Populate each muscle group
-      const upperContainer = document.getElementById('upperMuscles');
+      // Populate each muscle group container
+      const chestContainer = document.getElementById('chestMuscles');
+      const backContainer = document.getElementById('backMuscles');
+      const armsContainer = document.getElementById('armsMuscles');
       const lowerContainer = document.getElementById('lowerMuscles');
       const absContainer = document.getElementById('absMuscles');
 
       allMuscles.forEach(muscle => {
         let label;
-        if (muscleGroups.upper.includes(muscle)) {
+        if (muscleGroups.chest.includes(muscle)) {
           label = createMuscleLabel(muscle);
-          upperContainer.appendChild(label);
+          chestContainer.appendChild(label);
+        } else if (muscleGroups.back.includes(muscle)) {
+          label = createMuscleLabel(muscle);
+          backContainer.appendChild(label);
+        } else if (muscleGroups.arms.includes(muscle)) {
+          label = createMuscleLabel(muscle);
+          armsContainer.appendChild(label);
         } else if (muscleGroups.lower.includes(muscle)) {
           label = createMuscleLabel(muscle);
           lowerContainer.appendChild(label);
         } else if (muscleGroups.abs.includes(muscle)) {
           label = createMuscleLabel(muscle);
           absContainer.appendChild(label);
-        } else {
-          // If muscle doesn't fit predefined groups, add to upper by default
-          label = createMuscleLabel(muscle);
-          upperContainer.appendChild(label);
         }
       });
 
-      // Accordion functionality
+      // Main Accordion functionality
       const accordions = [
         { btn: 'upperAccordion', content: 'upperContent', icon: 'upperIcon' },
         { btn: 'lowerAccordion', content: 'lowerContent', icon: 'lowerIcon' },
         { btn: 'absAccordion', content: 'absContent', icon: 'absIcon' }
       ];
 
-      accordions.forEach(acc => {
+      // Nested Sub-Accordions
+      const subAccordions = [
+        { btn: 'chestAccordion', content: 'chestContent', icon: 'chestIcon' },
+        { btn: 'backAccordion', content: 'backContent', icon: 'backIcon' },
+        { btn: 'armsAccordion', content: 'armsContent', icon: 'armsIcon' }
+      ];
+
+      // Setup all accordions
+      [...accordions, ...subAccordions].forEach(acc => {
         const btn = document.getElementById(acc.btn);
         const content = document.getElementById(acc.content);
         const icon = document.getElementById(acc.icon);
 
-        btn.addEventListener('click', function() {
-          const isHidden = content.classList.contains('hidden');
-          
-          if (isHidden) {
-            content.classList.remove('hidden');
-            icon.style.transform = 'rotate(180deg)';
-          } else {
-            content.classList.add('hidden');
-            icon.style.transform = 'rotate(0deg)';
-          }
-        });
+        if (btn && content && icon) {
+          btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const isHidden = content.classList.contains('hidden');
+            
+            if (isHidden) {
+              content.classList.remove('hidden');
+              icon.style.transform = 'rotate(180deg)';
+            } else {
+              content.classList.add('hidden');
+              icon.style.transform = 'rotate(0deg)';
+            }
+          });
+        }
       });
 
-      // Checkbox toggle functionality
+      // Muscle checkbox functionality
       document.addEventListener('click', function(e) {
-        if (e.target.closest('label') && e.target.closest('#upperMuscles, #lowerMuscles, #absMuscles')) {
-          const label = e.target.closest('label');
+        const label = e.target.closest('.muscle-checkbox-label');
+        if (label) {
           const checkbox = label.querySelector('input[type="checkbox"]');
-          
-          if (e.target !== checkbox) {
+          if (checkbox && e.target !== checkbox) {
             e.preventDefault();
             checkbox.checked = !checkbox.checked;
-          }
-          
-          if (checkbox.checked) {
-            label.classList.add('checked');
-          } else {
-            label.classList.remove('checked');
+            
+            if (checkbox.checked) {
+              label.classList.add('checked');
+            } else {
+              label.classList.remove('checked');
+            }
           }
         }
       });
 
       // Select All / Deselect All
       const selectAllBtn = document.getElementById('selectAllBtn');
-      selectAllBtn.addEventListener('click', function() {
-        const allCheckboxes = document.querySelectorAll('input[name="muscles"]');
-        const allLabels = document.querySelectorAll('#upperMuscles label, #lowerMuscles label, #absMuscles label');
-        const allChecked = Array.from(allCheckboxes).every(cb => cb.checked);
-        
-        allCheckboxes.forEach((cb, index) => {
-          cb.checked = !allChecked;
-          if (cb.checked) {
-            allLabels[index].classList.add('checked');
-          } else {
-            allLabels[index].classList.remove('checked');
-          }
+      if (selectAllBtn) {
+        selectAllBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const allCheckboxes = document.querySelectorAll('input[name="muscles"]');
+          const allLabels = document.querySelectorAll('.muscle-checkbox-label');
+          const allChecked = Array.from(allCheckboxes).every(cb => cb.checked);
+          
+          allCheckboxes.forEach((cb, index) => {
+            cb.checked = !allChecked;
+            if (cb.checked) {
+              allLabels[index].classList.add('checked');
+            } else {
+              allLabels[index].classList.remove('checked');
+            }
+          });
+          
+          selectAllBtn.textContent = allChecked ? 'Select All Muscles' : 'Deselect All Muscles';
         });
-        
-        selectAllBtn.textContent = allChecked ? 'Select All Muscles' : 'Deselect All Muscles';
-      });
+      }
     });
   </script>
 </body>
