@@ -254,7 +254,12 @@
         <!-- Form Controls -->
         <div class="max-w-2xl mx-auto">
           <!-- Difficulty with Alpine.js -->
-          <div x-data="{ open: false, selected: 'Intermediate (6+ months experience)' }" class="relative mb-6 text-center">
+          <div x-data="{
+            open: false,
+            selected: 'Intermediate (6+ months experience)',
+            selectedKey: 'intermediate'
+            }"
+            class="relative mb-6 text-center">
             <label class="block text-lg md:text-xl font-semibold mb-2 py-4">Training Experience:</label>
             <button
               @click="open = !open"
@@ -271,57 +276,152 @@
               @click.outside="open = false"
               class="absolute z-50 mt-2 left-1/2 -translate-x-1/2 w-full max-w-lg rounded-lg bg-[#292727] border border-white/10 shadow-xl"
             >
-              <template x-for="option in ['Any Level', 'Beginner (New to training)', 'Intermediate (6+ months experience)', 'Advanced (2+ years experience)']" :key="option">
-                <div
-                  @click="selected = option; open = false"
-                  class="px-4 py-2 cursor-pointer hover:bg-[#0032a0] text-gray-200 text-left transition"
-                  x-text="option"
-                ></div>
-              </template>
+              <template x-for="option in [
+              { key: 'beginner', label: 'Beginner (New to training)' },
+              { key: 'intermediate', label: 'Intermediate (6+ months experience)' },
+              { key: 'advanced', label: 'Advanced (2+ years experience)' }
+            ]" :key="option.key">
+              <div
+                @click="selected = option.label; selectedKey = option.key; open = false"
+                class="px-4 py-2 cursor-pointer hover:bg-[#0032a0] text-gray-200"
+                x-text="option.label"
+              ></div>
+            </template>
+
+
             </div>
-            <input type="hidden" name="difficulty" :value="selected">
+            <input type="hidden" name="difficulty" :value="selectedKey">
           </div>
 
-          <!-- Goal -->
-          <div class="mb-6 text-center">
-            <label for="goal" class="block text-lg md:text-xl font-semibold mb-2">Training Goal:</label>
-            <select id="goal" name="goal" class="w-full max-w-lg py-3 px-4 text-base bg-white/5 text-white border border-white/20 rounded-lg cursor-pointer transition-all duration-300 hover:bg-white/10 focus:bg-white/10 focus:border-red-600 focus:outline-none">
-              <option value="">General Fitness</option>
-              {% for g in goals %}
-                <option value="{{ g.name }}" {% if g.name == "Muscle Growth" %}selected{% endif %}>
-                  {{ g.name|title }}
-                  {% if g.name == "Strength" %}(4 sets × 4-6 reps, 3-5 min rest){% endif %}
-                  {% if g.name == "Muscle Growth" %}(3 sets × 8-12 reps, 1-2 min rest){% endif %}
-                  {% if g.name == "Endurance" %}(2 sets × 15-20 reps, 30-60 sec rest){% endif %}
-                </option>
-              {% endfor %}
-            </select>
-          </div>
+         <!-- Goal Dropdown (Alpine.js + Django loop) -->
+<div x-data="
+{ open: false,
+  selected: 'Muscle Growth (3 sets × 8-12 reps, 1-2 min rest)',
+  selectedKey: 'muscle growth' }" 
+  class="relative mb-6 text-center">
+  <label class="block text-lg md:text-xl font-semibold mb-2 py-4">Training Goal:</label>
 
-          <!-- Equipment -->
-          <div class="mb-6 text-center">
-            <label for="equipment" class="block text-lg md:text-xl font-semibold mb-2">Available Equipment:</label>
-            <select id="equipment" name="equipment" class="w-full max-w-lg py-3 px-4 text-base bg-white/5 text-white border border-white/20 rounded-lg cursor-pointer transition-all duration-300 hover:bg-white/10 focus:bg-white/10 focus:border-red-600 focus:outline-none">
-              <option value="">All Equipment</option>
-              {% for e in equipment %}
-                <option value="{{ e.name }}">{{ e.name }}</option>
-              {% endfor %}
-            </select>
-          </div>
+  <button
+    @click="open = !open"
+    type="button"
+    class="w-full mx-auto max-w-lg py-3 px-4 text-white bg-white/5 border border-white/20 rounded-lg flex justify-between items-center transition duration-300 hover:bg-white/10 focus:outline-none"
+  >
+    <span x-text="selected"></span>
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
 
-          <!-- Workout Length -->
-          <div class="mb-6 text-center">
-            <label for="length" class="block text-lg md:text-xl font-semibold mb-2">Workout Duration:</label>
-            <select id="length" name="length" class="w-full max-w-lg py-3 px-4 text-base bg-white/5 text-white border border-white/20 rounded-lg cursor-pointer transition-all duration-300 hover:bg-white/10 focus:bg-white/10 focus:border-red-600 focus:outline-none">
-              <option value="short">Short (5 exercises, ~25-35 minutes)</option>
-              <option value="medium" selected>Medium (8 exercises, ~40-55 minutes)</option>
-              <option value="long">Long (12 exercises, ~60-80 minutes)</option>
-            </select>
-            <p class="text-sm text-gray-300 mt-2">
-              Duration includes rest periods. Compounds prioritized first, then isolation exercises.
-            </p>
-          </div>
-        </div>
+  <div
+    x-show="open"
+    @click.outside="open = false"
+    class="absolute z-50 mt-2 left-1/2 -translate-x-1/2 w-full max-w-lg rounded-lg bg-[#292727] border border-white/10 shadow-xl"
+  >
+    <template x-for="option in [
+      { key: 'general fitness', label: 'General Fitness' },
+      { key: 'muscle growth', label: 'Muscle Growth (3 sets × 8-12 reps, 1-2 min rest)' },
+      { key: 'strength', label: 'Strength (4 sets × 4-6 reps, 3-5 min rest)' },
+      { key: 'endurance', label: 'Endurance (2 sets × 15-20 reps, 30-60 sec rest)' }
+    ]" :key="option.key">
+      <div
+        @click="selected = option.label; selectedKey = option.key; open = false"
+        class="px-4 py-2 cursor-pointer hover:bg-[#0032a0] text-gray-200 text-left transition"
+        x-text="option.label"
+      ></div>
+    </template>
+  </div>
+
+  <input type="hidden" name="goal" :value="selectedKey">
+</div>
+
+
+          <!-- Equipment Dropdown -->
+<div x-data="
+{ open: false,
+  selected: 'All Equipment',
+  selectedKey: 'All Equipment' }"
+  
+  class="relative mb-6 text-center">
+  <label class="block text-lg md:text-xl font-semibold mb-2 py-4">Available Equipment:</label>
+
+  <button
+    @click="open = !open"
+    type="button"
+    class="w-full mx-auto max-w-lg py-3 px-4 text-white bg-white/5 border border-white/20 rounded-lg flex justify-between items-center transition duration-300 hover:bg-white/10 focus:outline-none"
+  >
+    <span x-text="selected"></span>
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
+
+  <div
+    x-show="open"
+    @click.outside="open = false"
+    class="absolute z-50 mt-2 left-1/2 -translate-x-1/2 w-full max-w-lg rounded-lg bg-[#292727] border border-white/10 shadow-xl"
+  >
+    <div
+        @click="selected = option.label; selectedKey = option.key; open = false"
+      class="px-4 py-2 cursor-pointer hover:bg-[#0032a0] text-gray-200 text-left transition"
+    >
+      All Equipment
+    </div>
+
+    {% for e in equipment %}
+      <div
+        @click="selected = '{{ e.name|escapejs }}'; selectedKey = '{{ e.name|escapejs }}'; open = false"
+        class="px-4 py-2 cursor-pointer hover:bg-[#0032a0] text-gray-200 text-left transition"
+        x-text="'{{ e.name|escapejs }}'"
+      ></div>
+    {% endfor %}
+  </div>
+
+  <!-- ✅ Correct hidden field -->
+  <input type="hidden" name="equipment" :value="selectedKey">
+</div>
+
+
+
+          <!-- Workout Duration -->
+<div x-data="{ open: false, selected: 'Medium (8 exercises, ~40-55 minutes)', selectedKey: 'medium' }" class="relative mb-6 text-center">
+  <label class="block text-lg md:text-xl font-semibold mb-2 py-4">Workout Duration:</label>
+
+  <button
+    @click="open = !open"
+    type="button"
+    class="w-full mx-auto max-w-lg py-3 px-4 text-white bg-white/5 border border-white/20 rounded-lg flex justify-between items-center transition duration-300 hover:bg-white/10 focus:outline-none"
+  >
+    <span x-text="selected"></span>
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
+
+  <div
+    x-show="open"
+    @click.outside="open = false"
+    class="absolute z-50 mt-2 left-1/2 -translate-x-1/2 w-full max-w-lg rounded-lg bg-[#292727] border border-white/10 shadow-xl"
+  >
+    <template x-for="option in [
+      { key: 'short', label: 'Short (5 exercises, ~25-35 minutes)' },
+      { key: 'medium', label: 'Medium (8 exercises, ~40-55 minutes)' },
+      { key: 'long', label: 'Long (12 exercises, ~60-80 minutes)' }
+    ]" :key="option.key">
+      <div
+        @click="selected = option.label; selectedKey = option.key; open = false"
+        class="px-4 py-2 cursor-pointer hover:bg-[#0032a0] text-gray-200 text-left transition"
+        x-text="option.label"
+      ></div>
+    </template>
+  </div>
+
+  <input type="hidden" name="length" :value="selectedKey">
+
+  <p class="text-sm text-gray-300 mt-2">
+    Duration includes rest periods. Compounds prioritized first, then isolation exercises.
+  </p>
+</div>
+
 
         <div class="text-center my-10">
           <button type="submit" class="py-5 px-12 text-lg font-bold bg-gradient-red text-white rounded-lg cursor-pointer transition-all duration-400 uppercase shadow-red hover:scale-105 hover:bg-gradient-blue hover:shadow-blue">
@@ -361,9 +461,6 @@
     <p class="text-white text-base font-bold">MocFit+ © 2025 | Built for Students by Students</p>
   </footer>
 
-  {% load static %}
-  <script src="{% static 'js/script.js' %}"></script>
-  
   <!-- Flowbite JS -->
   <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
     

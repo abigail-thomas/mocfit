@@ -1,4 +1,4 @@
-{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -330,9 +330,15 @@
 
   <div class="page-container">
 
+    {% if category %}
+    <p>{{ category }}</p>
+    {% elif exercises %}
+    <p>{{ exercises }}</p>
+
     <!-- Error message -->
-    {% if error_message %}
+    {% elif error_message %}
       <div class="error-box">
+        
         <h3>Error</h3>
         <p>{{ error_message }}</p>
         <a href="{% url 'workout_generator_page' %}" class="btn">Back to Generator</a>
@@ -554,23 +560,6 @@
   <footer>
     <p>MocFit+ © 2025 | Built for Students by Students</p>
   </footer>
-      {% load static %}
-    <script src="{% static 'workouts/script.js' %}"></script>
 
-        {% load static %}
-    <script src="{% static 'js/script.js' %}"></script>
-  <script>
-    // Navbar scroll effect
-    window.addEventListener('scroll', () => {
-      const navbar = document.querySelector('.navbar');
-      if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
-      }
-    });
-  </script>
-  
-  
 </body>
 </html>
