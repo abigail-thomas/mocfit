@@ -37,7 +37,6 @@ def workout_generator_page(request):
         "chest": chest,
         "back": back,
         "arms": arms,
-
         "lower_muscles": lower_muscles,
         "core_muscles": core_muscles
     }
