@@ -1,49 +1,74 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    {% load static %}
-    <link rel="stylesheet" href="{% static '/accounts/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
-    <link rel="stylesheet" href="{% static '/home/style.css' %}">
-    <link rel="stylesheet" href="{% static '/community/community.css' %}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MocFit+</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MocFit+ - Update Profile</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/nav.css' %}">
+<style>
+    body { font-family: 'Oswald', sans-serif; }
+</style>
 </head>
-<body>
-    <!-- <nav class="navbar">
-        <div class="container">
-            <div class="navbar-header"><a href="">MocFit+</a></div>
-            <ul class="navbar-links">
-                <li class="item"><a href="/">Home</a></li>
-                <li class="item"><a href="/workouts/">Workouts</a></li>
-                <li class="item"><a href="/community">Community</a></li>
-                <li class="item"><a href="/accounts/">Login</a></li>
-            </ul>
-        </div>
-        
-    </nav> -->
+<body class="bg-gradient-to-br from-neutral-900 to-black text-white min-h-screen">
 
-    {% include 'includes/navbar.html' %}
+{% include 'includes/navbar.html' %}
 
-    <div class="sm-container-blue"></div>
-    
-    <div class="login-container">
-        <h1>Update Profile Information</h1>
-        <form method="POST">
-            {% csrf_token %} 
-            {{ form.as_p }}
-            <button type="submit">Save</button>
+<!-- Hero Section -->
+<section class="text-center py-20 px-6 ">
+    <h1 class="text-4xl md:text-5xl font-extrabold uppercase mb-4">Update Profile</h1>
+    <p class="text-gray-400 text-lg md:text-xl">Keep your information up-to-date to get the best MocFit+ experience.</p>
+</section>
+
+<!-- Form Section -->
+<section class="max-w-3xl mx-auto mt-12 px-6">
+    <div class="bg-white/5 backdrop-blur-md rounded-3xl p-8 shadow-lg">
+        <form method="POST" class="space-y-6">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="flex flex-col">
+                <label for="{{ field.id_for_label }}" class="mb-2 font-semibold text-gray-200">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ field.errors }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit" 
+                class="w-full px-6 py-3 bg-gradient-to-br from-[#d10e35] to-[#ba0c2f] text-white font-bold rounded-xl shadow-lg hover:scale-105 hover:from-[#a00b2a] hover:to-[#80071c] transition-transform duration-300">
+                Save Changes
+            </button>
         </form>
-    
     </div>
+</section>
 
-  <!--
-    <a href="{% url 'register' %}"> Register Here</a>
+<!-- Footer -->
+<footer class="py-10 flex justify-center items-center border-t border-white/10 mt-12">
+    <p class="text-gray-400 text-sm font-semibold">MocFit+ © 2025 | Built for Students by Students</p>
+</footer>
 
-    <a href="{% url 'my_login' %}"> Login Here</a>
+<script>
+    document.querySelectorAll('input, select, textarea').forEach(el => {
+        el.classList.add(
+            'bg-white/10',
+            'text-white',
+            'placeholder-gray-400',
+            'border',
+            'border-white/20',
+            'rounded-lg',
+            'px-4',
+            'py-2',
+            'focus:outline-none',
+            'focus:ring-2',
+            'focus:ring-red-600',
+            'focus:border-red-500',
+            'transition'
+        );
+    });
+</script>
 
-  -->
-
-  <script src="{%static '/accounts/script.js' %}"></script>
 </body>
 </html>

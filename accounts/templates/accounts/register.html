@@ -37,44 +37,6 @@
             
             <input type="submit" value="Register"/>
 
-
-          <!-- <p>
-                <label for="id_username">Username:</label>
-                <input type="text" name="username" maxlength="150" required id="id_username">
-            </p>
-            <p>
-                <label for="id_email">Email:</label>
-                <input type="email" name="email" required id="id_email">
-            </p>
-            <p>
-                <label for="id_password">Password:</label>
-                <input type="password" name="password" required id="id_password" autocomplete="new-password">
-                <span class="helptext">Your password must contain at least 8 characters.</span>
-            </p>
-            <p>
-                <label for="id_password2">Confirm Password:</label>
-                <input type="password" name="password2" required id="id_password2" autocomplete="new-password">
-                
-            </p>
-            <div class="show-password">
-                <input type="checkbox" id="togglePasswordRegister">
-                <label for="togglePasswordRegister">Show Password</label>
-            </div>
-            
-            <input type="submit" value="Register"/>
-
-
-            --> 
-            <!-- {{registerform.as_p}}
-             {% url 'dashboard' %}
-                         <button><a href="/accounts/dashboard/">Register</a></button>
-
-             <input type="submit" value="Register"/>
-
-
-
-            --> 
-
         </form>
 
         {% if registerform.errors %}
@@ -98,11 +60,28 @@
     
     </div>
 
-
-
-
-
-    {% load static %}
-    <script src="{% static 'js/script.js' %}"></script>
     </body>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Select the register toggle checkbox
+            const toggleRegister = document.getElementById('togglePasswordRegister');
+
+            if (toggleRegister) {
+                // Select the password fields
+                const passwordFields = [
+                    document.getElementById('id_password1'),
+                    document.getElementById('id_password2')
+                ];
+
+                toggleRegister.addEventListener('change', function () {
+                    passwordFields.forEach(field => {
+                        if (field) { // make sure the field exists
+                            field.type = this.checked ? 'text' : 'password';
+                        }
+                    });
+                });
+            }
+        });
+</script>
+
 </html>
