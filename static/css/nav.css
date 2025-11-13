@@ -1,13 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Michroma&Oswald&family=Ramabhadra&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+/* navbar container */
+.nav-container {
+    max-width: 1400px;  
+    width: 100%;         
+    margin: 0 auto;      
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+}
+
 /* nav bar */
 .navbar {
-    /*background: linear-gradient(135deg, #ba0c2f, #d10e35);*/
     background: transparent;
-    /*top: 0;
-    z-index: 100;
-    padding: 0px !important;*/
     position:fixed;
     top:0;
     width: 100%;
@@ -19,15 +39,15 @@
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 }
 
-
-.nav-container {
+/*.nav-container {
     max-width: 1400px;
-    margin: 0 auto;
+    margin: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 20px;
-}
+    padding: 20px;
+    width: 100%;
+}*/
 
 .logo {
     font-family: 'Michroma';

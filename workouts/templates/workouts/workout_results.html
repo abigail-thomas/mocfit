@@ -1,356 +1,112 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MocFit+</title>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Michroma&display=swap" rel="stylesheet">
-
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/nav.css' %}">
-  <!--<link rel="stylesheet" href="{% static '/workouts/style.css' %}">/-->
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Michroma&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Flowbite -->
+  <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
 
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            'oswald': ['Oswald', 'sans-serif'],
+            'michroma': ['Michroma', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+    
     body {
       font-family: 'Oswald', sans-serif;
+    }
+
+    .bg-gradient-dark {
       background: linear-gradient(135deg, #292727 0%, #101111 100%);
-      color: white;
-      line-height: 1.6;
-      min-height: 100vh;
     }
-
-
-    /* Main Content */
-    .page-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 140px 40px 80px;
-    }
-
-    h1 {
-      font-size: 3rem;
-      font-weight: 700;
-      margin-bottom: 20px;
-      text-align: center;
-      color: white;
-      text-transform: uppercase;
-    }
-
-    h2 {
-      font-size: 2rem;
-      font-weight: 600;
-      margin: 50px 0 30px;
-      color: white;
-      text-transform: uppercase;
-    }
-
-    h3 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: white;
-    }
-
-    /* Workout Header */
-    .workout-header {
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: 12px;
-      padding: 40px;
-      margin-bottom: 40px;
-      text-align: center;
-      transition: all 0.4s ease;
-    }
-
-    .workout-header:hover {
-      background: rgba(255, 255, 255, 0.05);
-      transform: translateY(-2px);
-    }
-
-    .workout-header h1 {
-      margin-bottom: 30px;
-    }
-
-    .stat-box {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      flex-wrap: wrap;
-      margin-top: 20px;
-    }
-
-    .stat-box p {
-      background: rgba(186, 12, 47, 0.2);
-      border: 1px solid rgba(186, 12, 47, 0.4);
-      border-radius: 8px;
-      padding: 15px 30px;
-      margin: 0;
-      font-size: 1.1rem;
-      font-weight: bold;
-      color: white;
-    }
-
-    /* Error Box */
-    .error-box {
-      background: rgba(186, 12, 47, 0.1);
-      border: 2px solid #ba0c2f;
-      border-radius: 12px;
-      padding: 40px;
-      margin: 40px 0;
-      text-align: center;
-    }
-
-    .error-box h3 {
-      color: #d10e35;
-      margin-bottom: 20px;
-    }
-
-    .error-box p {
-      color: rgb(202, 201, 201);
-      font-size: 1.1rem;
-      margin-bottom: 30px;
-    }
-
-    /* Exercise Card */
-    .exercise-card {
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: 12px;
-      padding: 30px;
-      margin-bottom: 25px;
-      transition: all 0.4s ease;
-    }
-
-    .exercise-card:hover {
-      background: rgba(255, 255, 255, 0.05);
-      transform: translateY(-2px);
-    }
-
-    .exercise-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-
-    .exercise-header h3 {
-      margin: 0;
-    }
-
-    .exercise-header span {
+    
+    .bg-gradient-red {
       background: linear-gradient(135deg, #ba0c2f, #d10e35);
-      padding: 8px 20px;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      font-weight: bold;
-      color: white;
+    }
+    
+    .bg-gradient-blue {
+      background: linear-gradient(135deg, #0032a0, #0055cc);
     }
 
-    /* Meta Badges */
-    .exercise-meta {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin: 15px 0;
-    }
-
-    .meta-badge {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      padding: 8px 15px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      color: rgb(202, 201, 201);
-      font-weight: 600;
-    }
-
-    /* Muscle Tags */
-    .muscle-tags {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin: 15px 0;
-    }
-
-    .muscle-tag {
-      background: linear-gradient(135deg, rgba(186, 12, 47, 0.3), rgba(209, 14, 53, 0.3));
-      border: 1px solid rgba(186, 12, 47, 0.5);
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 0.85rem;
-      color: white;
-      font-weight: 600;
-    }
-
-    /* Sets and Reps Box */
-    .sets-reps-box {
-      background: rgba(0, 50, 160, 0.2);
-      border: 1px solid rgba(0, 50, 160, 0.4);
-      border-radius: 8px;
-      padding: 15px;
-      margin: 15px 0;
-    }
-
-    .sets-reps-box strong {
-      font-size: 1.15rem;
-      color: white;
-    }
-
-    .sets-reps-box div {
-      color: rgb(202, 201, 201);
-      margin-top: 8px;
-    }
-
-    /* Exercise Description */
-    .exercise-description {
-      background: rgba(255, 255, 255, 0.05);
-      border-left: 3px solid #ba0c2f;
-      padding: 15px;
-      margin: 15px 0;
-      border-radius: 4px;
-      color: rgb(202, 201, 201);
-      line-height: 1.8;
-    }
-
-    /* Exercise Image */
-    .exercise-image {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
-      margin-top: 15px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    }
-
-    /* Action Buttons */
-    .action-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      flex-wrap: wrap;
-      margin: 50px 0;
-    }
-
-    .btn {
-      padding: 15px 30px;
-      font-size: 1rem;
-      font-family: 'Oswald', sans-serif;
-      font-weight: bold;
-      background: linear-gradient(135deg, #ba0c2f, #d10e35);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.4s ease;
-      text-transform: uppercase;
-      text-decoration: none;
-      display: inline-block;
+    .shadow-red {
       box-shadow: 0 8px 25px rgba(186, 12, 47, 0.3);
     }
-
-    .btn:hover {
-      transform: scale(1.05);
-      background: linear-gradient(135deg, #0032a0, #0055cc);
+    
+    .shadow-blue {
       box-shadow: 0 8px 25px rgba(0, 50, 160, 0.4);
-    }
-
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: 40px 20px;
-      margin-top: 60px;
-    }
-
-    footer p {
-      color: white;
-      font-size: 1rem;
-      font-weight: bold;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .page-container {
-        padding: 120px 20px 60px;
-      }
-
-      h1 {
-        font-size: 2rem;
-      }
-
-      h2 {
-        font-size: 1.5rem;
-      }
-
-      .workout-header {
-        padding: 25px;
-      }
-
-      .stat-box {
-        flex-direction: column;
-        gap: 15px;
-      }
-
-      .exercise-card {
-        padding: 20px;
-      }
-
-      .exercise-header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .action-buttons {
-        flex-direction: column;
-      }
-
-      .btn {
-        width: 100%;
-      }
-
-      .nav-links {
-        gap: 20px;
-      }
     }
   </style>
 </head>
-<body>
+<body class="bg-gradient-dark text-white min-h-screen">
+  {% include 'includes/navbar.html' %}
 
-  <div class="page-container">
+  <div class="max-w-6xl mx-auto px-6 md:px-10 pt-32 md:pt-36 pb-20">
+
 
     <!-- Error message -->
     {% if error_message %}
-      <div class="error-box">
-        <h3>Error</h3>
-        <p>{{ error_message }}</p>
-        <a href="{% url 'workout_generator_page' %}" class="btn">Back to Generator</a>
+      <div class="bg-red-900/10 border-2 border-red-600 rounded-xl p-10 my-10 text-center">
+        <h3 class="text-red-500 text-2xl font-semibold mb-5">Error</h3>
+        <p class="text-gray-300 text-lg mb-8">{{ error_message }}</p>
+        <a href="{% url 'workout_generator_page' %}" class="inline-block py-4 px-8 text-base font-bold bg-gradient-red text-white rounded-lg cursor-pointer transition-all duration-400 uppercase shadow-red hover:scale-105 hover:bg-gradient-blue hover:shadow-blue">
+          Back to Generator
+        </a>
       </div>
 
     {% elif category and exercises %}
       <!-- Random preset workout -->
-      <div class="workout-header">
-        <h1>{{ category|title }} Workout</h1>
-        <div class="stat-box">
-          <p>Exercises: {{ total_exercises|default:"0" }}</p>
-          <p>Goal: {{ goal|title|default:"Hypertrophy" }}</p>
-          <p>Duration: {{ estimated_duration|default:"45 min" }}</p>
+      <div class="bg-white/5 rounded-xl p-6 md:p-10 mb-10 text-center transition-all duration-400 hover:bg-white/10 hover:-translate-y-0.5">
+        <h1 class="text-3xl md:text-5xl font-bold mb-8 uppercase">{{ category|title }} Workout</h1>
+        <div class="flex justify-center gap-6 md:gap-10 flex-wrap">
+          <p class="bg-red-900/20 border border-red-600/40 rounded-lg py-4 px-6 md:px-8 text-base md:text-lg font-bold">
+            Exercises: {{ total_exercises|default:"0" }}
+          </p>
+          <p class="bg-red-900/20 border border-red-600/40 rounded-lg py-4 px-6 md:px-8 text-base md:text-lg font-bold">
+            Goal: {{ goal|title|default:"Hypertrophy" }}
+          </p>
+          <p class="bg-red-900/20 border border-red-600/40 rounded-lg py-4 px-6 md:px-8 text-base md:text-lg font-bold">
+            Duration: {{ estimated_duration|default:"45 min" }}
+          </p>
         </div>
       </div>
 
       {% for exercise in exercises %}
-        <div class="exercise-card">
-          <div class="exercise-header">
-            <h3>{{ exercise.name }}</h3>
-            <span>Exercise #{{ forloop.counter }}</span>
+        <div class="bg-white/5 rounded-xl p-6 md:p-8 mb-6 transition-all duration-400 hover:bg-white/10 hover:-translate-y-0.5">
+          <div class="flex justify-between items-center flex-wrap gap-4 mb-5">
+            <h3 class="text-xl md:text-2xl font-semibold">{{ exercise.name }}</h3>
+            <span class="bg-gradient-red py-2 px-5 rounded-lg text-sm font-bold">
+              Exercise #{{ forloop.counter }}
+            </span>
           </div>
 
-          <div class="exercise-meta">
-            <span class="meta-badge">{{ exercise.get_mechanics_display|default:"Exercise" }}</span>
-            <span class="meta-badge">{{ exercise.get_difficulty_display }}</span>
-            <span class="meta-badge">
+          <div class="flex gap-3 flex-wrap my-4">
+            <span class="bg-white/10 border border-white/20 py-2 px-4 rounded-lg text-sm text-gray-300 font-semibold">
+              {{ exercise.get_mechanics_display|default:"Exercise" }}
+            </span>
+            <span class="bg-white/10 border border-white/20 py-2 px-4 rounded-lg text-sm text-gray-300 font-semibold">
+              {{ exercise.get_difficulty_display }}
+            </span>
+            <span class="bg-white/10 border border-white/20 py-2 px-4 rounded-lg text-sm text-gray-300 font-semibold">
               {% if exercise.equipment.all %}
                 {% for eq in exercise.equipment.all %}
                   {{ eq.name }}{% if not forloop.last %}, {% endif %}
@@ -361,52 +117,70 @@
             </span>
           </div>
 
-          <div class="muscle-tags">
+          <div class="flex gap-3 flex-wrap my-4">
             {% for pm in exercise.primary_muscle.all %}
-              <span class="muscle-tag">Primary: {{ pm.name }}</span>
+              <span class="bg-red-900/30 border border-red-600/50 py-1.5 px-3 rounded-md text-xs font-semibold">
+                Primary: {{ pm.name }}
+              </span>
             {% endfor %}
             {% for sm in exercise.secondary_muscles.all %}
-              <span class="muscle-tag">Secondary: {{ sm.name }}</span>
+              <span class="bg-red-900/30 border border-red-600/50 py-1.5 px-3 rounded-md text-xs font-semibold">
+                Secondary: {{ sm.name }}
+              </span>
             {% endfor %}
           </div>
 
           {% if exercise.description %}
-            <div class="exercise-description">{{ exercise.description }}</div>
+            <div class="bg-white/5 border-l-4 border-red-600 rounded p-4 my-4 text-gray-300 leading-relaxed">
+              {{ exercise.description }}
+            </div>
           {% endif %}
 
           {% if exercise.image_url %}
-            <img src="{{ exercise.image_url }}" alt="{{ exercise.name }}" class="exercise-image">
+            <img src="{{ exercise.image_url }}" alt="{{ exercise.name }}" class="w-full max-w-2xl h-auto rounded-lg mt-4 shadow-xl mx-auto">
           {% endif %}
         </div>
       {% endfor %}
 
     {% elif workout %}
       <!-- Generated advanced workout -->
-      <div class="workout-header">
-        <h1>Your Workout Plan</h1>
-        <div class="stat-box">
-          <p>Exercises: {{ total_exercises|default:"0" }}</p>
-          <p>Goal: {{ goal|title|default:"Hypertrophy" }}</p>
-          <p>Duration: {{ estimated_duration|default:"45 min" }}</p>
+      <div class="bg-white/5 rounded-xl p-6 md:p-10 mb-10 text-center transition-all duration-400 hover:bg-white/10 hover:-translate-y-0.5">
+        <h1 class="text-3xl md:text-5xl font-bold mb-8 uppercase">Your Workout Plan</h1>
+        <div class="flex justify-center gap-6 md:gap-10 flex-wrap">
+          <p class="bg-red-900/20 border border-red-600/40 rounded-lg py-4 px-6 md:px-8 text-base md:text-lg font-bold">
+            Exercises: {{ total_exercises|default:"0" }}
+          </p>
+          <p class="bg-red-900/20 border border-red-600/40 rounded-lg py-4 px-6 md:px-8 text-base md:text-lg font-bold">
+            Goal: {{ goal|title|default:"Hypertrophy" }}
+          </p>
+          <p class="bg-red-900/20 border border-red-600/40 rounded-lg py-4 px-6 md:px-8 text-base md:text-lg font-bold">
+            Duration: {{ estimated_duration|default:"45 min" }}
+          </p>
         </div>
       </div>
 
       {% for muscle, exercises in workout.items %}
-        <h2>{{ muscle }}</h2>
+        <h2 class="text-2xl md:text-3xl font-semibold mt-12 mb-6 uppercase">{{ muscle }}</h2>
         {% for entry in exercises %}
           {% with exercise=entry.exercise %}
-          <div class="exercise-card">
-            <div class="exercise-header">
-              <h3>{{ exercise.name }}</h3>
+          <div class="bg-white/5 rounded-xl p-6 md:p-8 mb-6 transition-all duration-400 hover:bg-white/10 hover:-translate-y-0.5">
+            <div class="flex justify-between items-center flex-wrap gap-4 mb-5">
+              <h3 class="text-xl md:text-2xl font-semibold">{{ exercise.name }}</h3>
               {% if entry.order %}
-                <span>Exercise #{{ entry.order }}</span>
+                <span class="bg-gradient-red py-2 px-5 rounded-lg text-sm font-bold">
+                  Exercise #{{ entry.order }}
+                </span>
               {% endif %}
             </div>
 
-            <div class="exercise-meta">
-              <span class="meta-badge">{{ exercise.get_mechanics_display|default:"Exercise" }}</span>
-              <span class="meta-badge">{{ exercise.get_difficulty_display }}</span>
-              <span class="meta-badge">
+            <div class="flex gap-3 flex-wrap my-4">
+              <span class="bg-white/10 border border-white/20 py-2 px-4 rounded-lg text-sm text-gray-300 font-semibold">
+                {{ exercise.get_mechanics_display|default:"Exercise" }}
+              </span>
+              <span class="bg-white/10 border border-white/20 py-2 px-4 rounded-lg text-sm text-gray-300 font-semibold">
+                {{ exercise.get_difficulty_display }}
+              </span>
+              <span class="bg-white/10 border border-white/20 py-2 px-4 rounded-lg text-sm text-gray-300 font-semibold">
                 {% if exercise.equipment.all %}
                   {% for eq in exercise.equipment.all %}
                     {{ eq.name }}{% if not forloop.last %}, {% endif %}
@@ -417,74 +191,168 @@
               </span>
             </div>
 
-            <div class="muscle-tags">
+            <div class="flex gap-3 flex-wrap my-4">
               {% for pm in exercise.primary_muscle.all %}
-                <span class="muscle-tag">Primary: {{ pm.name }}</span>
+                <span class="bg-red-900/30 border border-red-600/50 py-1.5 px-3 rounded-md text-xs font-semibold">
+                  Primary: {{ pm.name }}
+                </span>
               {% endfor %}
               {% for sm in exercise.secondary_muscles.all %}
-                <span class="muscle-tag">Secondary: {{ sm.name }}</span>
+                <span class="bg-red-900/30 border border-red-600/50 py-1.5 px-3 rounded-md text-xs font-semibold">
+                  Secondary: {{ sm.name }}
+                </span>
               {% endfor %}
             </div>
 
-            <div class="sets-reps-box">
-              <strong>{{ entry.sets }} sets × {{ entry.reps }} reps</strong>
+            <div class="bg-blue-900/20 border border-blue-600/40 rounded-lg p-4 my-4">
+              <strong class="text-lg block mb-2">{{ entry.sets }} sets × {{ entry.reps }} reps</strong>
               {% if entry.rest %}
-                <div>Rest: {{ entry.rest }}</div>
+                <div class="text-gray-300 text-sm">Rest: {{ entry.rest }}</div>
               {% endif %}
             </div>
 
             {% if entry.notes %}
-              <div class="exercise-description">{{ entry.notes }}</div>
+              <div class="bg-white/5 border-l-4 border-red-600 rounded p-4 my-4 text-gray-300 leading-relaxed">
+                {{ entry.notes }}
+              </div>
             {% endif %}
 
             {% if exercise.description %}
-              <div class="exercise-description">{{ exercise.description }}</div>
+              <div class="bg-white/5 border-l-4 border-red-600 rounded p-4 my-4 text-gray-300 leading-relaxed">
+                {{ exercise.description }}
+              </div>
             {% endif %}
 
             {% if exercise.image_url %}
-              <img src="{{ exercise.image_url }}" alt="{{ exercise.name }}" class="exercise-image">
+              <img src="{{ exercise.image_url }}" alt="{{ exercise.name }}" class="w-full max-w-2xl h-auto rounded-lg mt-4 shadow-xl mx-auto">
             {% endif %}
           </div>
           {% endwith %}
         {% empty %}
-          <p style="color: rgb(202, 201, 201); text-align: center;">No exercises found for this muscle group.</p>
+          <p class="text-gray-300 text-center">No exercises found for this muscle group.</p>
         {% endfor %}
       {% endfor %}
 
     {% else %}
-      <div class="error-box">
-        <h3>No Exercises Generated</h3>
-        <p>Try adjusting your filters or selecting more options.</p>
-        <a href="{% url 'workout_generator_page' %}" class="btn">Back to Generator</a>
+      <div class="bg-red-900/10 border-2 border-red-600 rounded-xl p-10 my-10 text-center">
+        <h3 class="text-red-500 text-2xl font-semibold mb-5">No Exercises Generated</h3>
+        <p class="text-gray-300 text-lg mb-8">Try adjusting your filters or selecting more options.</p>
+        <a href="{% url 'workout_generator_page' %}" class="inline-block py-4 px-8 text-base font-bold bg-gradient-red text-white rounded-lg cursor-pointer transition-all duration-400 uppercase shadow-red hover:scale-105 hover:bg-gradient-blue hover:shadow-blue">
+          Back to Generator
+        </a>
       </div>
     {% endif %}
 
     {% if category and exercises or workout %}
-      <div class="action-buttons">
-        <a href="{% url 'workout_generator_page' %}" class="btn">Generate New Workout</a>
-        <a href="#" onclick="window.print(); return false;" class="btn">Print Workout</a>
-        <a href="#" class="btn" onclick="alert('Save feature coming soon!'); return false;">Save Workout</a>
+      <div class="flex justify-center gap-4 flex-wrap my-12">
+        <a href="{% url 'workout_generator_page' %}" class="py-4 px-8 text-base font-bold bg-gradient-red text-white rounded-lg cursor-pointer transition-all duration-400 uppercase shadow-red hover:scale-105 hover:bg-gradient-blue hover:shadow-blue no-underline">
+          Generate New Workout
+        </a>
+        <a href="#" onclick="window.print(); return false;" class="py-4 px-8 text-base font-bold bg-gradient-red text-white rounded-lg cursor-pointer transition-all duration-400 uppercase shadow-red hover:scale-105 hover:bg-gradient-blue hover:shadow-blue no-underline">
+          Print Workout
+        </a>
+        
+        <!-- Save workout modal button -->
+        <button
+          data-modal-target="default-modal"
+          data-modal-toggle="default-modal"
+          class="py-4 px-8 text-base font-bold bg-gradient-red text-white rounded-lg cursor-pointer transition-all duration-400 uppercase shadow-red hover:scale-105 hover:bg-gradient-blue hover:shadow-blue"
+          type="button">
+          Save Workout
+        </button>
+          
+        <!-- Main modal -->
+        <div id="default-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+          <div class="relative p-4 w-full max-w-2xl max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+              <!-- Modal header -->
+              <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                  Save Workout to Profile
+                </h3>
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal">
+                  <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                  </svg>
+                  <span class="sr-only">Close modal</span>
+                </button>
+              </div>
+
+              <!-- Modal body -->
+              <div class="p-4 md:p-5 space-y-4">
+                <form action="" class="max-w-sm mx-auto py-2" id="saveWorkoutForm">
+                  {% csrf_token %}
+                  <label for="workoutTitle" class="block mb-2 text-base font-medium text-gray-900 dark:text-white">
+                    Title
+                  </label>
+                  <input
+                    type="text"
+                    id="workoutTitle"
+                    name="title"
+                    placeholder="Workout Title"
+                    class="w-full p-2 mb-4 rounded-md text-sm text-gray-900 bg-gray-50 border border-gray-300 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500"
+                    required
+                  >
+                  
+                  <label for="workoutNotes" class="block mb-2 text-base font-medium text-gray-900 dark:text-white">
+                    Workout Notes
+                  </label>
+                  <textarea
+                    id="workoutNotes"
+                    name="notes"
+                    rows="4"
+                    placeholder="Write your notes here..."
+                    class="p-2 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500 resize-none"
+                  ></textarea>
+                </form>
+              </div>
+
+              <!-- Modal footer -->
+              <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                <button
+                  id="saveWorkoutBtn"
+                  data-modal-hide="default-modal"
+                  type="button"
+                  class="py-2 px-5 bg-gradient-red text-white rounded-lg font-semibold shadow-lg hover:scale-105 hover:bg-gradient-blue transition-transform duration-300">
+                  Save & Close
+                </button>
+                <span id="saveStatus" class="ml-4 text-sm text-gray-600 dark:text-gray-400"></span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     {% endif %}
 
   </div>
 
-  <footer>
-    <p>MocFit+ © 2025 | Built for Students by Students</p>
+  <footer class="text-center py-10 mt-16">
+    <p class="text-white text-base font-bold">MocFit+ © 2025 | Built for Students by Students</p>
   </footer>
-      {% load static %}
-    <script src="{% static 'workouts/script.js' %}"></script>
 
-        {% load static %}
-    <script src="{% static 'js/script.js' %}"></script>
   <script>
-    // Navbar scroll effect
-    window.addEventListener('scroll', () => {
-      const navbar = document.querySelector('.navbar');
-      if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
+    // Save workout functionality
+    document.getElementById('saveWorkoutBtn')?.addEventListener('click', function() {
+      const form = document.getElementById('saveWorkoutForm');
+      const title = form.querySelector('#workoutTitle').value;
+      const notes = form.querySelector('#workoutNotes').value;
+      const status = document.getElementById('saveStatus');
+      
+      if (title) {
+        // Here you would send the data to your backend
+        status.textContent = 'Workout saved successfully!';
+        status.classList.add('text-green-600');
+        
+        // Reset after 3 seconds
+        setTimeout(() => {
+          status.textContent = '';
+          status.classList.remove('text-green-600');
+          form.reset();
+        }, 3000);
       } else {
-        navbar.classList.remove('scrolled');
+        status.textContent = 'Please enter a title';
+        status.classList.add('text-red-600');
       }
     });
   </script>

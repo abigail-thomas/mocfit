@@ -5,6 +5,8 @@ workout_list = {
     "pull": ["Pull-ups", "Barbell Row", "Bicep Curls", "Face Pulls", "Lat Pulldown", "Hammer Curl"],
     "legs": ["Squats", "Lunges", "Deadlifts", "Leg Press", "Leg Extensions", "Calf Raises"],
     "arms": [],
+    "legs": ["Squats", "Lunges", "Deadlifts", "Leg Press", "Leg Extensions", "Calf Raises"],
+
 }
 
 advanced_workout_list = {

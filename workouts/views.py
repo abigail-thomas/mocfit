@@ -1,20 +1,46 @@
-from django.shortcuts import render
 import random
 from collections import defaultdict
-from django.db.models import Q, Count
-from .models import Exercise, MuscleGroup, Goal, Equipment, MuscleGroupCategory
+
+from django.db.models import Count, Q
+from django.shortcuts import render
+
+from .models import Equipment, Exercise, Goal, MuscleGroup, MuscleGroupCategory
 
 # Create your views here.
 
 
 def workout_generator_page(request):
-    categories = MuscleGroupCategory.objects.all()
 
+    categories = MuscleGroupCategory.objects.all()
     goals = Goal.objects.all()
     equipment = Equipment.objects.all()
     muscles = MuscleGroup.objects.all()
 
-    context = {"categories": categories, "goals": goals, "equipment": equipment, "muscles": muscles}
+    # Group muscles by category
+    chest = ['Chest', 'Upper Chest', 'Lower Chest'],
+    back = ['Upper Back', 'Lats', 'Lower Back', 'Traps'],
+    arms = ['Front Deltoids', 'Side Deltoids', 'Rear Deltoids', 'Biceps', 'Triceps', 'Forearms'],
+    lower = ['Quadriceps', 'Hamstrings', 'Glutes', 'Calves', 'Hip Flexors', 'Adductors', 'Abductors'],
+    abs = ['Abs', 'Obliques']
+
+    chest = muscles.filter(name__in=chest)
+    back = muscles.filter(name__in=back)
+    arms = muscles.filter(name__in=arms)
+    lower_muscles = muscles.filter(name__in=lower)
+    core_muscles = muscles.filter(name__in=abs)
+
+    context = {
+        "categories": categories,
+        "goals": goals,
+        "equipment": equipment,
+        "muscles": muscles,
+        "chest": chest,
+        "back": back,
+        "arms": arms,
+        "lower_muscles": lower_muscles,
+        "core_muscles": core_muscles
+    }
+
     return render(request, "workouts/workout_generator_page.html", context)
 
 def workout_generator(request):
@@ -42,11 +68,19 @@ def workout_generator(request):
 
 def advanced_workout_generator(request):
     if request.method == "POST":
+
+
         selected_muscles = request.POST.getlist("muscles")
         selected_difficulty = request.POST.get("difficulty")
         selected_goal = request.POST.get("goal")
         selected_equipment = request.POST.get("equipment")
         selected_length = request.POST.get("length")
+
+        print("Selected muscles:", selected_muscles)
+        print("Selected difficulty:", selected_difficulty)
+        print("Selected goal:", selected_goal)
+        print("Selected equipment:", selected_equipment)
+        print("Selected length:", selected_length)
 
         # Enhanced workout size scaling
         length_map = {
@@ -63,7 +97,7 @@ def advanced_workout_generator(request):
             "endurance": {"sets": 2, "reps": "15-20", "rest": "30-60 sec"},
         }
         params = goal_parameters.get(selected_goal, 
-                                     {"sets": 3, "reps": "10-12", "rest": "1-2 min"})
+            {"sets": 3, "reps": "10-12", "rest": "1-2 min"})
 
         # Get previously used exercises from session to avoid repetition
         session_history = request.session.get('workout_history', [])
@@ -81,11 +115,13 @@ def advanced_workout_generator(request):
 
             # Apply filters
             if selected_difficulty:
-                exercises = exercises.filter(difficulty=selected_difficulty)
-            if selected_goal:
-                exercises = exercises.filter(goals__name=selected_goal)
-            if selected_equipment:
-                exercises = exercises.filter(equipment__name=selected_equipment)
+                exercises = exercises.filter(difficulty__iexact=selected_difficulty)
+
+            if selected_goal.lower() not in ['general fitness', 'any']:
+                exercises = exercises.filter(goals__name__iexact=selected_goal)
+
+            if selected_equipment.lower() != 'all equipment':
+                exercises = exercises.filter(equipment__name__iexact=selected_equipment)
 
             # Score each exercise
             for exercise in exercises:
