@@ -7,19 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container">
-            <div class="navbar-header"><a href="">MocFit+</a></div>
-            <ul class="navbar-links">
-                <li class="item"><a href="/">Home</a></li>
-                <li class="item"><a href="/workouts/">Workouts</a></li>
-                <li class="item"><a href="/community">Community</a></li>
-                <li class="item"><a href="/accounts/">Login</a></li>
-            </ul>
-        </div>
-        
-    </nav>
-    <div class="sm-container-blue"></div>
     
     <h2>Welcome, {{ user.username }}!</h2>
     <p><a href="{% url 'logout' %}">Logout</a></p>

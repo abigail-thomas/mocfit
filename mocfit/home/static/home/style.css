@@ -2,12 +2,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 
 /* body */
+
 body {
     line-height: 1.6;
     margin: 0px !important;
     background: linear-gradient(135deg, #292727 0%, #101111 100%);
     padding-top: 70px;
     font-family: 'Oswald';
+    max-width: 100%;
+    box-sizing: border-box;
+
 }
 
 /* global styles */
@@ -32,10 +36,6 @@ h2 {
 
 }
 
-
-h3 {
-
-}
 h4 {
     font-size: 1.3rem;
     margin-bottom: 2.5rem;

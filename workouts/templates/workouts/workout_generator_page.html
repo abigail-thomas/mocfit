@@ -8,527 +8,121 @@
   <link rel="stylesheet" href="{% static 'css/nav.css' %}">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Michroma&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Flowbite -->
+  <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
+  
+  <!-- Alpine.js -->
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            'oswald': ['Oswald', 'sans-serif'],
+            'michroma': ['Michroma', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Michroma&Oswald&family=Ramabhadra&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
       font-family: 'Oswald', sans-serif;
+    }
+
+    /* Custom gradient backgrounds */
+    .bg-gradient-dark {
       background: linear-gradient(135deg, #292727 0%, #101111 100%);
-      color: white;
-      line-height: 1.6;
-      min-height: 100vh;
     }
-
-
-    /* Main Content */
-    .main-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 140px 40px 80px;
-    }
-
-    h1 {
-      font-size: 3rem;
-      font-weight: 700;
-      margin-bottom: 20px;
-      text-align: center;
-      color: white;
-      text-transform: uppercase;
-    }
-
-    h2 {
-      font-size: 2rem;
-      font-weight: 600;
-      margin: 40px 0 20px;
-      color: white;
-      text-align: center;
-    }
-
-    hr {
-      border: none;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      margin: 60px 0;
-    }
-
-    /* Form Sections */
-    .generator-section {
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: 12px;
-      padding: 40px;
-      margin-bottom: 40px;
-      transition: all 0.4s ease;
-    }
-
-    .generator-section:hover {
-      background: rgba(255, 255, 255, 0.05);
-      transform: translateY(-2px);
-    }
-
-    /* Buttons */
-    button[type="submit"], .btn {
-      padding: 15px 30px;
-      font-size: 1rem;
-      font-family: 'Oswald', sans-serif;
-      font-weight: bold;
+    
+    .bg-gradient-red {
       background: linear-gradient(135deg, #ba0c2f, #d10e35);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.4s ease;
-      text-transform: uppercase;
+    }
+    
+    .bg-gradient-blue {
+      background: linear-gradient(135deg, #0032a0, #0055cc);
+    }
+
+    /* Custom shadows */
+    .shadow-red {
       box-shadow: 0 8px 25px rgba(186, 12, 47, 0.3);
     }
-
-    button[type="submit"]:hover, .btn:hover {
-      transform: scale(1.01);
-      background: linear-gradient(135deg, #0032a0, #0055cc);
+    
+    .shadow-blue {
       box-shadow: 0 8px 25px rgba(0, 50, 160, 0.4);
     }
 
-    .category-buttons {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-      margin: 30px 0;
+    .muscleLabel:hover {
+      background: linear-gradient(135deg, #0032a0, #0055cc) !important;
     }
 
-    .category-buttons button {
-      width: 100%;
-    }
-
-    /* Fieldset */
-    fieldset {
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      padding: 25px;
-      margin-bottom: 25px;
-    }
-
-    legend {
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: white;
-      padding: 0 10px;
-    }
-
-    fieldset p {
-      color: rgb(202, 201, 201);
-      font-size: 0.9rem;
-      margin-bottom: 15px;
-    }
-
-    /* Muscle Selection Grid */
-    #muscleContainer {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 15px;
-    }
-
-    #muscleContainer label {
+    /* Checkbox custom styles */
+    .muscle-checkbox-label {
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
       cursor: pointer;
-      padding: 15px 20px;
-      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
       transition: all 0.4s ease;
       background: linear-gradient(135deg, #ba0c2f, #d10e35);
       box-shadow: 0 8px 25px rgba(186, 12, 47, 0.3);
       font-weight: bold;
       text-transform: uppercase;
-      font-size: 0.95rem;
-      position: relative;
+      font-size: 0.875rem;
     }
 
-    #muscleContainer label:hover {
-      transform: scale(1.01);
-      background: linear-gradient(135deg, #0032a0, #0055cc);
-      box-shadow: 0 8px 25px rgba(0, 50, 160, 0.4);
-    }
-
-    #muscleContainer input[type="checkbox"] {
+    .muscle-checkbox-label input[type="checkbox"] {
       display: none;
     }
 
-    #muscleContainer label.checked {
-      background: linear-gradient(135deg, #0032a0, #0055cc);
-      box-shadow: 0 8px 25px rgba(0, 50, 160, 0.4);
-    }
-    #muscleContainer label::after {
-      /*content: "✓";*/
-      position: absolute;
-      left: 10px;
-      font-size: 1.2rem;
-      font-weight: bold;
-      opacity: 0;
-      transform: scale(0);
-      transition: all 0.3s ease;
-    }
-
-    #muscleContainer label.checked::after {
-      opacity: 1;
-      transform: scale(1.01);
-    }
-
-    /* Select All Button */
-    #selectAllBtn {
-      padding: 15px 30px;
-      font-size: 1rem;
-      font-family: 'Oswald', sans-serif;
-      font-weight: bold;
-      background: linear-gradient(135deg, #ba0c2f, #d10e35);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.4s ease;
-      text-transform: uppercase;
-      box-shadow: 0 8px 25px rgba(186, 12, 47, 0.3);
-      margin-bottom: 20px;
-    }
-
-    #selectAllBtn:hover {
+    .muscle-checkbox-label:hover {
       transform: scale(1.05);
-      background: linear-gradient(135deg, #0032a0, #0055cc);
-      box-shadow: 0 8px 25px rgba(0, 50, 160, 0.4);
+      background: linear-gradient(135deg, #0032a0, #0055cc) !important;
+      box-shadow: 0 8px 25px rgba(0, 50, 160, 0.4) !important;
     }
 
-    /* Form Controls Container */
-    .form-controls {
-      max-width: 600px;
-      margin: 0 auto;
+    .muscle-checkbox-label.checked {
+      background: linear-gradient(135deg, #0032a0, #0055cc) !important;
+      box-shadow: 0 8px 25px rgba(0, 50, 160, 0.4) !important;
     }
 
-    .form-group {
-      margin-bottom: 25px;
-      text-align: center;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: white;
-      margin-bottom: 10px;
-    }
-
-    select {
-      width: 100%;
-      max-width: 500px;
-      padding: 12px;
-      font-size: 1rem;
-      font-family: 'Oswald', sans-serif;
-      background: rgba(255, 255, 255, 0.05);
-      color: white;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    select:hover, select:focus {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: #ba0c2f;
-      outline: none;
-    }
-
-    select option {
-      background: #1a1a1a;
-      color: white;
-    }
-
-    .form-hint {
-      font-size: 0.85rem;
-      color: rgb(202, 201, 201);
-      margin-top: 8px;
-    }
-
-    /* Submit Button Container */
-    .submit-container {
-      text-align: center;
-      margin: 40px 0;
-    }
-
-    .submit-container button {
-      padding: 18px 50px;
-      font-size: 1.1rem;
-    }
-
-    /* Smart Features Box */
-    .features-box {
-      background: rgba(255, 255, 255, 0.03);
-      color: white;
-      border-radius: 12px;
-      padding: 30px;
-      margin: 40px auto;
-      max-width: 900px;
-      transition: all 0.4s ease;
-    }
-
-    .features-box:hover {
-      background: rgba(255, 255, 255, 0.05);
-      transform: translateY(-2px);
-    }
-
-    .features-box h3 {
-      color: white;
-      font-size: 1.8rem;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .features-box ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .features-box li {
-      padding: 12px 0;
-      color: rgb(202, 201, 201);
-      font-size: 1.05rem;
-      line-height: 1.8;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .features-box li:last-child {
-      border-bottom: none;
-    }
-
-    .features-box li b {
-      color: white;
-    }
-
-    .features-box li::before {
-      content: "✓";
-      color: #d10e35;
-      font-weight: bold;
-      margin-right: 10px;
-      font-size: 1.2rem;
-    }
-
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: 40px 20px;
-      margin-top: 60px;
-    }
-
-    footer p {
-      color: white;
-      font-size: 1rem;
-      font-weight: bold;
-    }
-
-    /* Workout Toggle Buttons */
-    .workout-toggle-container {
-      display: flex;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      border-radius: 8px;
-      overflow: hidden;
-      max-width: 600px;
-      margin: 30px auto 50px;
-    }
-
-    .workout-toggle {
-      flex: 1;
-      padding: 15px 30px;
-      font-size: 1.1rem;
-      font-family: 'Oswald', sans-serif;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .main-content {
-        padding: 120px 20px 60px;
-      }
-
-      h1 {
-        font-size: 2rem;
-      }
-
-      h2 {
-        font-size: 1.5rem;
-      }
-
-      .generator-section {
-        padding: 25px;
-      }
-
-      .category-buttons {
-        grid-template-columns: 1fr;
-      }
-
-      #muscleContainer {
-        grid-template-columns: 1fr;
-      }
-
-      .nav-links {
-        gap: 20px;
-      }
-    }
-    
-/* responsive */
-@media (max-width: 1070px) {
-    .nav-container {
-        padding: 20px 30px;
-    }
-
-    .hero h1 {
-        font-size: 4rem;
-    }
-
-    .cards {
-        display:grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(3, 1fr);
-        gap: 5px;
-
-    }
-
-    .anywhere .cards-box {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-}
-
-@media (max-width: 768px) {
-    .hamburger {
-        display: flex;
-    }
-
-
-    .nav-container {
-        padding: 15px 20px;
-    }
-
-    .logo {
-        font-size: 1.5rem;
-    }
-
-    .nav-links {
-        background: linear-gradient(135deg, #ba0c2f, #d10e35);
-        opacity: 0.9;
-        position: fixed;
-        top: 70px;
-        right: -101%;
-        width: 100%;
-        height: calc(100vh - 70px);
-        backdrop-filter: blur(20px);
-        flex-direction: column;
-        padding: 100px;
-        gap: 30px;
-        transition: right 0.4s ease;
-        text-align: right !important;
-
-    }
-
-
-    .nav-links.active {
-        right: 0;
-    }
-
-    .nav-links a {
-        top: 90px;
-        font-size: 2rem;
-        padding-top: 20px;
-        opacity: 1;
-    }
-
-    .nav-links a::after {
-        bottom: -8px;
-    }
-
-    .hero {
-        padding: 100px 20px 60px;
-        min-height: 90vh;
-    }
-
-    .hero h1 {
-        font-size: 2.5rem;
-        margin-bottom: 20px;
-    }
-
-
-    .hero h2 {
-        font-size: 1rem;
-        margin-bottom: 40px;
-        line-height: 1.6;
-    }
-    .browse .cards-box  {
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(3, 1fr); 
-    }
-
-    .join-section h1 {
-        font-size: 2rem;
-    }
-    
-
-    footer {
-        padding: 25px 20px;
-    }
-
-    footer p {
-        font-size: 0.9rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .logo {
-        font-size: 1.3rem;
-    }
-
-    .hero h1 {
-        font-size: 2rem;
-        letter-spacing: -1px;
-    }
-
-    .hero h2 {
-        font-size: 0.95rem;
-    }
-
-}
   </style>
 </head>
-<body>
+<body class="bg-gradient-dark text-white min-h-screen">
 
-        {% include 'includes/navbar.html' %}
+  {% include 'includes/navbar.html' %}
 
-  <div class="main-content">
-    <h1>Workout Generator</h1>
+  <div class="max-w-7xl mx-auto px-6 md:px-10 pt-32 md:pt-36 pb-20">
+    <h1 class="text-4xl md:text-5xl font-bold mb-5 text-center uppercase tracking-tight">Workout Generator</h1>
 
     <!-- Workout Type Selector -->
-    <div class="workout-toggle-container">
-      <button type="button" id="quickBtn" class="workout-toggle" style="background: linear-gradient(135deg, #ba0c2f, #d10e35); color: white;">
+    <div class="flex border-2 border-white/20 rounded-lg overflow-hidden max-w-2xl mx-auto my-8 md:my-12">
+      <button type="button" id="quickBtn" class="flex-1 py-4 px-8 text-base md:text-lg font-bold uppercase transition-all duration-300 bg-gradient-red text-white">
         Quick Workout
       </button>
-      <button type="button" id="advancedBtn" class="workout-toggle" style="background: transparent; color: rgb(202, 201, 201);">
+      <button type="button" id="advancedBtn" class="flex-1 py-4 px-8 text-base md:text-lg font-bold uppercase transition-all duration-300 bg-transparent text-gray-400">
         Advanced Workout
       </button>
     </div>
 
-    <!-- Random Workout Generator -->
-    <div class="generator-section" id="quickWorkout">
-      <h2>Quick Workout</h2>
+    <!-- Quick Workout Generator -->
+    <div class="bg-white/5 rounded-xl p-6 md:p-10 mb-10 transition-all duration-400 hover:bg-white/10" id="quickWorkout">
+      <h2 class="text-2xl md:text-3xl font-semibold mb-5 text-center">Quick Workout</h2>
       <form method="post" action="{% url 'workout_generator' %}">
         {% csrf_token %}
-        <div class="category-buttons">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {% for category in categories %}
-            <button type="submit" name="category" value="{{ category.name }}">
+            <button type="submit" name="category" value="{{ category.name }}" class="muscleLabel w-full py-4 px-8 text-base font-bold bg-gradient-red text-white rounded-lg cursor-pointer transition-all duration-400 uppercase shadow-red hover:scale-105 hover:shadow-blue">
               {{ category.name }} Day
             </button>
           {% endfor %}
@@ -536,12 +130,12 @@
       </form>
     </div>
 
-    <hr id="hrDivider">
+    <hr id="hrDivider" class="border-0 border-t border-white/10 my-12 md:my-16">
 
     <!-- Advanced Workout Generator -->
-    <div class="generator-section" id="advancedWorkout" style="display: none;">
-      <h2>Advanced Workout Generator</h2>
-      <p style="text-align: center; color: rgb(202, 201, 201); margin-bottom: 30px;">
+    <div class="bg-white/5 rounded-xl p-6 md:p-10 mb-10 transition-all duration-400 hover:bg-white/10 hidden" id="advancedWorkout">
+      <h2 class="text-2xl md:text-3xl font-semibold mb-5 text-center">Advanced Workout Generator</h2>
+      <p class="text-center text-gray-300 mb-8">
         <b>Select your preferences and generate a custom workout plan.</b>
       </p>
 
@@ -549,104 +143,326 @@
         {% csrf_token %}
         
         <!-- Muscle Selection -->
-        <fieldset>
-          <legend><b>Target Muscles</b></legend>
-          <p>
+        <fieldset class="border border-white/10 rounded-lg p-6 mb-6">
+          <legend class="text-xl md:text-2xl font-semibold px-2"><b>Target Muscles</b></legend>
+          <p class="text-gray-300 text-sm md:text-base mb-4">
             Select the muscle groups you want to train. The generator will prioritize compound movements and balance exercise distribution.
           </p>
 
-          <button type="button" id="selectAllBtn" class="btn">Select All</button>
+          <button type="button" id="selectAllBtn" class="py-4 px-8 text-base font-bold bg-gradient-red text-white rounded-lg cursor-pointer transition-all duration-400 uppercase shadow-red mb-5 hover:scale-105 hover:bg-gradient-blue hover:shadow-blue">
+            Select All Muscles
+          </button>
 
-          <div id="muscleContainer">
+          <div class="space-y-4">
+            <!-- Upper Body Accordion -->
+            <div class="border border-white/10 rounded-lg overflow-hidden">
+              <button type="button" id="upperAccordion" class="w-full flex items-center justify-between p-4 bg-white/5 hover:bg-white/10 transition-all duration-300">
+                <span class="text-lg font-semibold">Upper Body</span>
+                <svg class="w-5 h-5 transition-transform duration-300" id="upperIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
+              <div id="upperContent" class="hidden p-4 bg-white/5 space-y-3">
+                
+                <!-- Chest Sub-Accordion -->
+                <div class="border border-white/20 rounded-lg overflow-hidden">
+                  <button type="button" id="chestAccordion" class="w-full flex items-center justify-between p-3 bg-white/10 hover:bg-white/15 transition-all duration-300">
+                    <span class="text-base font-semibold">Chest</span>
+                    <svg class="w-4 h-4 transition-transform duration-300" id="chestIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                  </button>
+                  <div id="chestContent" class="hidden p-3 bg-white/5">
+                    <div id="chestMuscles" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      <!-- Chest muscles will be populated here -->
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Back Sub-Accordion -->
+                <div class="border border-white/20 rounded-lg overflow-hidden">
+                  <button type="button" id="backAccordion" class="w-full flex items-center justify-between p-3 bg-white/10 hover:bg-white/15 transition-all duration-300">
+                    <span class="text-base font-semibold">Back</span>
+                    <svg class="w-4 h-4 transition-transform duration-300" id="backIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                  </button>
+                  <div id="backContent" class="hidden p-3 bg-white/5">
+                    <div id="backMuscles" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      <!-- Back muscles will be populated here -->
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Arms Sub-Accordion -->
+                <div class="border border-white/20 rounded-lg overflow-hidden">
+                  <button type="button" id="armsAccordion" class="w-full flex items-center justify-between p-3 bg-white/10 hover:bg-white/15 transition-all duration-300">
+                    <span class="text-base font-semibold">Arms & Shoulders</span>
+                    <svg class="w-4 h-4 transition-transform duration-300" id="armsIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                  </button>
+                  <div id="armsContent" class="hidden p-3 bg-white/5">
+                    <div id="armsMuscles" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      <!-- Arms muscles will be populated here -->
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Lower Body Accordion -->
+            <div class="border border-white/10 rounded-lg overflow-hidden">
+              <button type="button" id="lowerAccordion" class="w-full flex items-center justify-between p-4 bg-white/5 hover:bg-white/10 transition-all duration-300">
+                <span class="text-lg font-semibold">Lower Body</span>
+                <svg class="w-5 h-5 transition-transform duration-300" id="lowerIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
+              <div id="lowerContent" class="hidden p-4 bg-white/5">
+                <div id="lowerMuscles" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  <!-- Lower body muscles will be populated here -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Abs/Core Accordion -->
+            <div class="border border-white/10 rounded-lg overflow-hidden">
+              <button type="button" id="absAccordion" class="w-full flex items-center justify-between p-4 bg-white/5 hover:bg-white/10 transition-all duration-300">
+                <span class="text-lg font-semibold">Abs & Core</span>
+                <svg class="w-5 h-5 transition-transform duration-300" id="absIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
+              <div id="absContent" class="hidden p-4 bg-white/5">
+                <div id="absMuscles" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  <!-- Abs muscles will be populated here -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hidden container for all muscles (for script) -->
+          <div id="allMusclesData" class="hidden">
             {% for m in muscles %}
-              <label>
-                <input type="checkbox" name="muscles" value="{{ m.name }}">
-                {{ m.name }}
-              </label>
+              <span data-muscle="{{ m.name }}"></span>
             {% endfor %}
           </div>
         </fieldset>
 
         <!-- Form Controls -->
-        <div class="form-controls">
-          <!-- Difficulty -->
-          <div class="form-group">
-            <label for="difficulty">Training Experience:</label>
-            <select id="difficulty" name="difficulty">
-              <option value="">Any Level</option>
-              <option value="beginner">Beginner (New to training)</option>
-              <option value="intermediate" selected>Intermediate (6+ months experience)</option>
-              <option value="advanced">Advanced (2+ years experience)</option>
-            </select>
+        <div class="max-w-2xl mx-auto">
+          <!-- Difficulty with Alpine.js -->
+          <div x-data="{
+            open: false,
+            selected: 'Intermediate (6+ months experience)',
+            selectedKey: 'intermediate'
+            }"
+            class="relative mb-6 text-center">
+            <label class="block text-lg md:text-xl font-semibold mb-2 py-4">Training Experience:</label>
+            <button
+              @click="open = !open"
+              type="button"
+              class="w-full mx-auto max-w-lg py-3 px-4 text-white bg-white/5 border border-white/20 rounded-lg flex justify-between items-center transition duration-300 hover:bg-white/10 focus:outline-none"
+            >
+              <span x-text="selected"></span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div
+              x-show="open"
+              @click.outside="open = false"
+              class="absolute z-50 mt-2 left-1/2 -translate-x-1/2 w-full max-w-lg rounded-lg bg-[#292727] border border-white/10 shadow-xl"
+            >
+              <template x-for="option in [
+              { key: 'beginner', label: 'Beginner (New to training)' },
+              { key: 'intermediate', label: 'Intermediate (6+ months experience)' },
+              { key: 'advanced', label: 'Advanced (2+ years experience)' }
+            ]" :key="option.key">
+              <div
+                @click="selected = option.label; selectedKey = option.key; open = false"
+                class="px-4 py-2 cursor-pointer hover:bg-[#0032a0] text-gray-200"
+                x-text="option.label"
+              ></div>
+            </template>
+
+
+            </div>
+            <input type="hidden" name="difficulty" :value="selectedKey">
           </div>
 
-          <!-- Goal -->
-          <div class="form-group">
-            <label for="goal">Training Goal:</label>
-            <select id="goal" name="goal">
-              <option value="">General Fitness</option>
-              {% for g in goals %}
-                <option value="{{ g.name }}" {% if g.name == "Muscle Growth" %}selected{% endif %}>
-                  {{ g.name|title }}
-                  {% if g.name == "Strength" %}(4 sets × 4-6 reps, 3-5 min rest){% endif %}
-                  {% if g.name == "Muscle Growth" %}(3 sets × 8-12 reps, 1-2 min rest){% endif %}
-                  {% if g.name == "Endurance" %}(2 sets × 15-20 reps, 30-60 sec rest){% endif %}
-                </option>
-              {% endfor %}
-            </select>
-          </div>
+         <!-- Goal Dropdown (Alpine.js + Django loop) -->
+<div x-data="
+{ open: false,
+  selected: 'General Fitness',
+  selectedKey: 'general fitness' }" 
+  class="relative mb-6 text-center">
+  <label class="block text-lg md:text-xl font-semibold mb-2 py-4">Training Goal:</label>
 
-          <!-- Equipment -->
-          <div class="form-group">
-            <label for="equipment">Available Equipment:</label>
-            <select id="equipment" name="equipment">
-              <option value="">All Equipment</option>
-              {% for e in equipment %}
-                <option value="{{ e.name }}">{{ e.name }}</option>
-              {% endfor %}
-            </select>
-          </div>
+  <button
+    @click="open = !open"
+    type="button"
+    class="w-full mx-auto max-w-lg py-3 px-4 text-white bg-white/5 border border-white/20 rounded-lg flex justify-between items-center transition duration-300 hover:bg-white/10 focus:outline-none"
+  >
+    <span x-text="selected"></span>
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
 
-          <!-- Workout Length -->
-          <div class="form-group">
-            <label for="length">Workout Duration:</label>
-            <select id="length" name="length">
-              <option value="short">Short (5 exercises, ~25-35 minutes)</option>
-              <option value="medium" selected>Medium (8 exercises, ~40-55 minutes)</option>
-              <option value="long">Long (12 exercises, ~60-80 minutes)</option>
-            </select>
-            <p class="form-hint">
-              Duration includes rest periods. Compounds prioritized first, then isolation exercises.
-            </p>
-          </div>
-        </div>
+  <div
+    x-show="open"
+    @click.outside="open = false"
+    class="absolute z-50 mt-2 left-1/2 -translate-x-1/2 w-full max-w-lg rounded-lg bg-[#292727] border border-white/10 shadow-xl"
+  >
+    <template x-for="option in [
+      { key: 'general fitness', label: 'General Fitness' },
+      { key: 'muscle growth', label: 'Muscle Growth (3 sets × 8-12 reps, 1-2 min rest)' },
+      { key: 'strength', label: 'Strength (4 sets × 4-6 reps, 3-5 min rest)' },
+      { key: 'endurance', label: 'Endurance (2 sets × 15-20 reps, 30-60 sec rest)' }
+    ]" :key="option.key">
+      <div
+        @click="selected = option.label; selectedKey = option.key; open = false"
+        class="px-4 py-2 cursor-pointer hover:bg-[#0032a0] text-gray-200 text-left transition"
+        x-text="option.label"
+      ></div>
+    </template>
+  </div>
 
-        <div class="submit-container">
-          <button type="submit"><b>Generate Workout</b></button>
+  <input type="hidden" name="goal" :value="selectedKey">
+</div>
+
+
+          <!-- Equipment Dropdown -->
+<div x-data="
+{ open: false,
+  selected: 'All Equipment',
+  selectedKey: 'All Equipment' }"
+  
+  class="relative mb-6 text-center">
+  <label class="block text-lg md:text-xl font-semibold mb-2 py-4">Available Equipment:</label>
+
+  <button
+    @click="open = !open"
+    type="button"
+    class="w-full mx-auto max-w-lg py-3 px-4 text-white bg-white/5 border border-white/20 rounded-lg flex justify-between items-center transition duration-300 hover:bg-white/10 focus:outline-none"
+  >
+    <span x-text="selected"></span>
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
+
+  <div
+    x-show="open"
+    @click.outside="open = false"
+    class="absolute z-50 mt-2 left-1/2 -translate-x-1/2 w-full max-w-lg rounded-lg bg-[#292727] border border-white/10 shadow-xl"
+  >
+    <div
+        @click="selected = option.label; selectedKey = option.key; open = false"
+      class="px-4 py-2 cursor-pointer hover:bg-[#0032a0] text-gray-200 text-left transition"
+    >
+      All Equipment
+    </div>
+
+    {% for e in equipment %}
+      <div
+        @click="selected = '{{ e.name|escapejs }}'; selectedKey = '{{ e.name|escapejs }}'; open = false"
+        class="px-4 py-2 cursor-pointer hover:bg-[#0032a0] text-gray-200 text-left transition"
+        x-text="'{{ e.name|escapejs }}'"
+      ></div>
+    {% endfor %}
+  </div>
+
+  <!-- ✅ Correct hidden field -->
+  <input type="hidden" name="equipment" :value="selectedKey">
+</div>
+
+
+
+          <!-- Workout Duration -->
+<div x-data="{ open: false, selected: 'Medium (8 exercises, ~40-55 minutes)', selectedKey: 'medium' }" class="relative mb-6 text-center">
+  <label class="block text-lg md:text-xl font-semibold mb-2 py-4">Workout Duration:</label>
+
+  <button
+    @click="open = !open"
+    type="button"
+    class="w-full mx-auto max-w-lg py-3 px-4 text-white bg-white/5 border border-white/20 rounded-lg flex justify-between items-center transition duration-300 hover:bg-white/10 focus:outline-none"
+  >
+    <span x-text="selected"></span>
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
+
+  <div
+    x-show="open"
+    @click.outside="open = false"
+    class="absolute z-50 mt-2 left-1/2 -translate-x-1/2 w-full max-w-lg rounded-lg bg-[#292727] border border-white/10 shadow-xl"
+  >
+    <template x-for="option in [
+      { key: 'short', label: 'Short (5 exercises, ~25-35 minutes)' },
+      { key: 'medium', label: 'Medium (8 exercises, ~40-55 minutes)' },
+      { key: 'long', label: 'Long (12 exercises, ~60-80 minutes)' }
+    ]" :key="option.key">
+      <div
+        @click="selected = option.label; selectedKey = option.key; open = false"
+        class="px-4 py-2 cursor-pointer hover:bg-[#0032a0] text-gray-200 text-left transition"
+        x-text="option.label"
+      ></div>
+    </template>
+  </div>
+
+  <input type="hidden" name="length" :value="selectedKey">
+
+  <p class="text-sm text-gray-300 mt-2">
+    Duration includes rest periods. Compounds prioritized first, then isolation exercises.
+  </p>
+</div>
+
+
+        <div class="text-center my-10">
+          <button type="submit" class="py-5 px-12 text-lg font-bold bg-gradient-red text-white rounded-lg cursor-pointer transition-all duration-400 uppercase shadow-red hover:scale-105 hover:bg-gradient-blue hover:shadow-blue">
+            <b>Generate Workout</b>
+          </button>
         </div>
 
         <!-- Smart Features -->
-        <div class="features-box">
-          <h3>Smart Features</h3>
-          <ul>
-            <li><b>Exercise Scoring:</b> Prioritizes effective movements based on your goals</li>
-            <li><b>Optimal Ordering:</b> Compounds first when you're fresh, isolations later</li>
-            <li><b>Variety Tracking:</b> Avoids repeating recent exercises for better adaptation</li>
-            <li><b>Balanced Volume:</b> Distributes sets evenly across selected muscle groups</li>
-            <li><b>Rest Guidance:</b> Provides appropriate rest times based on training goal</li>
-            <li><b>Exercise Notes:</b> Includes form cues and performance tips</li>
+        <div class="bg-white/5 rounded-xl p-8 my-10 max-w-4xl mx-auto transition-all duration-400 hover:bg-white/10 hover:-translate-y-0.5">
+          <h3 class="text-2xl md:text-3xl font-semibold mb-5 text-center">Smart Features</h3>
+          <ul class="list-none p-0">
+            <li class="py-3 text-gray-300 text-base md:text-lg leading-relaxed border-b border-white/5 before:content-['✓'] before:text-red-600 before:font-bold before:mr-2 before:text-xl">
+              <b class="text-white">Exercise Scoring:</b> Prioritizes effective movements based on your goals
+            </li>
+            <li class="py-3 text-gray-300 text-base md:text-lg leading-relaxed border-b border-white/5 before:content-['✓'] before:text-red-600 before:font-bold before:mr-2 before:text-xl">
+              <b class="text-white">Optimal Ordering:</b> Compounds first when you're fresh, isolations later
+            </li>
+            <li class="py-3 text-gray-300 text-base md:text-lg leading-relaxed border-b border-white/5 before:content-['✓'] before:text-red-600 before:font-bold before:mr-2 before:text-xl">
+              <b class="text-white">Variety Tracking:</b> Avoids repeating recent exercises for better adaptation
+            </li>
+            <li class="py-3 text-gray-300 text-base md:text-lg leading-relaxed border-b border-white/5 before:content-['✓'] before:text-red-600 before:font-bold before:mr-2 before:text-xl">
+              <b class="text-white">Balanced Volume:</b> Distributes sets evenly across selected muscle groups
+            </li>
+            <li class="py-3 text-gray-300 text-base md:text-lg leading-relaxed border-b border-white/5 before:content-['✓'] before:text-red-600 before:font-bold before:mr-2 before:text-xl">
+              <b class="text-white">Rest Guidance:</b> Provides appropriate rest times based on training goal
+            </li>
+            <li class="py-3 text-gray-300 text-base md:text-lg leading-relaxed before:content-['✓'] before:text-red-600 before:font-bold before:mr-2 before:text-xl">
+              <b class="text-white">Exercise Notes:</b> Includes form cues and performance tips
+            </li>
           </ul>
         </div>
       </form>
     </div>
   </div>
 
-  <footer>
-    <p>MocFit+ © 2025 | Built for Students by Students</p>
+  <footer class="text-center py-10 mt-16">
+    <p class="text-white text-base font-bold">MocFit+ © 2025 | Built for Students by Students</p>
   </footer>
 
-      {% load static %}
-    <script src="{% static 'js/script.js' %}"></script>
+  <!-- Flowbite JS -->
+  <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
     
   <script>
     // Workout Type Switcher
@@ -657,99 +473,617 @@
     const hrElement = document.getElementById('hrDivider');
 
     quickBtn.addEventListener('click', function() {
-      quickWorkout.style.display = 'block';
-      advancedWorkout.style.display = 'none';
-      hrElement.style.display = 'block';
+      quickWorkout.classList.remove('hidden');
+      advancedWorkout.classList.add('hidden');
+      hrElement.classList.remove('hidden');
       
-      quickBtn.style.background = 'linear-gradient(135deg, #ba0c2f, #d10e35)';
-      quickBtn.style.color = 'white';
-      advancedBtn.style.background = 'transparent';
-      advancedBtn.style.color = 'rgb(202, 201, 201)';
+      quickBtn.className = 'flex-1 py-4 px-8 text-base md:text-lg font-bold uppercase transition-all duration-300 bg-gradient-red text-white';
+      advancedBtn.className = 'flex-1 py-4 px-8 text-base md:text-lg font-bold uppercase transition-all duration-300 bg-transparent text-gray-400';
     });
 
     advancedBtn.addEventListener('click', function() {
-      quickWorkout.style.display = 'none';
-      advancedWorkout.style.display = 'block';
-      hrElement.style.display = 'none';
+      quickWorkout.classList.add('hidden');
+      advancedWorkout.classList.remove('hidden');
+      hrElement.classList.add('hidden');
       
-      advancedBtn.style.background = 'linear-gradient(135deg, #ba0c2f, #d10e35)';
-      advancedBtn.style.color = 'white';
-      quickBtn.style.background = 'transparent';
-      quickBtn.style.color = 'rgb(202, 201, 201)';
+      advancedBtn.className = 'flex-1 py-4 px-8 text-base md:text-lg font-bold uppercase transition-all duration-300 bg-gradient-red text-white';
+      quickBtn.className = 'flex-1 py-4 px-8 text-base md:text-lg font-bold uppercase transition-all duration-300 bg-transparent text-gray-400';
     });
 
     // Hover effects for inactive buttons
     quickBtn.addEventListener('mouseenter', function() {
-      if (this.style.background === 'transparent') {
-        this.style.color = 'white';
+      if (this.classList.contains('bg-transparent')) {
+        this.classList.remove('text-gray-400');
+        this.classList.add('text-white');
       }
     });
 
     quickBtn.addEventListener('mouseleave', function() {
-      if (this.style.background === 'transparent') {
-        this.style.color = 'rgb(202, 201, 201)';
+      if (this.classList.contains('bg-transparent')) {
+        this.classList.remove('text-white');
+        this.classList.add('text-gray-400');
       }
     });
 
     advancedBtn.addEventListener('mouseenter', function() {
-      if (this.style.background === 'transparent') {
-        this.style.color = 'white';
+      if (this.classList.contains('bg-transparent')) {
+        this.classList.remove('text-gray-400');
+        this.classList.add('text-white');
       }
     });
 
     advancedBtn.addEventListener('mouseleave', function() {
-      if (this.style.background === 'transparent') {
-        this.style.color = 'rgb(202, 201, 201)';
+      if (this.classList.contains('bg-transparent')) {
+        this.classList.remove('text-white');
+        this.classList.add('text-gray-400');
       }
     });
 
-    // Navbar scroll effect
-    window.addEventListener('scroll', () => {
-      const navbar = document.querySelector('.navbar');
-      if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
-      }
-    });
-
-    // Select All / Deselect All
+    // Muscle Group Organization
     document.addEventListener('DOMContentLoaded', function() {
+      // Define muscle groups with nested structure
+      const muscleGroups = {
+        chest: ['Chest', 'Upper Chest', 'Lower Chest'],
+        back: ['Upper Back', 'Lats', 'Lower Back', 'Traps'],
+        arms: ['Front Deltoids', 'Side Deltoids', 'Rear Deltoids', 'Biceps', 'Triceps', 'Forearms'],
+        lower: ['Quadriceps', 'Hamstrings', 'Glutes', 'Calves', 'Hip Flexors', 'Adductors', 'Abductors'],
+        abs: ['Abs', 'Obliques']
+      };
+
+      // Get all muscles from the hidden data container
+      const allMusclesData = document.querySelectorAll('#allMusclesData span');
+      const allMuscles = Array.from(allMusclesData).map(span => span.dataset.muscle);
+
+      // Function to create muscle label with checkbox
+      function createMuscleLabel(muscleName) {
+        const label = document.createElement('label');
+        label.className = 'muscle-checkbox-label';
+        label.innerHTML = `
+          <input type="checkbox" name="muscles" value="${muscleName}">
+          ${muscleName}
+        `;
+        return label;
+      }
+
+      // Populate each muscle group container
+      const chestContainer = document.getElementById('chestMuscles');
+      const backContainer = document.getElementById('backMuscles');
+      const armsContainer = document.getElementById('armsMuscles');
+      const lowerContainer = document.getElementById('lowerMuscles');
+      const absContainer = document.getElementById('absMuscles');
+
+      allMuscles.forEach(muscle => {
+        let label;
+        if (muscleGroups.chest.includes(muscle)) {
+          label = createMuscleLabel(muscle);
+          chestContainer.appendChild(label);
+        } else if (muscleGroups.back.includes(muscle)) {
+          label = createMuscleLabel(muscle);
+          backContainer.appendChild(label);
+        } else if (muscleGroups.arms.includes(muscle)) {
+          label = createMuscleLabel(muscle);
+          armsContainer.appendChild(label);
+        } else if (muscleGroups.lower.includes(muscle)) {
+          label = createMuscleLabel(muscle);
+          lowerContainer.appendChild(label);
+        } else if (muscleGroups.abs.includes(muscle)) {
+          label = createMuscleLabel(muscle);
+          absContainer.appendChild(label);
+        }
+      });
+
+      // Main Accordion functionality
+      const accordions = [
+        { btn: 'upperAccordion', content: 'upperContent', icon: 'upperIcon' },
+        { btn: 'lowerAccordion', content: 'lowerContent', icon: 'lowerIcon' },
+        { btn: 'absAccordion', content: 'absContent', icon: 'absIcon' }
+      ];
+
+      // Nested Sub-Accordions
+      const subAccordions = [
+        { btn: 'chestAccordion', content: 'chestContent', icon: 'chestIcon' },
+        { btn: 'backAccordion', content: 'backContent', icon: 'backIcon' },
+        { btn: 'armsAccordion', content: 'armsContent', icon: 'armsIcon' }
+      ];
+
+      // Setup all accordions
+      [...accordions, ...subAccordions].forEach(acc => {
+        const btn = document.getElementById(acc.btn);
+        const content = document.getElementById(acc.content);
+        const icon = document.getElementById(acc.icon);
+
+        if (btn && content && icon) {
+          btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const isHidden = content.classList.contains('hidden');
+            
+            if (isHidden) {
+              content.classList.remove('hidden');
+              icon.style.transform = 'rotate(180deg)';
+            } else {
+              content.classList.add('hidden');
+              icon.style.transform = 'rotate(0deg)';
+            }
+          });
+        }
+      });
+
+      // Muscle checkbox functionality
+      document.addEventListener('click', function(e) {
+        const label = e.target.closest('.muscle-checkbox-label');
+        if (label) {
+          const checkbox = label.querySelector('input[type="checkbox"]');
+          if (checkbox && e.target !== checkbox) {
+            e.preventDefault();
+            checkbox.checked = !checkbox.checked;
+            
+            if (checkbox.checked) {
+              label.classList.add('checked');
+            } else {
+              label.classList.remove('checked');
+            }
+          }
+        }
+      });
+
+      // Select All / Deselect All
       const selectAllBtn = document.getElementById('selectAllBtn');
-      const checkboxes = document.querySelectorAll('input[name="muscles"]');
-      const labels = document.querySelectorAll('#muscleContainer label');
-
-      // Toggle individual muscle
-      labels.forEach((label, index) => {
-        label.addEventListener('click', function(e) {
+      if (selectAllBtn) {
+        selectAllBtn.addEventListener('click', function(e) {
           e.preventDefault();
-          const checkbox = checkboxes[index];
-          checkbox.checked = !checkbox.checked;
+          const allCheckboxes = document.querySelectorAll('input[name="muscles"]');
+          const allLabels = document.querySelectorAll('.muscle-checkbox-label');
+          const allChecked = Array.from(allCheckboxes).every(cb => cb.checked);
           
-          if (checkbox.checked) {
-            label.classList.add('checked');
-          } else {
-            label.classList.remove('checked');
-          }
+          allCheckboxes.forEach((cb, index) => {
+            cb.checked = !allChecked;
+            if (cb.checked) {
+              allLabels[index].classList.add('checked');
+            } else {
+              allLabels[index].classList.remove('checked');
+            }
+          });
+          
+          selectAllBtn.textContent = allChecked ? 'Select All Muscles' : 'Deselect All Muscles';
         });
-      });
-
-      // Select/Deselect all
-      selectAllBtn.addEventListener('click', function() {
-        const allChecked = Array.from(checkboxes).every(cb => cb.checked);
-        
-        checkboxes.forEach((cb, index) => {
-          cb.checked = !allChecked;
-          if (cb.checked) {
-            labels[index].classList.add('checked');
-          } else {
-            labels[index].classList.remove('checked');
-          }
-        });
-        
-        selectAllBtn.textContent = allChecked ? 'Select All' : 'Deselect All';
-      });
+      }
     });
   </script>
+
+  <!-- AI Chat Widget -->
+<div id="aiChatWidget" class="ai-chat-widget">
+  <button id="aiChatToggle" class="ai-chat-toggle">
+    <span class="material-symbols-outlined">smart_toy</span>
+  </button>
+  
+  <div id="aiChatBox" class="ai-chat-box" style="display: none;">
+    <div class="ai-chat-header">
+      <h3>
+        <span class="material-symbols-outlined">fitness_center</span>
+        Fitness AI Assistant
+      </h3>
+      <button id="aiChatClose" class="ai-chat-close">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    
+    <div id="aiChatMessages" class="ai-chat-messages">
+      <div class="ai-message">
+        <div class="ai-message-content">
+          <strong>AI Assistant:</strong> Hi! I'm your fitness AI assistant. Ask me about exercises, form tips, nutrition advice, or workout planning!
+        </div>
+      </div>
+    </div>
+    
+    <div class="ai-chat-input-container">
+      <textarea 
+        id="aiChatInput" 
+        class="ai-chat-input" 
+        placeholder="Ask about exercises, diet, form tips..."
+        rows="2"
+      ></textarea>
+      <button id="aiChatSend" class="ai-chat-send">
+        <span class="material-symbols-outlined">send</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+/* AI Chat Widget Styles */
+.ai-chat-widget {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+}
+
+.ai-chat-toggle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ba0c2f, #d10e35);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 25px rgba(186, 12, 47, 0.4);
+  transition: all 0.4s ease;
+}
+
+.ai-chat-toggle:hover {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, #0032a0, #0055cc);
+  box-shadow: 0 8px 25px rgba(0, 50, 160, 0.5);
+}
+
+.ai-chat-toggle .material-symbols-outlined {
+  font-size: 32px;
+}
+
+.ai-chat-box {
+  position: fixed;
+  bottom: 100px;
+  right: 30px;
+  width: 400px;
+  height: 600px;
+  background: rgba(20, 20, 20, 0.98);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ai-chat-header {
+  background: linear-gradient(135deg, #ba0c2f, #d10e35);
+  padding: 20px;
+  border-radius: 16px 16px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ai-chat-header h3 {
+  color: white;
+  font-size: 1.2rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+}
+
+.ai-chat-close {
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.ai-chat-close:hover {
+  transform: scale(1.1);
+}
+
+.ai-chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.ai-chat-messages::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ai-chat-messages::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.ai-chat-messages::-webkit-scrollbar-thumb {
+  background: rgba(186, 12, 47, 0.5);
+  border-radius: 4px;
+}
+
+.ai-chat-messages::-webkit-scrollbar-thumb:hover {
+  background: rgba(186, 12, 47, 0.7);
+}
+
+.user-message, .ai-message {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.user-message-content {
+  background: linear-gradient(135deg, #ba0c2f, #d10e35);
+  color: white;
+  padding: 12px 16px;
+  border-radius: 16px 16px 4px 16px;
+  align-self: flex-end;
+  max-width: 80%;
+  word-wrap: break-word;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.ai-message-content {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  padding: 12px 16px;
+  border-radius: 16px 16px 16px 4px;
+  align-self: flex-start;
+  max-width: 80%;
+  word-wrap: break-word;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.ai-message-content strong {
+  color: #d10e35;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.loading-indicator {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  padding: 12px 16px;
+  border-radius: 16px 16px 16px 4px;
+  align-self: flex-start;
+  max-width: 80%;
+}
+
+.loading-dots {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.loading-dots span {
+  width: 8px;
+  height: 8px;
+  background: #d10e35;
+  border-radius: 50%;
+  animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.loading-dots span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.loading-dots span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+.ai-chat-input-container {
+  display: flex;
+  gap: 10px;
+  padding: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 0 0 16px 16px;
+}
+
+.ai-chat-input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 12px;
+  color: white;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.95rem;
+  resize: none;
+  transition: all 0.3s ease;
+}
+
+.ai-chat-input:focus {
+  outline: none;
+  border-color: #ba0c2f;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.ai-chat-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.ai-chat-send {
+  background: linear-gradient(135deg, #ba0c2f, #d10e35);
+  border: none;
+  border-radius: 8px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.ai-chat-send:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #0032a0, #0055cc);
+  box-shadow: 0 4px 15px rgba(0, 50, 160, 0.4);
+}
+
+.ai-chat-send:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .ai-chat-widget {
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .ai-chat-box {
+    width: calc(100vw - 40px);
+    height: calc(100vh - 140px);
+    right: 20px;
+    bottom: 90px;
+  }
+
+  .ai-chat-toggle {
+    width: 55px;
+    height: 55px;
+  }
+
+  .ai-chat-toggle .material-symbols-outlined {
+    font-size: 28px;
+  }
+}
+</style>
+
+<script>
+// AI Chat Widget JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+  const chatToggle = document.getElementById('aiChatToggle');
+  const chatBox = document.getElementById('aiChatBox');
+  const chatClose = document.getElementById('aiChatClose');
+  const chatInput = document.getElementById('aiChatInput');
+  const chatSend = document.getElementById('aiChatSend');
+  const chatMessages = document.getElementById('aiChatMessages');
+
+  // Toggle chat box
+  chatToggle.addEventListener('click', function() {
+    if (chatBox.style.display === 'none') {
+      chatBox.style.display = 'flex';
+      chatToggle.style.display = 'none';
+    }
+  });
+
+  // Close chat box
+  chatClose.addEventListener('click', function() {
+    chatBox.style.display = 'none';
+    chatToggle.style.display = 'flex';
+  });
+
+  // Send message
+  async function sendMessage() {
+    const message = chatInput.value.trim();
+    if (!message) return;
+
+    // Add user message
+    addMessage(message, 'user');
+    chatInput.value = '';
+
+    // Show loading indicator
+    const loadingDiv = document.createElement('div');
+    loadingDiv.className = 'ai-message';
+    loadingDiv.innerHTML = `
+      <div class="loading-indicator">
+        <div class="loading-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    `;
+    chatMessages.appendChild(loadingDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    // Disable send button
+    chatSend.disabled = true;
+
+    try {
+      // Get CSRF token
+      const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+      // Send to backend
+      const response = await fetch('/workouts/ai-chat/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrftoken
+        },
+        body: JSON.stringify({ message: message })
+      });
+
+      const data = await response.json();
+
+      // Remove loading indicator
+      chatMessages.removeChild(loadingDiv);
+
+      if (data.response) {
+        addMessage(data.response, 'ai');
+      } else {
+        addMessage('Sorry, I encountered an error. Please try again.', 'ai');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      chatMessages.removeChild(loadingDiv);
+      addMessage('Sorry, I could not connect to the AI service.', 'ai');
+    } finally {
+      chatSend.disabled = false;
+    }
+  }
+
+  // Add message to chat
+  function addMessage(text, sender) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = sender === 'user' ? 'user-message' : 'ai-message';
+    
+    const contentDiv = document.createElement('div');
+    contentDiv.className = sender === 'user' ? 'user-message-content' : 'ai-message-content';
+    
+    if (sender === 'ai') {
+      contentDiv.innerHTML = `<strong>AI Assistant:</strong> ${text}`;
+    } else {
+      contentDiv.textContent = text;
+    }
+    
+    messageDiv.appendChild(contentDiv);
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  // Event listeners
+  chatSend.addEventListener('click', sendMessage);
+  
+  chatInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+});
+</script>
+
 </body>
 </html>

@@ -1,24 +1,60 @@
-from django.shortcuts import render
 import random
 from collections import defaultdict
-from django.db.models import Q, Count
-from .models import Exercise, MuscleGroup, Goal, Equipment, MuscleGroupCategory
+
+from django.db.models import Count, Q
+
+from .models import Equipment, Exercise, Goal, MuscleGroup, MuscleGroupCategory
+from .signals import workout_generated
+
+import json
+import requests
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
+
+from django.shortcuts import render
 
 # Create your views here.
 
 
 def workout_generator_page(request):
-    categories = MuscleGroupCategory.objects.all()
 
+    categories = MuscleGroupCategory.objects.all()
     goals = Goal.objects.all()
     equipment = Equipment.objects.all()
     muscles = MuscleGroup.objects.all()
 
-    context = {"categories": categories, "goals": goals, "equipment": equipment, "muscles": muscles}
+    # Group muscles by category
+    chest = ['Chest', 'Upper Chest', 'Lower Chest'],
+    back = ['Upper Back', 'Lats', 'Lower Back', 'Traps'],
+    arms = ['Front Deltoids', 'Side Deltoids', 'Rear Deltoids', 'Biceps', 'Triceps', 'Forearms'],
+    lower = ['Quadriceps', 'Hamstrings', 'Glutes', 'Calves', 'Hip Flexors', 'Adductors', 'Abductors'],
+    abs = ['Abs', 'Obliques']
+
+    chest = muscles.filter(name__in=chest)
+    back = muscles.filter(name__in=back)
+    arms = muscles.filter(name__in=arms)
+    lower_muscles = muscles.filter(name__in=lower)
+    core_muscles = muscles.filter(name__in=abs)
+
+    context = {
+        "categories": categories,
+        "goals": goals,
+        "equipment": equipment,
+        "muscles": muscles,
+        "chest": chest,
+        "back": back,
+        "arms": arms,
+        "lower_muscles": lower_muscles,
+        "core_muscles": core_muscles
+    }
+
     return render(request, "workouts/workout_generator_page.html", context)
 
 def workout_generator(request):
     if request.method == "POST":
+        if request.user.is_authenticated:
+            workout_generated.send(sender=None, user=request.user)
         selected_category = request.POST.get("category")
         try:
             category = MuscleGroupCategory.objects.get(name__iexact=selected_category)
@@ -42,11 +78,19 @@ def workout_generator(request):
 
 def advanced_workout_generator(request):
     if request.method == "POST":
+        if request.user.is_authenticated:
+            workout_generated.send(sender=None, user=request.user)
         selected_muscles = request.POST.getlist("muscles")
         selected_difficulty = request.POST.get("difficulty")
         selected_goal = request.POST.get("goal")
         selected_equipment = request.POST.get("equipment")
         selected_length = request.POST.get("length")
+
+        print("Selected muscles:", selected_muscles)
+        print("Selected difficulty:", selected_difficulty)
+        print("Selected goal:", selected_goal)
+        print("Selected equipment:", selected_equipment)
+        print("Selected length:", selected_length)
 
         # Enhanced workout size scaling
         length_map = {
@@ -63,7 +107,7 @@ def advanced_workout_generator(request):
             "endurance": {"sets": 2, "reps": "15-20", "rest": "30-60 sec"},
         }
         params = goal_parameters.get(selected_goal, 
-                                     {"sets": 3, "reps": "10-12", "rest": "1-2 min"})
+            {"sets": 3, "reps": "10-12", "rest": "1-2 min"})
 
         # Get previously used exercises from session to avoid repetition
         session_history = request.session.get('workout_history', [])
@@ -81,11 +125,13 @@ def advanced_workout_generator(request):
 
             # Apply filters
             if selected_difficulty:
-                exercises = exercises.filter(difficulty=selected_difficulty)
-            if selected_goal:
-                exercises = exercises.filter(goals__name=selected_goal)
-            if selected_equipment:
-                exercises = exercises.filter(equipment__name=selected_equipment)
+                exercises = exercises.filter(difficulty__iexact=selected_difficulty)
+
+            if selected_goal.lower() not in ['general fitness', 'any']:
+                exercises = exercises.filter(goals__name__iexact=selected_goal)
+
+            if selected_equipment.lower() != 'all equipment':
+                exercises = exercises.filter(equipment__name__iexact=selected_equipment)
 
             # Score each exercise
             for exercise in exercises:
@@ -266,3 +312,75 @@ def estimate_workout_duration(exercises, params):
     total_minutes = int(len(exercises) * time_per_exercise)
     
     return f"{total_minutes} minutes"
+
+@require_http_methods(["POST"])
+def ai_chat(request):
+    """
+    Handle AI chat requests using Ollama's Phi-3 model
+    """
+    try:
+        # Parse request body
+        data = json.loads(request.body)
+        user_message = data.get('message', '')
+        
+        if not user_message:
+            return JsonResponse({'error': 'No message provided'}, status=400)
+        
+        # Create fitness-focused system prompt
+        system_prompt = """You are a knowledgeable fitness and nutrition AI assistant for MocFit+, 
+a workout generator app. You help users with:
+- Exercise form and technique tips
+- Workout programming advice
+- Nutrition and diet guidance
+- Recovery and injury prevention
+- Fitness goal setting and motivation
+
+Keep responses concise, practical, and encouraging. Focus on science-based advice. 
+If asked about medical conditions or injuries, always recommend consulting a healthcare professional."""
+
+        # Prepare request to Ollama
+        ollama_url = "http://localhost:11434/api/generate"
+        
+        payload = {
+            # "model": "phi3",  # original
+            "model": "qwen2.5:1.5b",  # CNH: Added during testing of new models
+            "prompt": f"{system_prompt}\n\nUser: {user_message}\n\nAssistant:",
+            "stream": False,
+            "options": {
+                "temperature": 0.7,
+                "top_p": 0.9,
+                "max_tokens": 500
+            }
+        }
+        
+        # Send request to Ollama
+        response = requests.post(ollama_url, json=payload, timeout=30)
+        response.raise_for_status()
+        
+        # Parse response
+        ai_response = response.json().get('response', '').strip()
+        
+        # Return AI response
+        return JsonResponse({
+            'response': ai_response,
+            'success': True
+        })
+        
+    except requests.exceptions.ConnectionError:
+        return JsonResponse({
+            'error': 'Could not connect to AI service. Make sure Ollama is running.',
+            'success': False
+        }, status=503)
+        
+    except requests.exceptions.Timeout:
+        return JsonResponse({
+            'error': 'AI service took too long to respond. Please try again.',
+            'success': False
+        }, status=504)
+        
+    except Exception as e:
+        print(f"AI Chat Error: {str(e)}")
+        return JsonResponse({
+            'error': 'An unexpected error occurred. Please try again.',
+            'success': False
+        }, status=500)
