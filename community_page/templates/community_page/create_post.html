@@ -2,31 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=exercisegroup_addshow_charttrophyfinance_modemovingelevationchecksmallhomeweightsports_gymnasticsapartmentheart_arrowsprintaccessibilityself_improvementphysical_therapyfitness_centerarrow_drop_downimage,send,cancel" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
     {% load static %}
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
     <link rel="stylesheet" href="{% static '/home/style.css' %}">
     <link rel="stylesheet" href="{% static '/community/community.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Post - MocFit+</title>
 </head>
 <body>
-
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo">MocFit+</a>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/workouts/">Workouts</a></li>
-                <li><a href="/community/">Community</a></li>
-                <li><a href="/accounts/">Login</a></li>
-            </ul>
-        </div>
-    </nav>
+    <!-- Use shared navbar -->
+    {% include 'includes/navbar.html' %}
 
     <section class="create-post-hero">
         <div class="hero-content">
@@ -40,38 +26,74 @@
         <div class="create-post-container">
             <div class="post-form-card">
                 <h2>Create a New Post</h2>
-                <form method="post" enctype="multipart/form-data">
+                
+                {% if form.errors %}
+                <div class="form-errors">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <p class="error-message"><i class="material-symbols-outlined">error</i> {{ error }}</p>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <p class="error-message"><i class="material-symbols-outlined">error</i> {{ error }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <form method="post" enctype="multipart/form-data" id="postForm">
                     {% csrf_token %}
                     
                     <div class="form-group">
                         <label for="{{ form.content.id_for_label }}">
-                            <i class="material-symbols-outlined"></i>
+                            <i class="material-symbols-outlined">edit_note</i>
                             What's on your mind?
                         </label>
                         {{ form.content }}
-                        {% if form.content.help_text %}
-                            <span class="helptext">{{ form.content.help_text }}</span>
-                        {% endif %}
                     </div>
 
                     <div class="form-group">
-                        <label for="{{ form.image.id_for_label }}">
-                            <i class="material-symbols-outlined">Image</i>
-                            Add an Image (Optional)
+                        <label>
+                            <i class="material-symbols-outlined">image</i>
+                            Add an Image
                         </label>
-                        {{ form.image }}
-                        {% if form.image.help_text %}
-                            <span class="helptext">{{ form.image.help_text }}</span>
-                        {% endif %}
+                        
+                        <!-- Custom image upload area -->
+                        <div class="image-upload-area" id="uploadArea">
+                            <div class="upload-placeholder" id="uploadPlaceholder">
+                                <i class="material-symbols-outlined">add_photo_alternate</i>
+                                <p>Click to upload or drag and drop</p>
+                                <span class="upload-requirements">JPEG, PNG, or WebP • Max 5MB • Min 320x320px</span>
+                            </div>
+                            
+                            <!-- Image preview -->
+                            <div class="image-preview-container" id="previewContainer" style="display: none;">
+                                <img id="imagePreview" src="" alt="Preview">
+                                <div class="image-info" id="imageInfo"></div>
+                                <button type="button" class="remove-image-btn" id="removeImage">
+                                    <i class="material-symbols-outlined">close</i>
+                                </button>
+                            </div>
+                            
+                            <!-- Hidden file input -->
+                            <input type="file" 
+                                   name="image" 
+                                   id="imageInput" 
+                                   accept="image/jpeg,image/png,image/webp"
+                                   class="hidden-file-input">
+                        </div>
+                        
+                        <!-- Validation message -->
+                        <div class="image-validation-message" id="validationMessage"></div>
                     </div>
 
                     <div class="form-actions">
-                        <button type="submit" class="submit-btn">
-                            <i class="material-symbols-outlined"></i>
+                        <button type="submit" class="submit-btn" id="submitBtn">
+                            <i class="material-symbols-outlined">send</i>
                             Share Post
                         </button>
                         <a href="{% url 'community_home' %}" class="cancel-btn">
-                            <i class="material-symbols-outlined">Cancel</i>
+                            <i class="material-symbols-outlined">arrow_back</i>
+                            Back
                         </a>
                     </div>
                 </form>
@@ -82,33 +104,200 @@
     <footer>
         <p>MocFit+ © 2025 | Built for Students by Students</p>
     </footer>
-
+    {% load static %}
+    <script src="{% static 'js/script.js' %}"></script>
     <script>
+    document.addEventListener('DOMContentLoaded', function() {
         // Hamburger menu
         const hamburger = document.querySelector('.hamburger');
         const navLinks = document.querySelector('.nav-links');
 
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
-
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                navLinks.classList.remove('active');
+        if (hamburger && navLinks) {
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navLinks.classList.toggle('active');
             });
-        });
+
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
 
         // Navbar scroll effect
         window.addEventListener('scroll', () => {
             const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
+            if (navbar) {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
             }
         });
+
+        // Image upload handling
+        const uploadArea = document.getElementById('uploadArea');
+        const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+        const previewContainer = document.getElementById('previewContainer');
+        const imagePreview = document.getElementById('imagePreview');
+        const imageInfo = document.getElementById('imageInfo');
+        const imageInput = document.getElementById('imageInput');
+        const removeImage = document.getElementById('removeImage');
+        const validationMessage = document.getElementById('validationMessage');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Constants for validation
+        const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+        const MIN_DIMENSION = 320;
+        const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+
+        // Click to upload
+        uploadArea.addEventListener('click', (e) => {
+            if (e.target !== removeImage && !removeImage.contains(e.target)) {
+                imageInput.click();
+            }
+        });
+
+        // Drag and drop
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        // File input change
+        imageInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        // Remove image
+        removeImage.addEventListener('click', (e) => {
+            e.stopPropagation();
+            clearImage();
+        });
+
+        function handleFile(file) {
+            // Clear previous validation messages
+            validationMessage.innerHTML = '';
+            validationMessage.className = 'image-validation-message';
+
+            // Check file type
+            if (!ALLOWED_TYPES.includes(file.type)) {
+                showError('Please upload a JPEG, PNG, or WebP image.');
+                clearImage();
+                return;
+            }
+
+            // Check file size
+            if (file.size > MAX_FILE_SIZE) {
+                const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
+                showError(`File too large (${sizeMB}MB). Maximum size is 5MB.`);
+                clearImage();
+                return;
+            }
+
+            // Create image to check dimensions
+            const img = new Image();
+            const objectUrl = URL.createObjectURL(file);
+
+            img.onload = function() {
+                URL.revokeObjectURL(objectUrl);
+
+                // Check minimum dimensions
+                if (img.width < MIN_DIMENSION || img.height < MIN_DIMENSION) {
+                    showError(`Image too small (${img.width}x${img.height}). Minimum size is ${MIN_DIMENSION}x${MIN_DIMENSION}px.`);
+                    clearImage();
+                    return;
+                }
+
+                // Valid image - show preview
+                showPreview(file, img.width, img.height);
+            };
+
+            img.onerror = function() {
+                URL.revokeObjectURL(objectUrl);
+                showError('Could not load image. Please try another file.');
+                clearImage();
+            };
+
+            img.src = objectUrl;
+        }
+
+        function showPreview(file, width, height) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                imagePreview.src = e.target.result;
+                
+                // Calculate aspect ratio
+                const aspectRatio = (width / height).toFixed(2);
+                let aspectLabel = '';
+                if (Math.abs(aspectRatio - 1) < 0.1) aspectLabel = 'Square';
+                else if (aspectRatio > 1) aspectLabel = 'Landscape';
+                else aspectLabel = 'Portrait';
+                
+                const fileSizeKB = (file.size / 1024).toFixed(0);
+                const fileSizeMB = (file.size / (1024 * 1024)).toFixed(1);
+                const sizeDisplay = file.size > 1024 * 1024 ? `${fileSizeMB}MB` : `${fileSizeKB}KB`;
+                
+                imageInfo.innerHTML = `
+                    <span><i class="material-symbols-outlined">straighten</i> ${width} × ${height}px</span>
+                    <span><i class="material-symbols-outlined">aspect_ratio</i> ${aspectLabel}</span>
+                    <span><i class="material-symbols-outlined">storage</i> ${sizeDisplay}</span>
+                `;
+                
+                uploadPlaceholder.style.display = 'none';
+                previewContainer.style.display = 'block';
+                
+                showSuccess('Image ready to upload!');
+                
+                // Set the file to the input
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                imageInput.files = dataTransfer.files;
+            };
+            
+            reader.readAsDataURL(file);
+        }
+
+        function clearImage() {
+            imageInput.value = '';
+            imagePreview.src = '';
+            imageInfo.innerHTML = '';
+            uploadPlaceholder.style.display = 'flex';
+            previewContainer.style.display = 'none';
+        }
+
+        function showError(message) {
+            validationMessage.innerHTML = `<i class="material-symbols-outlined">error</i> ${message}`;
+            validationMessage.className = 'image-validation-message error';
+        }
+
+        function showSuccess(message) {
+            validationMessage.innerHTML = `<i class="material-symbols-outlined">check_circle</i> ${message}`;
+            validationMessage.className = 'image-validation-message success';
+        }
+
+    }); // End DOMContentLoaded
     </script>
 </body>
 </html>
