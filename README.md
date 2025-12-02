@@ -28,21 +28,27 @@ add images here
 # Installation
 ## 1. Clone the Repository
 ```
-git clone https://github.com/abigail-thomas/mocfit.git
-cd mocfit
+    git clone https://github.com/abigail-thomas/mocfit.git
+    cd mocfit
 ```
 ## 2. Set Up Virtual Environment
 ```
-python -m venv venv
-source venv/bin/activate   # Linux/Mac
-venv\Scripts\activate      # Windows
+    python -m venv venv
+    source venv/bin/activate   # Linux/Mac
+    venv\Scripts\activate      # Windows
 ```
 ## 3. Install Python Dependencies
-`pip install -r requirements.txt
+```
+    pip install -r requirements.txt
+```
 ## 4. Run Migrations
-`python manage.py migrate
+```
+    python manage.py migrate
+    ```
 ## 5. Start Development Server
-`python manage.py runserver
+```
+    python manage.py runserver
+```
 
 
 # Configurations
