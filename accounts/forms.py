@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 from django.forms.widgets import PasswordInput, TextInput
-from .models import Profile
+from .models import Profile, WeightEntry
 
 # - Create/Register user (Model Form)
 
@@ -37,4 +37,8 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['height', 'weight', 'birth_date']
-	
+        
+class WeightEntryForm(forms.ModelForm):
+    class Meta:
+        model = WeightEntry
+        fields = ['weight', 'date']

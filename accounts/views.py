@@ -1,12 +1,14 @@
 # - Athentication models and functions
 # from django.contrib.auth.models import auth
+import json
 from django.contrib import auth, messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.shortcuts import redirect, render
+from django.core.serializers.json import DjangoJSONEncoder
 
-from .forms import CreateUserForm, LoginForm, ProfileForm
+from .forms import CreateUserForm, LoginForm, ProfileForm, WeightEntryForm
 
 
 def homepage(request):
@@ -87,13 +89,44 @@ def user_logout(request):
 @login_required(login_url="my_login")
 def update_profile(request):
     profile = request.user.profile
-    if request.method == 'POST':
-        form = ProfileForm(request.POST, instance=profile)
-        if form.is_valid():
-            form.save()
-            return redirect('dashboard')
-    else:
-        form = ProfileForm(instance=profile)
 
-    return render(request, 'accounts/update_profile.html', {'form': form})
-	
+    # always load user's weight history to display later
+    weight_history = profile.weights.all()
+
+    if request.method == 'POST':
+
+        # Detect which form was submitted
+        if 'save_profile' in request.POST:
+            profile_form = ProfileForm(request.POST, instance=profile)
+            weight_form = WeightEntryForm()  # empty form, not submitted this round
+
+            if profile_form.is_valid():
+                profile_form.save()
+                return redirect('update_profile')
+
+        elif 'add_weight' in request.POST:
+            weight_form = WeightEntryForm(request.POST)
+            profile_form = ProfileForm(instance=profile)  # not submitted this round
+
+            if weight_form.is_valid():
+                entry = weight_form.save(commit=False)
+                entry.profile = profile
+                entry.save()
+                return redirect('update_profile')
+
+    else:
+        # Initial forms on first view load
+        profile_form = ProfileForm(instance=profile)
+        weight_form = WeightEntryForm()
+        
+        weight_history_data = {
+        "dates": [entry.date.strftime("%Y-%m-%d") for entry in weight_history[::-1]],
+        "weights": [entry.weight for entry in weight_history[::-1]],
+        }
+
+    return render(request, 'accounts/update_profile.html', {
+        'form': profile_form,
+        'weight_form': weight_form,
+        'weight_history': weight_history,
+        'weight_history_json': json.dumps(weight_history_data, cls=DjangoJSONEncoder)
+    })
