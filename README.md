@@ -44,7 +44,7 @@ add images here
 ## 4. Run Migrations
 ```
     python manage.py migrate
-    ```
+```
 ## 5. Start Development Server
 ```
     python manage.py runserver
