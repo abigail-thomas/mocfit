@@ -5,11 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Community - MocFit+</title>
 
-<!-- Tailwind & Material Icons -->
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
 
-<!-- Bootstrap + Icons -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
@@ -26,140 +24,150 @@
 
 {% include 'includes/navbar.html' %}
 
-<!-- Hero Section -->
-<section class="relative text-center py-28 px-6">
+<div id="mainContent">
+
+<section class="relative text-center pt-28 pb-10 px-6">
   <div class="max-w-3xl mx-auto">
     <h1 class="text-5xl md:text-6xl font-extrabold uppercase mb-4">Community Feed</h1>
     <p class="text-gray-400 text-lg md:text-xl mb-8">
       Connect with Fellow FSC Fitness Enthusiasts
     </p>
+    
     {% if user.is_authenticated %}
       <a href="{% url 'create_post' %}" 
          class="inline-block px-8 py-4 bg-gradient-to-br from-[#ba0c2f] to-[#d10e35] rounded-lg font-bold shadow-lg hover:scale-105 hover:from-[#a00b2a] hover:to-[#80071c] transition-transform duration-300">
          + Create Post
       </a>
-    {% else %}
-      <p class="text-gray-400">
-        Please <a href="/accounts/" class="text-[#d10e35] underline">login</a> to create posts and join the conversation
-      </p>
     {% endif %}
   </div>
 </section>
 
-<!-- Posts Section -->
-<section class="py-16 px-4 md:px-6 flex justify-center">
+<section class="pb-16 px-4 md:px-6 flex justify-center">
   <div class="w-full max-w-xl space-y-6">
+
+    {% if not user.is_authenticated %}
+    <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 text-center shadow-xl">
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/10 mb-6">
+            <i class="material-symbols-outlined text-4xl text-[#ba0c2f]">lock</i>
+        </div>
+        
+        <h2 class="text-2xl font-bold uppercase mb-3">Members Only Content</h2>
+        <p class="text-gray-300 mb-8 max-w-md mx-auto">
+            Join the MocFit+ community to view posts, like, comment, and share your fitness journey with other students!
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="/accounts/" 
+               class="px-8 py-3 bg-[#ba0c2f] hover:bg-[#d10e35] rounded-lg font-bold transition-colors shadow-lg text-white no-underline">
+               Log In
+            </a>
+            <a href="/accounts/signup/" 
+               class="px-8 py-3 bg-transparent border border-white/30 hover:bg-white/10 rounded-lg font-bold transition-colors text-white no-underline">
+               Sign Up
+            </a>
+        </div>
+    </div>
+
+    {% else %}
     {% for post in posts %}
-    <div class="post-card bg-white/5 backdrop-blur-md rounded-2xl shadow-md overflow-hidden hover:scale-[1.01] transition-transform duration-200">
-      
-      <!-- Post Header -->
-      <div class="flex justify-between items-center px-4 py-3 border-b border-white/10">
-        <div class="flex items-center gap-3">
-          <i class="material-symbols-outlined text-red-600 text-3xl">account_circle</i>
-          <h3 class="font-semibold text-lg">{{ post.author.username }}</h3>
-        </div>
-        <p class="text-gray-400 text-sm">{{ post.created_at|date:"M j, Y" }}</p>
-      </div>
-
-      <!-- Post Content -->
-      <div class="px-4 py-3 text-gray-300">
+      <div class="post-card bg-white/5 backdrop-blur-md rounded-2xl shadow-md overflow-hidden hover:scale-[1.01] transition-transform duration-200">
         
-        {% if post.image %}
-        <div class="flex justify-center items-center mb-3">
-          <img src="{{ post.image.url }}" alt="Post image"
-               class="w-full h-96 object-cover rounded-xl shadow-sm" loading="lazy">
-        </div>
-        {% endif %}
-
-        {% if post.content %}
-          <p class="break-words text-sm md:text-base">
-            <span class="font-bold text-white mr-2">{{ post.author.username }}</span>
-            {{ post.content }}
-          </p>
-        {% endif %}
-        
-      </div>
-
-      <!-- Post Actions -->
-      <div class="flex items-center gap-4 px-4 py-2 border-t border-white/10">
-        {% if user.is_authenticated %}
-        <form action="{% url 'like_post' post.id %}" method="post" class="flex items-center gap-2 like-form" data-post-id="{{ post.id }}">
-          {% csrf_token %}
-          <button type="button" class="flex items-center gap-1 like-btn {% if user in post.likes.all %}liked{% endif %}">
-            <i class="bi bi-heart text-red-600 text-xl"></i>
-            <span class="like-count">{{ post.total_likes }}</span>
-          </button>
-        </form>
-        {% else %}
-        <div class="flex items-center gap-1">
-          <i class="bi bi-heart text-red-600"></i>
-          <span>{{ post.total_likes }}</span>
-        </div>
-        {% endif %}
-
-        {% if user == post.author %}
-        <form action="{% url 'delete_post' post.id %}" method="post" class="delete-form ml-auto" data-post-id="{{ post.id }}">
-          {% csrf_token %}
-          <button type="button" class="flex items-center gap-1 delete-btn text-gray-400 hover:text-red-600 transition-colors">
-            <i class="material-symbols-outlined">delete</i> Delete
-          </button>
-        </form>
-        {% endif %}
-      </div>
-
-      <!-- Comments Section -->
-      <div class="comments-section px-4 py-2 border-t border-white/10">
-        <h4 class="text-gray-200 font-semibold mb-2">Comments</h4>
-        <div class="comments-list space-y-2">
-          {% for comment in post.comments.all %}
-          <div class="comment flex justify-between items-start bg-white/10 rounded-xl p-2">
-            <div>
-              <strong class="text-red-500">{{ comment.author.username }}</strong>
-              <span class="text-gray-500 text-xs ml-2">{{ comment.created_at|date:"m/d/Y" }}</span>
-              <p class="text-gray-300 text-sm">{{ comment.content }}</p>
-            </div>
-            {% if user == comment.author %}
-            <form action="{% url 'delete_comment' comment.id %}" method="post" class="delete-comment-form" data-comment-id="{{ comment.id }}">
-              {% csrf_token %}
-              <button type="button" class="delete-comment-btn text-gray-400 hover:text-red-600 transition-colors">
-                <i class="material-symbols-outlined text-lg">delete</i>
-              </button>
-            </form>
-            {% endif %}
+        <div class="flex justify-between items-center px-4 py-3 border-b border-white/10">
+          <div class="flex items-center gap-3">
+            <i class="material-symbols-outlined text-red-600 text-3xl">account_circle</i>
+            <h3 class="font-semibold text-lg">{{ post.author.username }}</h3>
           </div>
-          {% empty %}
-          <p class="no-comments text-gray-500 italic text-sm">No comments yet. Be the first to comment!</p>
-          {% endfor %}
+          <p class="text-gray-400 text-sm">{{ post.created_at|date:"M j, Y" }}</p>
         </div>
 
-        {% if user.is_authenticated %}
-        <form action="{% url 'add_comment' post.id %}" method="post" class="comment-form mt-3 flex flex-col md:flex-row gap-2" data-post-id="{{ post.id }}">
-          {% csrf_token %}
-          {{ comment_form.content }}
-          <button type="button" class="comment-submit-btn px-4 py-2 bg-[#d10e35] rounded-lg font-semibold hover:bg-[#ba0c2f] transition-colors w-full md:w-auto">
-            Comment
-          </button>
-        </form>
-        {% endif %}
-      </div>
+        <div class="px-4 py-3 text-gray-300">
+          
+          {% if post.image %}
+          <div class="flex justify-center items-center mb-3">
+            <img src="{{ post.image.url }}" alt="Post image"
+                 class="w-full h-96 object-cover rounded-xl shadow-sm" loading="lazy">
+          </div>
+          {% endif %}
 
-    </div>
-    {% empty %}
-    <div class="text-center text-gray-400 py-16">
-      <i class="material-symbols-outlined text-5xl mb-4">forum</i>
-      <h2 class="text-2xl font-bold mb-2">No posts yet</h2>
-      <p>Be the first to share something with the community!</p>
-    </div>
-    {% endfor %}
-  </div>
+          {% if post.content %}
+            <p class="break-words text-sm md:text-base">
+              <span class="font-bold text-white mr-2">{{ post.author.username }}</span>
+              {{ post.content }}
+            </p>
+          {% endif %}
+          
+        </div>
+
+        <div class="flex items-center gap-4 px-4 py-2 border-t border-white/10">
+          <form action="{% url 'like_post' post.id %}" method="post" class="flex items-center gap-2 like-form" data-post-id="{{ post.id }}">
+            {% csrf_token %}
+            <button type="button" class="flex items-center gap-1 like-btn {% if user in post.likes.all %}liked{% endif %}">
+              <i class="bi bi-heart text-red-600 text-xl"></i>
+              <span class="like-count">{{ post.total_likes }}</span>
+            </button>
+          </form>
+
+          {% if user == post.author %}
+          <form action="{% url 'delete_post' post.id %}" method="post" class="delete-form ml-auto" data-post-id="{{ post.id }}">
+            {% csrf_token %}
+            <button type="button" class="flex items-center gap-1 delete-btn text-gray-400 hover:text-red-600 transition-colors">
+              <i class="material-symbols-outlined">delete</i> Delete
+            </button>
+          </form>
+          {% endif %}
+        </div>
+
+        <div class="comments-section px-4 py-2 border-t border-white/10">
+          <h4 class="text-gray-200 font-semibold mb-2">Comments</h4>
+          <div class="comments-list space-y-2">
+            {% for comment in post.comments.all %}
+            <div class="comment flex justify-between items-start bg-white/10 rounded-xl p-2">
+              <div>
+                <strong class="text-red-500">{{ comment.author.username }}</strong>
+                <span class="text-gray-500 text-xs ml-2">{{ comment.created_at|date:"m/d/Y" }}</span>
+                <p class="text-gray-300 text-sm">{{ comment.content }}</p>
+              </div>
+              {% if user == comment.author %}
+              <form action="{% url 'delete_comment' comment.id %}" method="post" class="delete-comment-form" data-comment-id="{{ comment.id }}">
+                {% csrf_token %}
+                <button type="button" class="delete-comment-btn text-gray-400 hover:text-red-600 transition-colors">
+                  <i class="material-symbols-outlined text-lg">delete</i>
+                </button>
+              </form>
+              {% endif %}
+            </div>
+            {% empty %}
+            <p class="no-comments text-gray-500 italic text-sm">No comments yet. Be the first to comment!</p>
+            {% endfor %}
+          </div>
+
+          <form action="{% url 'add_comment' post.id %}" method="post" class="comment-form mt-3 flex flex-col md:flex-row gap-2" data-post-id="{{ post.id }}">
+            {% csrf_token %}
+            {{ comment_form.content }}
+            <button type="button" class="comment-submit-btn px-4 py-2 bg-[#d10e35] rounded-lg font-semibold hover:bg-[#ba0c2f] transition-colors w-full md:w-auto">
+              Comment
+            </button>
+          </form>
+        </div>
+
+      </div>
+      {% empty %}
+      <div class="text-center text-gray-400 py-16">
+        <i class="material-symbols-outlined text-5xl mb-4">forum</i>
+        <h2 class="text-2xl font-bold mb-2">No posts yet</h2>
+        <p>Be the first to share something with the community!</p>
+      </div>
+      {% endfor %}
+    
+    {% endif %} </div>
 </section>
 
-<!-- Footer -->
+</div>
+
 <footer class="py-10 flex justify-center items-center border-t border-white/10">
   <p class="text-gray-400 text-sm font-semibold">MocFit+ © 2025 | Built for Students by Students</p>
 </footer>
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 <script>
@@ -195,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // LIKE BUTTON - allows liking without page reload
+    // LIKE BUTTON
     document.querySelectorAll('.like-btn').forEach(button => {
         button.addEventListener('click', async () => {
             const form = button.closest('.like-form');
@@ -291,7 +299,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // COMMENT BUTTON - post comments without page reload
+    // COMMENT BUTTON
     document.querySelectorAll('.comment-submit-btn').forEach(button => {
         button.addEventListener('click', async () => {
             const form = button.closest('.comment-form');
