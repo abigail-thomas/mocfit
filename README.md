@@ -26,7 +26,9 @@ This project will build a web-based fitness app that generates personalized work
 - SQLite (default local database)
 
 **Ai Model**
-Powered by Phi-3 (MIT Licensed) via Ollama
+- Qwen2.5 1.5B (qwen2.5:1.5b)
+- Run locally using Ollama
+- Model source: https://ollama.com/library/qwen2.5
 
 # Installation
 **1. Clone the Repository**
