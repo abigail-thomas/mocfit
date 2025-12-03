@@ -4,7 +4,6 @@ This project will build a web-based fitness app that generates personalized work
 # Table of Contents
 - [Features](#features)
 - [Tech Stack](#tech-stack)
-- [Screenshots)](#screenshots)
 - [Installation](#installation)
 - [Contributors](#contributors)
 - [License](#license)
@@ -28,10 +27,6 @@ This project will build a web-based fitness app that generates personalized work
 
 **Ai Model**
 Powered by Phi-3 (MIT Licensed) via Ollama
-
-
-# Screenshots
-![App Screenshot](./media/readmeimg.png)
 
 # Installation
 **1. Clone the Repository**
