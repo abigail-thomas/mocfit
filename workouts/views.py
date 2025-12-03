@@ -316,7 +316,7 @@ def estimate_workout_duration(exercises, params):
 @require_http_methods(["POST"])
 def ai_chat(request):
     """
-    Handle AI chat requests using Ollama's Phi-3 model
+    Handle AI chat requests using Ollama
     """
     try:
         # Parse request body
@@ -328,15 +328,15 @@ def ai_chat(request):
         
         # Create fitness-focused system prompt
         system_prompt = """You are a knowledgeable fitness and nutrition AI assistant for MocFit+, 
-a workout generator app. You help users with:
-- Exercise form and technique tips
-- Workout programming advice
-- Nutrition and diet guidance
-- Recovery and injury prevention
-- Fitness goal setting and motivation
+                            a workout generator app. You help users with:
+                                - Exercise form and technique tips
+                                - Workout programming advice
+                                - Nutrition and diet guidance
+                                - Recovery and injury prevention
+                                - Fitness goal setting and motivation
 
-Keep responses concise, practical, and encouraging. Focus on science-based advice. 
-If asked about medical conditions or injuries, always recommend consulting a healthcare professional."""
+                            Keep responses concise, practical, and encouraging. Focus on science-based advice. 
+                            If asked about medical conditions or injuries, always recommend consulting a healthcare professional."""
 
         # Prepare request to Ollama
         ollama_url = "http://localhost:11434/api/generate"
