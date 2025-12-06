@@ -9,15 +9,25 @@ from .models import Comment
 from django.views.decorators.http import require_POST
 
 def index(request):
-    # Order posts by number of likes (descending), then by creation date
-    posts = Post.objects.annotate(
-        like_count=Count('likes')
-    ).order_by('-like_count', '-created_at')
+    # Get sort parameter from URL, default to 'recent'
+    sort_by = request.GET.get('sort', 'recent')
+    
+    # Base queryset with like count annotation
+    posts = Post.objects.annotate(like_count=Count('likes'))
+    
+    # Apply sorting based on parameter
+    if sort_by == 'oldest':
+        posts = posts.order_by('created_at')
+    elif sort_by == 'likes':
+        posts = posts.order_by('-like_count', '-created_at')
+    else:  # 'recent' is default
+        posts = posts.order_by('-created_at')
     
     comment_form = CommentForm()
     return render(request, 'community_page/index.html', {
         'posts': posts,
-        'comment_form': comment_form
+        'comment_form': comment_form,
+        'current_sort': sort_by
     })
 
 @login_required

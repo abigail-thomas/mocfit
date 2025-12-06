@@ -45,6 +45,25 @@
 <section class="pb-16 px-4 md:px-6 flex justify-center">
   <div class="w-full max-w-xl space-y-6">
 
+    {% if user.is_authenticated %}
+    <!-- Sort Dropdown -->
+    <div class="flex justify-end items-center gap-3">
+      <label for="sortSelect" class="text-gray-400 text-sm font-bold uppercase tracking-wider">Sort by</label>
+      <div class="relative group">
+        <select id="sortSelect" 
+                onchange="window.location.href='?sort=' + this.value"
+                class="appearance-none bg-black/20 backdrop-blur-sm border border-white/20 text-white text-sm font-bold uppercase tracking-wider rounded-lg pl-5 pr-12 py-2.5 cursor-pointer hover:bg-white/10 hover:border-white/40 focus:outline-none focus:border-[#ba0c2f] focus:ring-1 focus:ring-[#ba0c2f] transition-all duration-300 font-['Oswald']">
+          <option value="recent" {% if current_sort == 'recent' %}selected{% endif %} class="bg-neutral-900 text-gray-200">Most Recent</option>
+          <option value="oldest" {% if current_sort == 'oldest' %}selected{% endif %} class="bg-neutral-900 text-gray-200">Oldest Posts</option>
+          <option value="likes" {% if current_sort == 'likes' %}selected{% endif %} class="bg-neutral-900 text-gray-200">Most Liked</option>
+        </select>
+        <i class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-[#ba0c2f] pointer-events-none text-xl group-hover:text-white transition-colors duration-300">
+            keyboard_arrow_down
+        </i>
+      </div>
+    </div>
+    {% endif %}
+
     {% if not user.is_authenticated %}
     <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 text-center shadow-xl">
         <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/10 mb-6">
