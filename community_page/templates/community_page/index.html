@@ -48,7 +48,7 @@
     {% if user.is_authenticated %}
     <!-- Sort Dropdown -->
     <div class="flex justify-end items-center gap-3">
-      <label for="sortSelect" class="text-gray-400 text-sm font-bold uppercase tracking-wider">Sort by</label>
+      <label for="sortSelect" class="text-gray-400 text-sm font-bold uppercase tracking-wider">Sort by:</label>
       <div class="relative group">
         <select id="sortSelect" 
                 onchange="window.location.href='?sort=' + this.value"
