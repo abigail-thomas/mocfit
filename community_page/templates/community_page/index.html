@@ -63,7 +63,7 @@
       </div>
     </div>
     {% endif %}
-
+    <!-- if the user is not authenticated, show the login and sign up buttons -->
     {% if not user.is_authenticated %}
     <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 text-center shadow-xl">
         <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/10 mb-6">
@@ -88,20 +88,28 @@
     </div>
 
     {% else %}
+    <!-- if the user is authenticated, show the posts -->
     {% for post in posts %}
       <div class="post-card bg-white/5 backdrop-blur-md rounded-2xl shadow-md overflow-hidden hover:scale-[1.01] transition-transform duration-200">
-        
+        <!-- the post card -->
         <div class="flex justify-between items-center px-4 py-3 border-b border-white/10">
+          <!-- the post author -->
           <div class="flex items-center gap-3">
+            <!-- the post author icon -->
             <i class="material-symbols-outlined text-red-600 text-3xl">account_circle</i>
+            <!-- the post author username -->
             <h3 class="font-semibold text-lg">{{ post.author.username }}</h3>
+            <!-- the post created at -->
           </div>
+          <!-- the post created at -->
           <p class="text-gray-400 text-sm">{{ post.created_at|date:"M j, Y" }}</p>
         </div>
-
+        <!-- the post content -->
         <div class="px-4 py-3 text-gray-300">
           
+          <!-- if the post has an image, show the image -->
           {% if post.image %}
+          <!-- the post image -->
           <div class="flex justify-center items-center mb-3">
             <img src="{{ post.image.url }}" alt="Post image"
                  class="w-full h-96 object-cover rounded-xl shadow-sm" loading="lazy">
@@ -183,226 +191,280 @@
 
 </div>
 
-<footer class="py-10 flex justify-center items-center border-t border-white/10">
+<footer class="py-10 flex justify-center items-center border-t border-white/10 mt-10">
   <p class="text-gray-400 text-sm font-semibold">MocFit+ © 2025 | Built for Students by Students</p>
 </footer>
 
 <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
 
+<div id="confirmation-modal" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+  <div class="bg-neutral-900 border border-white/10 p-8 rounded-2xl max-w-sm w-full shadow-2xl transform scale-95 transition-transform duration-300">
+    <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-900/20 mb-6">
+      <i class="material-symbols-outlined text-4xl text-[#ba0c2f]">delete_forever</i>
+    </div>
+    <h3 class="text-2xl font-bold text-center text-white mb-2 uppercase tracking-wide">Are you sure?</h3>
+    <p class="text-gray-400 text-center mb-8 text-sm font-light">This action cannot be undone.</p>
+    <div class="flex gap-3">
+      <button id="modal-cancel" class="flex-1 py-3 px-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-white font-bold uppercase tracking-wider transition-colors">
+        Cancel
+      </button>
+      <button id="modal-confirm" class="flex-1 py-3 px-4 bg-[#ba0c2f] hover:bg-[#a00b2a] rounded-lg text-white font-bold uppercase tracking-wider shadow-lg transition-colors">
+        Yes, Delete
+      </button>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 <script>
-  // 1. TOAST NOTIFICATION FUNCTION
-  function showToast(message, type = 'success') {
-      const container = document.getElementById('toast-container');
-      const toast = document.createElement('div');
-      
-      // Choose colors: Brand Red for error, Green for success
-      // You can change 'bg-green-600' to your brand color if you prefer
-      const bgClass = type === 'error' ? 'bg-[#ba0c2f]' : 'bg-emerald-600'; 
-      const icon = type === 'error' ? 'error' : 'check_circle';
-      
-      // Toast Styling
-      toast.className = `${bgClass} text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 transform translate-y-10 opacity-0 transition-all duration-300 pointer-events-auto min-w-[300px] border border-white/10 backdrop-blur-md`;
-      
-      toast.innerHTML = `
-          <i class="material-symbols-outlined text-2xl">${icon}</i>
-          <p class="font-bold text-sm m-0 tracking-wide uppercase">${message}</p>
-      `;
-  
-      container.appendChild(toast);
-  
-      // Animate In
-      requestAnimationFrame(() => {
-          toast.classList.remove('translate-y-10', 'opacity-0');
-      });
-  
-      // Remove after 3 seconds
-      setTimeout(() => {
-          toast.classList.add('translate-y-10', 'opacity-0');
-          setTimeout(() => toast.remove(), 300);
-      }, 3000);
-  }
-  
-  document.addEventListener('DOMContentLoaded', function() {
-      
-      // 2. LIKE BUTTON
-      document.querySelectorAll('.like-btn').forEach(button => {
-          button.addEventListener('click', async () => {
-              const form = button.closest('.like-form');
-              if (!form) return;
-              
-              const countSpan = button.querySelector('.like-count');
-              const csrftoken = form.querySelector('[name=csrfmiddlewaretoken]').value;
-  
-              // Toggle the like visually right away (Optimistic UI)
-              const liked = button.classList.toggle('liked');
-              let count = parseInt(countSpan.textContent);
-              countSpan.textContent = liked ? count + 1 : count - 1;
-  
-              try {
-                  await fetch(form.action, {
-                      method: 'POST',
-                      headers: { 'X-CSRFToken': csrftoken },
-                  });
-              } catch (error) {
-                  console.error('Like request failed:', error);
-                  // Revert if it fails
-                  button.classList.toggle('liked');
-                  countSpan.textContent = liked ? count - 1 : count + 1;
-                  showToast('Connection error', 'error');
-              }
-          });
-      });
-  
-      // 3. DELETE POST BUTTON
-      document.querySelectorAll('.delete-btn').forEach(button => {
-          button.addEventListener('click', async () => {
-              const form = button.closest('.delete-form');
-              if (!form) return;
-              const csrftoken = form.querySelector('[name=csrfmiddlewaretoken]').value;
-  
-              if (!confirm('Are you sure you want to delete this post?')) return;
-  
-              try {
-                  const response = await fetch(form.action, {
-                      method: 'POST',
-                      headers: { 'X-CSRFToken': csrftoken },
-                  });
-  
-                  const data = await response.json();
-                  if (data.deleted) {
-                      showToast('Post deleted successfully', 'success'); // Toast Success
-                      const postCard = form.closest('.post-card');
-                      postCard.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                      postCard.style.opacity = '0';
-                      postCard.style.transform = 'scale(0.95)';
-                      setTimeout(() => postCard.remove(), 300);
-                  }
-              } catch (error) {
-                  console.error('Error deleting post:', error);
-                  showToast('Could not delete post', 'error'); // Toast Error
-              }
-          });
-      });
-  
-      // 4. DELETE COMMENT BUTTON
-      document.body.addEventListener('click', async function(e) {
-          // We use event delegation here so it works on NEW comments too
-          const button = e.target.closest('.delete-comment-btn');
-          if (!button) return;
-  
-          const form = button.closest('.delete-comment-form');
-          if (!form) return;
-          const csrftoken = form.querySelector('[name=csrfmiddlewaretoken]').value;
-  
-          if (!confirm('Are you sure you want to delete this comment?')) return;
-  
-          try {
-              const response = await fetch(form.action, {
-                  method: 'POST',
-                  headers: { 'X-CSRFToken': csrftoken },
-              });
-  
-              const data = await response.json();
-              if (data.deleted) {
-                  showToast('Comment deleted', 'success'); // Toast Success
-                  const comment = form.closest('.comment');
-                  comment.style.transition = 'opacity 0.3s ease';
-                  comment.style.opacity = '0';
-                  setTimeout(() => comment.remove(), 300);
-              } else {
-                  showToast('Failed to delete comment', 'error'); // Toast Error
-              }
-          } catch (error) {
-              console.error('Error deleting comment:', error);
-              showToast('Error deleting comment', 'error');
-          }
-      });
-  
-      // 5. ADD COMMENT BUTTON
-      document.querySelectorAll('.comment-submit-btn').forEach(button => {
-          button.addEventListener('click', async () => {
-              const form = button.closest('.comment-form');
-              if (!form) return;
-              
-              const textarea = form.querySelector('textarea');
-              const content = textarea.value.trim();
-              const csrftoken = form.querySelector('[name=csrfmiddlewaretoken]').value;
-              
-              if (!content) {
-                  showToast('Please enter a comment', 'error'); // Toast Error
-                  return;
-              }
-  
-              // Disable button to prevent double clicks
-              const originalText = button.innerHTML;
-              button.disabled = true;
-              button.innerHTML = 'Posting...';
-              button.classList.add('opacity-50', 'cursor-not-allowed');
-              
-              try {
-                  const response = await fetch(form.action, {
-                      method: 'POST',
-                      headers: {
-                          'X-CSRFToken': csrftoken,
-                          'Content-Type': 'application/x-www-form-urlencoded',
-                      },
-                      body: `content=${encodeURIComponent(content)}`
-                  });
-                  
-                  const data = await response.json();
-                  
-                  if (data.success) {
-                      showToast('Comment added!', 'success'); // Toast Success
-                      
-                      textarea.value = '';
-                      const commentsList = form.closest('.comments-section').querySelector('.comments-list');
-                      const noComments = commentsList.querySelector('.no-comments');
-                      if (noComments) noComments.remove();
-                      
-                      const newComment = document.createElement('div');
-                      newComment.className = 'comment flex justify-between items-start bg-white/10 rounded-xl p-2';
-                      newComment.style.opacity = '0';
-                      newComment.style.transition = 'opacity 0.3s ease';
-                      
-                      // We need the ID for the delete URL
-                      const deleteUrl = "{% url 'delete_comment' 99999 %}".replace('99999', data.comment.id);
-                      
-                      newComment.innerHTML = `
-                          <div>
-                              <strong class="text-red-500">${data.comment.author}</strong>
-                              <span class="text-gray-500 text-xs ml-2">${data.comment.created_at}</span>
-                              <p class="text-gray-300 text-sm">${data.comment.content}</p>
-                          </div>
-                          <form action="${deleteUrl}" method="post" class="delete-comment-form" data-comment-id="${data.comment.id}">
-                              <input type="hidden" name="csrfmiddlewaretoken" value="${csrftoken}">
-                              <button type="button" class="delete-comment-btn text-gray-400 hover:text-red-600 transition-colors">
-                                  <i class="material-symbols-outlined text-lg">delete</i>
-                              </button>
-                          </form>
-                      `;
-                      
-                      commentsList.appendChild(newComment);
-                      setTimeout(() => newComment.style.opacity = '1', 10);
-                      
-                  } else {
-                      showToast(data.error || 'Failed to add comment', 'error');
-                  }
-              } catch (error) {
-                  console.error('Error adding comment:', error);
-                  showToast('Connection error', 'error');
-              } finally {
-                  // Re-enable button
-                  button.disabled = false;
-                  button.innerHTML = originalText;
-                  button.classList.remove('opacity-50', 'cursor-not-allowed');
-              }
-          });
-      });
-  
-  }); // End DOMContentLoaded
-  </script>
+// --- GLOBAL FUNCTIONS ---
+
+// 1. TOAST NOTIFICATION
+function showToast(message, type = 'success') {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    
+    const bgClass = type === 'error' ? 'bg-[#ba0c2f]' : 'bg-emerald-600'; 
+    const icon = type === 'error' ? 'error' : 'check_circle';
+    
+    toast.className = `${bgClass} text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 transform translate-y-10 opacity-0 transition-all duration-300 pointer-events-auto min-w-[300px] border border-white/10 backdrop-blur-md`;
+    
+    toast.innerHTML = `
+        <i class="material-symbols-outlined text-2xl">${icon}</i>
+        <p class="font-bold text-sm m-0 tracking-wide uppercase">${message}</p>
+    `;
+
+    container.appendChild(toast);
+
+    requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-10', 'opacity-0');
+    });
+
+    setTimeout(() => {
+        toast.classList.add('translate-y-10', 'opacity-0');
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
+// 2. CUSTOM CONFIRM MODAL LOGIC
+let modalResolve; // Stores the promise resolve function
+
+function showConfirmModal() {
+    const modal = document.getElementById('confirmation-modal');
+    const modalContent = modal.querySelector('div');
+
+    // Show modal
+    modal.classList.remove('opacity-0', 'pointer-events-none');
+    modalContent.classList.remove('scale-95');
+    modalContent.classList.add('scale-100');
+
+    // Wait for user interaction
+    return new Promise((resolve) => {
+        modalResolve = resolve;
+    });
+}
+
+function closeConfirmModal(result) {
+    const modal = document.getElementById('confirmation-modal');
+    const modalContent = modal.querySelector('div');
+
+    // Hide modal
+    modal.classList.add('opacity-0', 'pointer-events-none');
+    modalContent.classList.add('scale-95');
+    modalContent.classList.remove('scale-100');
+
+    // Return the result (true/false) to the waiting function
+    if (modalResolve) modalResolve(result);
+}
+
+// --- MAIN EVENT LISTENERS ---
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Setup Modal Buttons
+    const cancelBtn = document.getElementById('modal-cancel');
+    const confirmBtn = document.getElementById('modal-confirm');
+    if(cancelBtn) cancelBtn.onclick = () => closeConfirmModal(false);
+    if(confirmBtn) confirmBtn.onclick = () => closeConfirmModal(true);
+
+    // A. LIKE BUTTON
+    document.querySelectorAll('.like-btn').forEach(button => {
+        button.addEventListener('click', async () => {
+            const form = button.closest('.like-form');
+            if (!form) return;
+            
+            const countSpan = button.querySelector('.like-count');
+            const csrftoken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            // Optimistic Update
+            const liked = button.classList.toggle('liked');
+            let count = parseInt(countSpan.textContent);
+            countSpan.textContent = liked ? count + 1 : count - 1;
+
+            try {
+                await fetch(form.action, {
+                    method: 'POST',
+                    headers: { 'X-CSRFToken': csrftoken },
+                });
+            } catch (error) {
+                console.error('Like request failed:', error);
+                // Revert on failure
+                button.classList.toggle('liked');
+                countSpan.textContent = liked ? count - 1 : count + 1;
+                showToast('Connection error', 'error');
+            }
+        });
+    });
+
+    // B. DELETE POST BUTTON
+    document.querySelectorAll('.delete-btn').forEach(button => {
+        button.addEventListener('click', async () => {
+            const form = button.closest('.delete-form');
+            if (!form) return;
+            const csrftoken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            // USE CUSTOM MODAL
+            const confirmed = await showConfirmModal();
+            if (!confirmed) return;
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    headers: { 'X-CSRFToken': csrftoken },
+                });
+
+                const data = await response.json();
+                if (data.deleted) {
+                    showToast('Post deleted successfully', 'success');
+                    const postCard = form.closest('.post-card');
+                    postCard.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                    postCard.style.opacity = '0';
+                    postCard.style.transform = 'scale(0.95)';
+                    setTimeout(() => postCard.remove(), 300);
+                }
+            } catch (error) {
+                console.error('Error deleting post:', error);
+                showToast('Could not delete post', 'error');
+            }
+        });
+    });
+
+    // C. DELETE COMMENT BUTTON (Event Delegation)
+    document.body.addEventListener('click', async function(e) {
+        const button = e.target.closest('.delete-comment-btn');
+        if (!button) return;
+
+        const form = button.closest('.delete-comment-form');
+        if (!form) return;
+        const csrftoken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        // USE CUSTOM MODAL
+        const confirmed = await showConfirmModal();
+        if (!confirmed) return;
+
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                headers: { 'X-CSRFToken': csrftoken },
+            });
+
+            const data = await response.json();
+            if (data.deleted) {
+                showToast('Comment deleted', 'success');
+                const comment = form.closest('.comment');
+                comment.style.transition = 'opacity 0.3s ease';
+                comment.style.opacity = '0';
+                setTimeout(() => comment.remove(), 300);
+            } else {
+                showToast('Failed to delete comment', 'error');
+            }
+        } catch (error) {
+            console.error('Error deleting comment:', error);
+            showToast('Error deleting comment', 'error');
+        }
+    });
+
+    // D. ADD COMMENT BUTTON
+    document.querySelectorAll('.comment-submit-btn').forEach(button => {
+        button.addEventListener('click', async () => {
+            const form = button.closest('.comment-form');
+            if (!form) return;
+            
+            const textarea = form.querySelector('textarea');
+            const content = textarea.value.trim();
+            const csrftoken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+            
+            if (!content) {
+                showToast('Please enter a comment', 'error');
+                return;
+            }
+
+            // Lock UI
+            const originalText = button.innerHTML;
+            button.disabled = true;
+            button.innerHTML = 'Posting...';
+            button.classList.add('opacity-50', 'cursor-not-allowed');
+            
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrftoken,
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `content=${encodeURIComponent(content)}`
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showToast('Comment added!', 'success');
+                    
+                    textarea.value = '';
+                    const commentsList = form.closest('.comments-section').querySelector('.comments-list');
+                    const noComments = commentsList.querySelector('.no-comments');
+                    if (noComments) noComments.remove();
+                    
+                    const newComment = document.createElement('div');
+                    newComment.className = 'comment flex justify-between items-start bg-white/10 rounded-xl p-2';
+                    newComment.style.opacity = '0';
+                    newComment.style.transition = 'opacity 0.3s ease';
+                    
+                    const deleteUrl = "{% url 'delete_comment' 99999 %}".replace('99999', data.comment.id);
+                    
+                    newComment.innerHTML = `
+                        <div>
+                            <strong class="text-red-500">${data.comment.author}</strong>
+                            <span class="text-gray-500 text-xs ml-2">${data.comment.created_at}</span>
+                            <p class="text-gray-300 text-sm">${data.comment.content}</p>
+                        </div>
+                        <form action="${deleteUrl}" method="post" class="delete-comment-form" data-comment-id="${data.comment.id}">
+                            <input type="hidden" name="csrfmiddlewaretoken" value="${csrftoken}">
+                            <button type="button" class="delete-comment-btn text-gray-400 hover:text-red-600 transition-colors">
+                                <i class="material-symbols-outlined text-lg">delete</i>
+                            </button>
+                        </form>
+                    `;
+                    
+                    commentsList.appendChild(newComment);
+                    setTimeout(() => newComment.style.opacity = '1', 10);
+                    
+                } else {
+                    showToast(data.error || 'Failed to add comment', 'error');
+                }
+            } catch (error) {
+                console.error('Error adding comment:', error);
+                showToast('Connection error', 'error');
+            } finally {
+                // Unlock UI
+                button.disabled = false;
+                button.innerHTML = originalText;
+                button.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        });
+    });
+
+}); // End DOMContentLoaded
 </script>
 </body>
 </html>
