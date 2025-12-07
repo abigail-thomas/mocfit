@@ -5,15 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Community - MocFit+</title>
 
+<!-- tailwind css -->
 <script src="https://cdn.tailwindcss.com"></script>
+<!-- material symbols outlined -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-
+<!-- bootstrap css -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<!-- bootstrap icons -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<!-- static files -->
 
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/nav.css' %}">
 
+<!-- styles -->
 <style>
   body { font-family: 'Oswald', sans-serif; }
   .like-btn.liked i { color: #dc2626; }
@@ -25,15 +30,16 @@
 {% include 'includes/navbar.html' %}
 
 <div id="mainContent">
-
+<!-- the community feed section -->
 <section class="relative text-center pt-28 pb-10 px-6">
   <div class="max-w-3xl mx-auto">
     <h1 class="text-5xl md:text-6xl font-extrabold uppercase mb-4">Community Feed</h1>
     <p class="text-gray-400 text-lg md:text-xl mb-8">
       Connect with Fellow FSC Fitness Enthusiasts
     </p>
-    
+    <!-- if the user is authenticated, show the create post button -->
     {% if user.is_authenticated %}
+    <!-- the create post button -->
       <a href="{% url 'create_post' %}" 
          class="inline-block px-8 py-4 bg-gradient-to-br from-[#ba0c2f] to-[#d10e35] rounded-lg font-bold shadow-lg hover:scale-105 hover:from-[#a00b2a] hover:to-[#80071c] transition-transform duration-300">
          + Create Post
@@ -42,14 +48,16 @@
   </div>
 </section>
 
+
 <section class="pb-16 px-4 md:px-6 flex justify-center">
   <div class="w-full max-w-xl space-y-6">
-
+    <!-- if the user is authenticated, show the sort dropdown -->
     {% if user.is_authenticated %}
     <!-- Sort Dropdown -->
     <div class="flex justify-end items-center gap-3">
       <label for="sortSelect" class="text-gray-400 text-sm font-bold uppercase tracking-wider">Sort by:</label>
       <div class="relative group">
+        <!-- the sort dropdown -->
         <select id="sortSelect" 
                 onchange="window.location.href='?sort=' + this.value"
                 class="appearance-none bg-black/20 backdrop-blur-sm border border-white/20 text-white text-sm font-bold uppercase tracking-wider rounded-lg pl-5 pr-12 py-2.5 cursor-pointer hover:bg-white/10 hover:border-white/40 focus:outline-none focus:border-[#ba0c2f] focus:ring-1 focus:ring-[#ba0c2f] transition-all duration-300 font-['Oswald']">
@@ -57,6 +65,7 @@
           <option value="oldest" {% if current_sort == 'oldest' %}selected{% endif %} class="bg-neutral-900 text-gray-200">Oldest Posts</option>
           <option value="likes" {% if current_sort == 'likes' %}selected{% endif %} class="bg-neutral-900 text-gray-200">Most Liked</option>
         </select>
+        <!-- the sort dropdown icon -->
         <i class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-[#ba0c2f] pointer-events-none text-xl group-hover:text-white transition-colors duration-300">
             keyboard_arrow_down
         </i>
@@ -65,21 +74,26 @@
     {% endif %}
     <!-- if the user is not authenticated, show the login and sign up buttons -->
     {% if not user.is_authenticated %}
+    <!-- the login and sign up buttons -->
     <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 text-center shadow-xl">
+        <!-- the login and sign up buttons icon -->
         <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/10 mb-6">
             <i class="material-symbols-outlined text-4xl text-[#ba0c2f]">lock</i>
         </div>
-        
+        <!-- the login and sign up buttons title -->
         <h2 class="text-2xl font-bold uppercase mb-3">Members Only Content</h2>
         <p class="text-gray-300 mb-8 max-w-md mx-auto">
             Join the MocFit+ community to view posts, like, comment, and share your fitness journey with other students!
         </p>
 
+        <!-- the login and sign up buttons -->
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <!-- the login button -->
             <a href="/accounts/" 
                class="px-8 py-3 bg-[#ba0c2f] hover:bg-[#d10e35] rounded-lg font-bold transition-colors shadow-lg text-white no-underline">
                Log In
             </a>
+            <!-- the sign up button -->
             <a href="/accounts/register/" 
                class="px-8 py-3 bg-transparent border border-white/30 hover:bg-white/10 rounded-lg font-bold transition-colors text-white no-underline">
                Sign Up
@@ -125,18 +139,24 @@
           
         </div>
 
+        <!-- the like and delete buttons -->
         <div class="flex items-center gap-4 px-4 py-2 border-t border-white/10">
+          <!-- the like button -->
           <form action="{% url 'like_post' post.id %}" method="post" class="flex items-center gap-2 like-form" data-post-id="{{ post.id }}">
             {% csrf_token %}
             <button type="button" class="flex items-center gap-1 like-btn {% if user in post.likes.all %}liked{% endif %}">
+              <!-- the like button icon -->
               <i class="bi bi-heart text-red-600 text-xl"></i>
+              <!-- the like button count -->
               <span class="like-count">{{ post.total_likes }}</span>
             </button>
           </form>
-
+          <!-- if the user is the post author, show the delete button -->
           {% if user == post.author %}
+          <!-- the delete button -->
           <form action="{% url 'delete_post' post.id %}" method="post" class="delete-form ml-auto" data-post-id="{{ post.id }}">
             {% csrf_token %}
+            <!-- the delete button icon -->
             <button type="button" class="flex items-center gap-1 delete-btn text-gray-400 hover:text-red-600 transition-colors">
               <i class="material-symbols-outlined">delete</i> Delete
             </button>
@@ -147,11 +167,15 @@
         <div class="comments-section px-4 py-2 border-t border-white/10">
           <h4 class="text-gray-200 font-semibold mb-2">Comments</h4>
           <div class="comments-list space-y-2">
+            <!-- the comments -->
             {% for comment in post.comments.all %}
             <div class="comment flex justify-between items-start bg-white/10 rounded-xl p-2">
               <div>
+                <!-- the comment author -->
                 <strong class="text-red-500">{{ comment.author.username }}</strong>
+                <!-- the comment created at -->
                 <span class="text-gray-500 text-xs ml-2">{{ comment.created_at|date:"m/d/Y" }}</span>
+                <!-- the comment content -->
                 <p class="text-gray-300 text-sm">{{ comment.content }}</p>
               </div>
               {% if user == comment.author %}
@@ -164,12 +188,14 @@
               {% endif %}
             </div>
             {% empty %}
+            <!-- if there are no comments, show the no comments message -->
             <p class="no-comments text-gray-500 italic text-sm">No comments yet. Be the first to comment!</p>
             {% endfor %}
           </div>
 
           <form action="{% url 'add_comment' post.id %}" method="post" class="comment-form mt-3 flex flex-col md:flex-row gap-2" data-post-id="{{ post.id }}">
             {% csrf_token %}
+            <!-- the comment form content -->
             {{ comment_form.content }}
             <button type="button" class="comment-submit-btn px-4 py-2 bg-[#d10e35] rounded-lg font-semibold hover:bg-[#ba0c2f] transition-colors w-full md:w-auto">
               Comment
@@ -179,6 +205,7 @@
 
       </div>
       {% empty %}
+      <!-- if there are no posts, show the no posts message -->
       <div class="text-center text-gray-400 py-16">
         <i class="material-symbols-outlined text-5xl mb-4">forum</i>
         <h2 class="text-2xl font-bold mb-2">No posts yet</h2>
@@ -190,24 +217,33 @@
 </section>
 
 </div>
+<!-- the footer -->
 
 <footer class="py-10 flex justify-center items-center border-t border-white/10 mt-10">
   <p class="text-gray-400 text-sm font-semibold">MocFit+ © 2025 | Built for Students by Students</p>
 </footer>
 
+<!-- the toast container -->
 <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
+<!-- the confirmation modal -->
 
 <div id="confirmation-modal" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
   <div class="bg-neutral-900 border border-white/10 p-8 rounded-2xl max-w-sm w-full shadow-2xl transform scale-95 transition-transform duration-300">
+    <!-- the confirmation modal icon -->
     <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-900/20 mb-6">
       <i class="material-symbols-outlined text-4xl text-[#ba0c2f]">delete_forever</i>
     </div>
+    <!-- the confirmation modal title -->
     <h3 class="text-2xl font-bold text-center text-white mb-2 uppercase tracking-wide">Are you sure?</h3>
+    <!-- the confirmation modal description -->
     <p class="text-gray-400 text-center mb-8 text-sm font-light">This action cannot be undone.</p>
+    <!-- the confirmation modal buttons -->
     <div class="flex gap-3">
+      <!-- the confirmation modal cancel button -->
       <button id="modal-cancel" class="flex-1 py-3 px-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-white font-bold uppercase tracking-wider transition-colors">
         Cancel
       </button>
+      <!-- the confirmation modal confirm button -->
       <button id="modal-confirm" class="flex-1 py-3 px-4 bg-[#ba0c2f] hover:bg-[#a00b2a] rounded-lg text-white font-bold uppercase tracking-wider shadow-lg transition-colors">
         Yes, Delete
       </button>
@@ -249,24 +285,30 @@ function showToast(message, type = 'success') {
 
 // 2. CUSTOM CONFIRM MODAL LOGIC
 let modalResolve; // Stores the promise resolve function
-
+// show the confirm modal
 function showConfirmModal() {
+  // get the modal element
     const modal = document.getElementById('confirmation-modal');
+    // get the modal content element
     const modalContent = modal.querySelector('div');
-
-    // Show modal
+    // show the modal
     modal.classList.remove('opacity-0', 'pointer-events-none');
+    // remove the scale-95 class
     modalContent.classList.remove('scale-95');
+    // add the scale-100 class
     modalContent.classList.add('scale-100');
 
     // Wait for user interaction
     return new Promise((resolve) => {
+        // store the promise resolve function
         modalResolve = resolve;
     });
 }
 
 function closeConfirmModal(result) {
+    // get the modal element
     const modal = document.getElementById('confirmation-modal');
+    // get the modal content element
     const modalContent = modal.querySelector('div');
 
     // Hide modal
@@ -281,7 +323,7 @@ function closeConfirmModal(result) {
 // --- MAIN EVENT LISTENERS ---
 document.addEventListener('DOMContentLoaded', function() {
     
-    // Setup Modal Buttons
+    // setup the modal buttons
     const cancelBtn = document.getElementById('modal-cancel');
     const confirmBtn = document.getElementById('modal-confirm');
     if(cancelBtn) cancelBtn.onclick = () => closeConfirmModal(false);
@@ -353,12 +395,13 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.addEventListener('click', async function(e) {
         const button = e.target.closest('.delete-comment-btn');
         if (!button) return;
-
+        // get the form element
         const form = button.closest('.delete-comment-form');
         if (!form) return;
+        // get the csrf token
         const csrftoken = form.querySelector('[name=csrfmiddlewaretoken]').value;
 
-        // USE CUSTOM MODAL
+        // use the custom modal
         const confirmed = await showConfirmModal();
         if (!confirmed) return;
 
@@ -389,9 +432,11 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', async () => {
             const form = button.closest('.comment-form');
             if (!form) return;
-            
+            // get the textarea element
             const textarea = form.querySelector('textarea');
+            // get the content of the textarea
             const content = textarea.value.trim();
+            // get the csrf token
             const csrftoken = form.querySelector('[name=csrfmiddlewaretoken]').value;
             
             if (!content) {
@@ -399,7 +444,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // Lock UI
+            // lock the ui
             const originalText = button.innerHTML;
             button.disabled = true;
             button.innerHTML = 'Posting...';
@@ -431,7 +476,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     newComment.style.transition = 'opacity 0.3s ease';
                     
                     const deleteUrl = "{% url 'delete_comment' 99999 %}".replace('99999', data.comment.id);
-                    
+                    // create the new comment
                     newComment.innerHTML = `
                         <div>
                             <strong class="text-red-500">${data.comment.author}</strong>
@@ -445,10 +490,10 @@ document.addEventListener('DOMContentLoaded', function() {
                             </button>
                         </form>
                     `;
-                    
+                    // append the new comment to the comments list
                     commentsList.appendChild(newComment);
                     setTimeout(() => newComment.style.opacity = '1', 10);
-                    
+                    // show the new comment
                 } else {
                     showToast(data.error || 'Failed to add comment', 'error');
                 }
