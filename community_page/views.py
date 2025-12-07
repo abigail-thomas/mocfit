@@ -63,20 +63,27 @@ def add_comment(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     form = CommentForm(request.POST)
     
+    # check if the form is valid
     if form.is_valid():
+        # create a new comment
         comment = form.save(commit=False)
         comment.author = request.user
         comment.post = post
         comment.save()
-        
+
+        # return the comment in a json response
         return JsonResponse({
             'success': True,
             'comment': {
+                # the comment id    
                 'id': comment.id,
+                # the comment author
                 'author': comment.author.username,
+                # the comment content
                 'content': comment.content,
-                'created_at': comment.created_at.strftime('%m/%d/%Y at %I:%M %p'),
-                'is_author': True  # Since the person who just posted is always the author
+                # the comment created at
+                'created_at': comment.created_at.strftime('%m/%d/%Y'),
+                'is_author': True # Since the person who just posted is always the author
             }
         })
     
@@ -84,6 +91,7 @@ def add_comment(request, post_id):
         'success': False,
         'error': 'Invalid form data'
     }, status=400)
+    
 
 # this is for deleting posts
 @login_required
