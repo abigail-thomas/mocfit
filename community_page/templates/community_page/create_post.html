@@ -4,10 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Create Post - MocFit+</title>
-
+<!-- tailwind css -->
 <script src="https://cdn.tailwindcss.com"></script>
+<!-- material symbols outlined -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-
+<!-- bootstrap css -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
@@ -30,11 +31,11 @@
 </style>
 </head>
 <body class="bg-gradient-to-br from-neutral-800 to-black text-white overflow-x-hidden min-h-screen flex flex-col">
-
+<!-- the navbar -->
 {% include 'includes/navbar.html' %}
 
 <div id="mainContent" class="flex-grow">
-
+   <!-- the create post section -->
     <section class="relative text-center pt-28 pb-10 px-6">
       <div class="max-w-3xl mx-auto">
         <h1 class="text-5xl md:text-6xl font-extrabold uppercase mb-4">Share Your Journey</h1>
@@ -47,31 +48,33 @@
     <section class="pb-20 px-4 md:px-6 flex justify-center">
       <div class="w-full max-w-2xl">
         <div class="bg-white/5 backdrop-blur-md rounded-2xl shadow-xl p-8 border border-white/10">
-          
+          <!-- the new post title -->
           <h2 class="text-2xl font-bold text-center mb-8 uppercase tracking-wide border-b border-white/10 pb-4">
             <i class="bi bi-pencil-square text-[#ba0c2f] mr-2"></i> New Post
           </h2>
-          
+          <!-- the form errors -->
           {% if form.errors %}
           <div id="django-errors" class="hidden">
+            <!-- the form errors for each field -->
             {% for field in form %}
               {% for error in field.errors %}{{ error }}|{% endfor %}
             {% endfor %}
+            <!-- the form errors for non-field errors -->
             {% for error in form.non_field_errors %}{{ error }}|{% endfor %}
           </div>
           {% endif %}
-
+          <!-- the form -->
           <form method="post" enctype="multipart/form-data" id="postForm">
             {% csrf_token %}
-            
+            <!-- the image upload area -->
             <div class="mb-8">
               <label class="flex items-center gap-2 text-gray-300 font-bold uppercase text-sm tracking-wider mb-3">
                 <i class="material-symbols-outlined text-[#ba0c2f]">image</i>
                 Upload Photo
               </label>
-              
+              <!-- the image upload area -->
               <div class="image-upload-area border-2 border-dashed border-white/20 rounded-xl bg-black/20 cursor-pointer transition-all hover:border-[#ba0c2f] hover:bg-[#ba0c2f]/5 group" id="uploadArea">
-                
+                <!-- the upload placeholder -->
                 <div class="upload-placeholder flex flex-col items-center justify-center py-12 px-4 text-center transition-opacity" id="uploadPlaceholder">
                   <div class="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                       <i class="material-symbols-outlined text-4xl text-gray-400 group-hover:text-white">add_photo_alternate</i>
@@ -79,33 +82,36 @@
                   <p class="text-white text-lg font-semibold mb-1">Click or Drop Image Here</p>
                   <span class="text-gray-500 text-sm">Max 5MB • JPEG, PNG, WebP</span>
                 </div>
-                
+                <!-- the image preview container -->
                 <div class="image-preview-container relative hidden" id="previewContainer">
                   <img id="imagePreview" src="" alt="Preview" class="w-full max-h-[500px] object-contain rounded-xl bg-black/50">
-                  
+                  <!-- the image info --> 
                   <div class="absolute bottom-0 left-0 right-0 bg-black/70 backdrop-blur-sm p-3 rounded-b-xl border-t border-white/10 flex flex-wrap gap-4 justify-center text-xs md:text-sm" id="imageInfo">
                       </div>
-
+                      <!-- the remove image button -->
                   <button type="button" class="absolute top-3 right-3 w-10 h-10 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-[#ba0c2f] transition-all border border-white/10 shadow-lg hover:scale-110" id="removeImage">
                     <i class="material-symbols-outlined">close</i>
                   </button>
                 </div>
-                
+                <!-- the image input -->
                 <input type="file" name="image" id="imageInput" accept="image/jpeg,image/png,image/webp" class="hidden">
               </div>
             </div>
-
+            <!-- the caption input -->
             <div class="mb-8">
               <label class="flex items-center gap-2 text-gray-300 font-bold uppercase text-sm tracking-wider mb-3">
                 <i class="material-symbols-outlined text-[#ba0c2f]">edit_note</i>
                 Caption
               </label>
+              <!-- the caption input -->
               <textarea name="content" rows="4" 
                         class="w-full px-4 py-3 bg-black/20 text-white placeholder-gray-500 rounded-xl border border-white/10 focus:outline-none focus:border-[#ba0c2f] focus:ring-1 focus:ring-[#ba0c2f] transition-all resize-none"
                         placeholder="Write a caption... (e.g., Just hit a new PR!)">{{ form.content.value|default:'' }}</textarea>
             </div>
 
+            <!-- the submit button and back to feed button -->
 <div class="flex flex-col md:flex-row gap-4 mt-8">
+              <!-- the submit button -->
               
               <button type="submit" id="submitBtn"
                       class="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-br from-[#ba0c2f] to-[#d10e35] rounded-xl font-bold uppercase tracking-wider shadow-lg hover:shadow-red-900/40 hover:scale-[1.02] hover:brightness-110 transition-all duration-300 text-white group">
@@ -113,6 +119,7 @@
                 <span>Share Post</span>
               </button>
               
+              <!-- the back to feed button -->
               <a href="{% url 'community_home' %}" 
                  class="group flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-black/40 hover:bg-black/60 border border-white/10 hover:border-white/30 rounded-xl font-bold uppercase tracking-wider transition-all duration-300 text-gray-300 hover:text-white no-underline shadow-md backdrop-blur-md">
                 <i class="material-symbols-outlined transition-transform duration-300 group-hover:-translate-x-1 text-[#ba0c2f]">arrow_back</i>
@@ -127,24 +134,24 @@
     </section>
 
 </div>
-
+<!-- the footer -->
 <footer class="py-10 flex justify-center items-center border-t border-white/10 mt-auto bg-black/20">
   <p class="text-gray-400 text-sm font-semibold">MocFit+ © 2025 | Built for Students by Students</p>
 </footer>
-
+<!-- the toast container -->
 <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
-
+<!-- the bootstrap bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
+<!-- javascript -->
 <script>
 // --- 1. TOAST FUNCTION (Identical to Feed) ---
 function showToast(message, type = 'success') {
     const container = document.getElementById('toast-container');
     const toast = document.createElement('div');
-    
+    // the background class
     const bgClass = type === 'error' ? 'bg-[#ba0c2f]' : 'bg-emerald-600'; 
     const icon = type === 'error' ? 'error' : 'check_circle';
-    
+    // the toast class
     toast.className = `${bgClass} text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 transform translate-y-10 opacity-0 transition-all duration-300 pointer-events-auto min-w-[300px] border border-white/10 backdrop-blur-md`;
     
     toast.innerHTML = `
@@ -187,10 +194,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const removeImage = document.getElementById('removeImage');
     const uploadPlaceholder = document.getElementById('uploadPlaceholder');
 
+    // the maximum file size
     const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+    // the allowed file types
     const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 
-    // Drag & Drop
+    // the drag and drop event
     uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('border-[#ba0c2f]', 'bg-[#ba0c2f]/10'); });
     uploadArea.addEventListener('dragleave', (e) => { e.preventDefault(); uploadArea.classList.remove('border-[#ba0c2f]', 'bg-[#ba0c2f]/10'); });
     uploadArea.addEventListener('drop', (e) => {
@@ -199,23 +208,27 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
     });
 
-    // Click to Upload
+    // the click to upload event
     uploadArea.addEventListener('click', (e) => {
         if (e.target !== removeImage && !removeImage.contains(e.target)) imageInput.click();
     });
 
+    // the image input change event
     imageInput.addEventListener('change', (e) => {
         if (e.target.files.length > 0) handleFile(e.target.files[0]);
     });
 
+    // the remove image button click event
     removeImage.addEventListener('click', (e) => {
         e.stopPropagation();
         clearImage();
     });
 
-    // --- 4. FORM SUBMISSION (LOADING STATE) ---
+    // the form submission event
     form.addEventListener('submit', function(e) {
+        // the has image condition
         const hasImage = imageInput.files.length > 0;
+        // the has content condition
         const hasContent = form.querySelector('textarea').value.trim().length > 0;
 
         if (!hasImage && !hasContent) {
@@ -230,31 +243,37 @@ document.addEventListener('DOMContentLoaded', function() {
         submitBtn.innerHTML = `<span class="spinner mr-2"></span> Posting...`;
         submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
     });
-
+    // the handle file event
     function handleFile(file) {
+        // the allowed file types condition
         if (!ALLOWED_TYPES.includes(file.type)) {
             showToast('Only JPEG, PNG, or WebP images', 'error');
             return;
         }
+        // the file size condition
         if (file.size > MAX_FILE_SIZE) {
             showToast('File too large (Max 5MB)', 'error');
             return;
         }
 
+        // the image object
         const img = new Image();
         const objectUrl = URL.createObjectURL(file);
 
+        // the image onload event
         img.onload = function() {
             URL.revokeObjectURL(objectUrl);
             
-            // Aspect Ratio Warning
+            // the aspect ratio warning
             const ratio = img.width / img.height;
             let warningHtml = '';
             if (ratio < 0.75) { 
                 warningHtml = `<span class="text-yellow-400 flex items-center gap-1"><i class="bi bi-exclamation-triangle-fill"></i> Tall image may be cropped</span>`;
             }
 
+            // the image preview src
             imagePreview.src = objectUrl;
+            // the file size in MB
             const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
             
             imageInfo.innerHTML = `
@@ -262,16 +281,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 <span class="text-gray-300 flex items-center gap-1"><i class="material-symbols-outlined text-[#ba0c2f] text-sm">storage</i> ${sizeMB}MB</span>
                 ${warningHtml}
             `;
-            
+            // the upload placeholder class
             uploadPlaceholder.classList.add('hidden');
             previewContainer.classList.remove('hidden');
             
-            // Sync file input
+            // the data transfer object
             const dataTransfer = new DataTransfer();
             dataTransfer.items.add(file);
             imageInput.files = dataTransfer.files;
             
-            // Fallback render
+            // the file reader object
             const reader = new FileReader();
             reader.onload = (e) => imagePreview.src = e.target.result;
             reader.readAsDataURL(file);
@@ -279,6 +298,7 @@ document.addEventListener('DOMContentLoaded', function() {
         img.src = objectUrl;
     }
 
+    // the clear image function
     function clearImage() {
         imageInput.value = '';
         imagePreview.src = '';

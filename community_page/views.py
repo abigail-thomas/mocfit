@@ -32,26 +32,35 @@ def index(request):
 
 @login_required
 def create_post(request):
+    # the post request method
     if request.method == 'POST':
+        # the post form
         form = PostForm(request.POST, request.FILES)
+        # the form is valid
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
             post.save()
             return redirect('community_home')
+    # the get request method
     else:
+        # the post form
         form = PostForm()
     return render(request, 'community_page/create_post.html', {'form': form})
 
 @login_required
 def like_post(request, post_id):
+    # the post object
     post = get_object_or_404(Post, id=post_id)
+    # the user is in the post likes
     if request.user in post.likes.all():
         post.likes.remove(request.user)
         liked = False
     else:
+        # the user is not in the post likes
         post.likes.add(request.user)
         liked = True
+    # the json response
     return JsonResponse({
         "liked": liked,
         "total_likes": post.total_likes(),
@@ -60,7 +69,9 @@ def like_post(request, post_id):
 @login_required
 @require_POST
 def add_comment(request, post_id):
+    # the post object
     post = get_object_or_404(Post, id=post_id)
+    # the comment form
     form = CommentForm(request.POST)
     
     # check if the form is valid
