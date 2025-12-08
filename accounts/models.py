@@ -11,3 +11,14 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+class WeightEntry(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="weights")
+    weight = models.FloatField()
+    date = models.DateField()  # user can choose the date manually
+
+    class Meta:
+        ordering = ['-date']  # newest first
+
+    def __str__(self):
+        return f"{self.weight} lbs on {self.date}"
