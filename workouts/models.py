@@ -1,4 +1,6 @@
+from django.contrib.auth.models import User
 from django.db import models
+
 
 # Create your models here.
 class MuscleGroup(models.Model):
@@ -50,3 +52,22 @@ class Exercise(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.difficulty})"
+    
+
+# saving wortkouts to profile
+class SavedWorkout(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='saved_workouts')
+    title = models.CharField(max_length=200)
+    notes = models.TextField(blank=True)
+    category = models.CharField(max_length=100, blank=True)
+    goal = models.CharField(max_length=100, blank=True)
+    total_exercises = models.IntegerField(default=0)
+    estimated_duration = models.CharField(max_length=50, blank=True)
+    workout_data = models.JSONField()  # Stores the complete workout structure
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return f"{self.user.username} - {self.title}"

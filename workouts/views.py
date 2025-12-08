@@ -1,18 +1,19 @@
+import json
 import random
 from collections import defaultdict
 
-from django.db.models import Count, Q
-
-from .models import Equipment, Exercise, Goal, MuscleGroup, MuscleGroupCategory
-from .signals import workout_generated
-
-import json
 import requests
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.db.models import Count, Q
 from django.http import JsonResponse
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
-from django.shortcuts import render
+from .models import (Equipment, Exercise, Goal, MuscleGroup,
+                     MuscleGroupCategory, SavedWorkout)
+from .signals import workout_generated
 
 # Create your views here.
 
@@ -65,9 +66,38 @@ def workout_generator(request):
         except MuscleGroupCategory.DoesNotExist:
             exercises = []
 
+        # ===== STORE WORKOUT DATA IN SESSION =====
+        workout_session_data = {
+            'workout_type': 'preset',
+            'category': selected_category,
+            'goal': 'General Fitness',  # Default for preset workouts
+            'total_exercises': len(exercises) if exercises else 0,
+            'estimated_duration': '45 min',  # Default estimate
+            'exercises': [
+                {
+                    'id': ex.id,
+                    'name': ex.name,
+                    'description': ex.description or '',
+                    'image_url': ex.image_url or '',
+                    'mechanics': ex.mechanics or '',
+                    'difficulty': ex.difficulty or '',
+                    'equipment': [eq.name for eq in ex.equipment.all()],
+                    'primary_muscles': [pm.name for pm in ex.primary_muscle.all()],
+                    'secondary_muscles': [sm.name for sm in ex.secondary_muscles.all()],
+                } for ex in exercises
+            ] if exercises else [],
+            'timestamp': str(timezone.now()),
+        }
+        
+        request.session['current_workout'] = workout_session_data
+        request.session.modified = True
+        # ===== END SESSION STORAGE =====
+
         return render(request, "workouts/workout_results.html", {
             "category": selected_category,
             "exercises": exercises,
+            "total_exercises": len(exercises) if exercises else 0,
+            "estimated_duration": "45 min",
         })
     else:
         categories = MuscleGroupCategory.objects.all()
@@ -182,6 +212,48 @@ def advanced_workout_generator(request):
 
         # Calculate total volume estimate
         total_volume = estimate_total_volume(ordered_exercises, params)
+        estimated_duration = estimate_workout_duration(ordered_exercises, params)
+
+        # ===== STORE WORKOUT DATA IN SESSION =====
+        workout_session_data = {
+            'workout_type': 'advanced',
+            'category': ', '.join(selected_muscles),
+            'goal': selected_goal,
+            'difficulty': selected_difficulty,
+            'equipment': selected_equipment,
+            'length': selected_length,
+            'total_exercises': len(ordered_exercises),
+            'estimated_duration': estimated_duration,
+            'total_volume': total_volume,
+            'workout': {}
+        }
+        
+        # Store the complete workout structure
+        for muscle_name, exercise_list in workout_by_muscle.items():
+            workout_session_data['workout'][muscle_name] = [
+                {
+                    'exercise': {
+                        'id': entry['exercise'].id,
+                        'name': entry['exercise'].name,
+                        'description': entry['exercise'].description or '',
+                        'image_url': entry['exercise'].image_url or '',
+                        'mechanics': entry['exercise'].mechanics or '',
+                        'difficulty': entry['exercise'].difficulty or '',
+                        'equipment': [eq.name for eq in entry['exercise'].equipment.all()],
+                        'primary_muscles': [pm.name for pm in entry['exercise'].primary_muscle.all()],
+                        'secondary_muscles': [sm.name for sm in entry['exercise'].secondary_muscles.all()],
+                    },
+                    'sets': entry['sets'],
+                    'reps': entry['reps'],
+                    'rest': entry['rest'],
+                    'order': entry['order'],
+                    'notes': entry['notes'],
+                } for entry in exercise_list
+            ]
+        
+        request.session['current_workout'] = workout_session_data
+        request.session.modified = True
+        # ===== END SESSION STORAGE =====
 
         return render(
             request,
@@ -191,7 +263,7 @@ def advanced_workout_generator(request):
                 "goal": selected_goal,
                 "length": selected_length,
                 "total_exercises": len(ordered_exercises),
-                "estimated_duration": estimate_workout_duration(ordered_exercises, params),
+                "estimated_duration": estimated_duration,
                 "total_volume": total_volume,
             },
         )
@@ -311,7 +383,82 @@ def estimate_workout_duration(exercises, params):
     time_per_exercise = params['sets'] * (0.75 + avg_rest)
     total_minutes = int(len(exercises) * time_per_exercise)
     
-    return f"{total_minutes} minutes"
+    return f"{total_minutes} min"
+
+
+# save workout view
+
+@login_required
+def save_workout(request):
+    if request.method == 'POST':
+        try:
+            title = request.POST.get('title')
+            notes = request.POST.get('notes', '')
+            
+            # Get workout data from session
+            workout_data = request.session.get('current_workout', {})
+            
+            if not workout_data:
+                return JsonResponse({'error': 'No workout data found'}, status=400)
+            
+            # Create saved workout
+            saved_workout = SavedWorkout.objects.create(
+                user=request.user,
+                title=title,
+                notes=notes,
+                category=workout_data.get('category', ''),
+                goal=workout_data.get('goal', ''),
+                total_exercises=workout_data.get('total_exercises', 0),
+                estimated_duration=workout_data.get('estimated_duration', ''),
+                workout_data=workout_data
+            )
+            
+            messages.success(request, f'Workout "{title}" saved successfully!')
+            return JsonResponse({'success': True, 'redirect_url': '/accounts/dashboard/'})
+            
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+@login_required
+def view_saved_workout(request, workout_id):
+    from django.shortcuts import get_object_or_404
+    
+    workout = get_object_or_404(SavedWorkout, id=workout_id, user=request.user)
+    workout_data = workout.workout_data
+    
+    context = {
+        'saved_workout': workout,
+        'category': workout.category,
+        'goal': workout.goal,
+        'total_exercises': workout.total_exercises,
+        'estimated_duration': workout.estimated_duration,
+    }
+    
+    # Check if it's a preset workout or advanced workout
+    if workout_data.get('workout_type') == 'preset':
+        # Simple exercise list - we need to get the exercises from the data
+        context['exercises'] = workout_data.get('exercises', [])
+        context['category'] = workout.category
+    elif workout_data.get('workout_type') == 'advanced':
+        # Advanced workout with muscle groups
+        context['workout'] = workout_data.get('workout', {})
+    
+    return render(request, 'workouts/view_saved_workout.html', context)
+
+
+@login_required
+def delete_workout(request, workout_id):
+    from django.shortcuts import get_object_or_404
+    
+    if request.method == 'POST':
+        workout = get_object_or_404(SavedWorkout, id=workout_id, user=request.user)
+        workout_title = workout.title
+        workout.delete()
+        messages.success(request, f'Workout "{workout_title}" deleted successfully!')
+    
+    return redirect('dashboard')
 
 @require_http_methods(["POST"])
 def ai_chat(request):

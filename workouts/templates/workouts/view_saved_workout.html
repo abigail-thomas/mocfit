@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ saved_workout.title }} - MocFit+</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Michroma&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    body {
+      font-family: 'Oswald', sans-serif;
+      background: linear-gradient(135deg, #292727 0%, #101111 100%);
+    }
+    
+    .bg-gradient-red {
+      background: linear-gradient(135deg, #ba0c2f, #d10e35);
+    }
+  </style>
+</head>
+<body class="text-white min-h-screen">
+  {% include 'includes/navbar.html' %}
+
+  <div class="max-w-6xl mx-auto px-6 md:px-10 pt-32 md:pt-36 pb-20">
+    
+    <!-- Header -->
+    <div class="bg-white/5 rounded-xl p-6 md:p-10 mb-10 text-center">
+      <h1 class="text-3xl md:text-5xl font-bold mb-4 uppercase">{{ saved_workout.title }}</h1>
+      <p class="text-gray-400 mb-6">Saved on {{ saved_workout.created_at|date:"F d, Y - g:i A" }}</p>
+      
+      {% if saved_workout.notes %}
+        <div class="bg-white/5 border-l-4 border-red-600 rounded p-4 my-4 text-gray-300 text-left max-w-2xl mx-auto">
+          <strong>Notes:</strong> {{ saved_workout.notes }}
+        </div>
+      {% endif %}
+      
+      <div class="flex justify-center gap-6 md:gap-10 flex-wrap mt-6">
+        <p class="bg-red-900/20 border border-red-600/40 rounded-lg py-4 px-6 md:px-8 text-base md:text-lg font-bold">
+          Exercises: {{ total_exercises }}
+        </p>
+        <p class="bg-red-900/20 border border-red-600/40 rounded-lg py-4 px-6 md:px-8 text-base md:text-lg font-bold">
+          Goal: {{ goal|title }}
+        </p>
+        <p class="bg-red-900/20 border border-red-600/40 rounded-lg py-4 px-6 md:px-8 text-base md:text-lg font-bold">
+          Duration: {{ estimated_duration }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Display workout based on type -->
+    {% if workout %}
+      <!-- Advanced workout display -->
+      {% for muscle, exercises in workout.items %}
+        <h2 class="text-2xl md:text-3xl font-semibold mt-12 mb-6 uppercase">{{ muscle }}</h2>
+        {% for entry in exercises %}
+          <div class="bg-white/5 rounded-xl p-6 md:p-8 mb-6">
+            <h3 class="text-xl md:text-2xl font-semibold mb-4">{{ entry.exercise.name }}</h3>
+            
+            <div class="bg-blue-900/20 border border-blue-600/40 rounded-lg p-4 my-4">
+              <strong class="text-lg block mb-2">{{ entry.sets }} sets × {{ entry.reps }} reps</strong>
+              {% if entry.rest %}
+                <div class="text-gray-300 text-sm">Rest: {{ entry.rest }}</div>
+              {% endif %}
+            </div>
+            
+            {% if entry.notes %}
+              <div class="bg-white/5 border-l-4 border-red-600 rounded p-4 my-4 text-gray-300">
+                {{ entry.notes }}
+              </div>
+            {% endif %}
+            
+            {% if entry.exercise.description %}
+              <div class="bg-white/5 border-l-4 border-red-600 rounded p-4 my-4 text-gray-300">
+                {{ entry.exercise.description }}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% endfor %}
+    {% endif %}
+    
+    {% if exercises %}
+  <!-- Preset workout display -->
+  <h2 class="text-3xl font-bold mt-10 mb-6 uppercase">Exercises</h2>
+
+  {% for ex in exercises %}
+    <div class="bg-white/5 rounded-xl p-6 md:p-8 mb-6">
+      <h3 class="text-xl md:text-2xl font-semibold mb-4">{{ ex.name }}</h3>
+
+      {% if ex.sets and ex.reps %}
+        <div class="bg-blue-900/20 border border-blue-600/40 rounded-lg p-4 my-4">
+          <strong class="text-lg block mb-2">{{ ex.sets }} sets × {{ ex.reps }} reps</strong>
+        </div>
+      {% endif %}
+
+      {% if ex.notes %}
+        <div class="bg-white/5 border-l-4 border-red-600 rounded p-4 my-4 text-gray-300">
+          {{ ex.notes }}
+        </div>
+      {% endif %}
+
+      {% if ex.description %}
+        <div class="bg-white/5 border-l-4 border-red-600 rounded p-4 my-4 text-gray-300">
+          {{ ex.description }}
+        </div>
+      {% endif %}
+    </div>
+  {% endfor %}
+{% endif %}
+
+
+    <!-- Action buttons -->
+    <div class="flex justify-center gap-4 flex-wrap my-12">
+      <a href="{% url 'dashboard' %}" class="py-4 px-8 text-base font-bold bg-gradient-red text-white rounded-lg hover:scale-105 transition-all no-underline">
+        Back to Dashboard
+      </a>
+      <a href="#" onclick="window.print(); return false;" class="py-4 px-8 text-base font-bold bg-gradient-red text-white rounded-lg hover:scale-105 transition-all no-underline">
+        Print Workout
+      </a>
+    </div>
+
+  </div>
+</body>
+</html>
