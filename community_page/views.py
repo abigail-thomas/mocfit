@@ -9,39 +9,58 @@ from .models import Comment
 from django.views.decorators.http import require_POST
 
 def index(request):
-    # Order posts by number of likes (descending), then by creation date
-    posts = Post.objects.annotate(
-        like_count=Count('likes')
-    ).order_by('-like_count', '-created_at')
+    # Get sort parameter from URL, default to 'recent'
+    sort_by = request.GET.get('sort', 'recent')
+    
+    # Base queryset with like count annotation
+    posts = Post.objects.annotate(like_count=Count('likes'))
+    
+    # Apply sorting based on parameter
+    if sort_by == 'oldest':
+        posts = posts.order_by('created_at')
+    elif sort_by == 'likes':
+        posts = posts.order_by('-like_count', '-created_at')
+    else:  # 'recent' is default
+        posts = posts.order_by('-created_at')
     
     comment_form = CommentForm()
     return render(request, 'community_page/index.html', {
         'posts': posts,
-        'comment_form': comment_form
+        'comment_form': comment_form,
+        'current_sort': sort_by
     })
 
 @login_required
 def create_post(request):
+    # the post request method
     if request.method == 'POST':
+        # the post form
         form = PostForm(request.POST, request.FILES)
+        # the form is valid
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
             post.save()
             return redirect('community_home')
+    # the get request method
     else:
+        # the post form
         form = PostForm()
     return render(request, 'community_page/create_post.html', {'form': form})
 
 @login_required
 def like_post(request, post_id):
+    # the post object
     post = get_object_or_404(Post, id=post_id)
+    # the user is in the post likes
     if request.user in post.likes.all():
         post.likes.remove(request.user)
         liked = False
     else:
+        # the user is not in the post likes
         post.likes.add(request.user)
         liked = True
+    # the json response
     return JsonResponse({
         "liked": liked,
         "total_likes": post.total_likes(),
@@ -50,23 +69,32 @@ def like_post(request, post_id):
 @login_required
 @require_POST
 def add_comment(request, post_id):
+    # the post object
     post = get_object_or_404(Post, id=post_id)
+    # the comment form
     form = CommentForm(request.POST)
     
+    # check if the form is valid
     if form.is_valid():
+        # create a new comment
         comment = form.save(commit=False)
         comment.author = request.user
         comment.post = post
         comment.save()
-        
+
+        # return the comment in a json response
         return JsonResponse({
             'success': True,
             'comment': {
+                # the comment id    
                 'id': comment.id,
+                # the comment author
                 'author': comment.author.username,
+                # the comment content
                 'content': comment.content,
-                'created_at': comment.created_at.strftime('%m/%d/%Y at %I:%M %p'),
-                'is_author': True  # Since the person who just posted is always the author
+                # the comment created at
+                'created_at': comment.created_at.strftime('%m/%d/%Y'),
+                'is_author': True # Since the person who just posted is always the author
             }
         })
     
@@ -74,6 +102,7 @@ def add_comment(request, post_id):
         'success': False,
         'error': 'Invalid form data'
     }, status=400)
+    
 
 # this is for deleting posts
 @login_required
