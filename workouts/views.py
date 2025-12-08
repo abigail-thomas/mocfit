@@ -458,7 +458,7 @@ def delete_workout(request, workout_id):
         workout.delete()
         messages.success(request, f'Workout "{workout_title}" deleted successfully!')
     
-    return redirect('dashboard')
+    # return redirect('dashboard')
 
 @require_http_methods(["POST"])
 def ai_chat(request):
