@@ -179,12 +179,19 @@ section {
       letter-spacing: 2px;
     }
 
-    input[type="submit"]:hover,
-    .login-container input[type="submit"]:hover {
-      transform: scale(1.02);
-      background: linear-gradient(135deg, #0032a0, #0055cc);
-      box-shadow: 0 10px 30px rgba(0, 50, 160, 0.4);
-    }
+    /* Submit Button Hover */
+input[type="submit"]:hover,
+.login-container input[type="submit"]:hover {
+  transform: scale(1.02);
+  background: linear-gradient(135deg, #8b0000, #ba0c2f); /* darker red gradient */
+  box-shadow: 0 10px 30px rgba(186, 12, 47, 0.4);
+}
+
+/* Register Section Hover */
+.register-div a:hover,
+.register-div button:hover {
+  color: #8b0000; /* darker red */
+}
 
     .helptext {
         font-size: 12px;
@@ -221,10 +228,7 @@ section {
       letter-spacing: 1px;
     }
 
-    .register-div a:hover, button {
-      color: #0055cc;
-      /*transform: translateY(-2px);*/
-    }
+
 
     /* Responsive */
     @media (max-width: 768px) {

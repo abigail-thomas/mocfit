@@ -49,7 +49,7 @@
     }
     
     .bg-gradient-blue {
-      background: linear-gradient(135deg, #0032a0, #0055cc);
+      background: linear-gradient(135deg, #8b0000, #ba0c2f);
     }
 
     /* Custom shadows */
@@ -58,11 +58,11 @@
     }
     
     .shadow-blue {
-      box-shadow: 0 8px 25px rgba(0, 50, 160, 0.4);
+      box-shadow: 0 8px 25px rgba(103, 1, 1, 0.4);
     }
 
     .muscleLabel:hover {
-      background: linear-gradient(135deg, #0032a0, #0055cc) !important;
+      background: linear-gradient(135deg, #8b0000, #ba0c2f) !important;
     }
 
     /* Checkbox custom styles */
@@ -122,7 +122,7 @@
         {% csrf_token %}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {% for category in categories %}
-            <button type="submit" name="category" value="{{ category.name }}" class="muscleLabel w-full py-4 px-8 text-base font-bold bg-gradient-red text-white rounded-lg cursor-pointer transition-all duration-400 uppercase shadow-red hover:scale-105 hover:shadow-blue">
+            <button type="submit" name="category" value="{{ category.name }}" class="muscleLabel w-full py-4 px-8 text-base font-bold bg-gradient-red text-white rounded-lg cursor-pointer transition-all duration-400 uppercase shadow-red hover:scale-105 hover:shadow-red">
               {{ category.name }} Day
             </button>
           {% endfor %}
@@ -424,7 +424,7 @@
 
 
         <div class="text-center my-10">
-          <button type="submit" class="py-5 px-12 text-lg font-bold bg-gradient-red text-white rounded-lg cursor-pointer transition-all duration-400 uppercase shadow-red hover:scale-105 hover:bg-gradient-blue hover:shadow-blue">
+          <button type="submit" class="py-5 px-12 text-lg font-bold bg-gradient-red text-white rounded-lg cursor-pointer transition-all duration-400 uppercase shadow-red hover:scale-105 hover:bg-gradient-red-800 hover:shadow-red-800">
             <b>Generate Workout</b>
           </button>
         </div>
