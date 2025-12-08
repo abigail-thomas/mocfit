@@ -1,6 +1,7 @@
 import json
 import random
 from collections import defaultdict
+from datetime import timezone
 
 import requests
 from django.contrib import messages
@@ -85,8 +86,8 @@ def workout_generator(request):
                     'primary_muscles': [pm.name for pm in ex.primary_muscle.all()],
                     'secondary_muscles': [sm.name for sm in ex.secondary_muscles.all()],
                 } for ex in exercises
-            ] if exercises else [],
-            'timestamp': str(timezone.now()),
+            ] 
+            
         }
         
         request.session['current_workout'] = workout_session_data
