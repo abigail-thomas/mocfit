@@ -79,8 +79,20 @@ def my_login(request):
 def dashboard(request):
     saved_workouts = SavedWorkout.objects.filter(user=request.user)
     
+    profile = request.user.profile
+
+    # always load user's weight history to display later
+    weight_history = profile.weights.all()
+        
+    weight_history_data = {
+        "dates": [entry.date.strftime("%Y-%m-%d") for entry in weight_history[::-1]],
+        "weights": [entry.weight for entry in weight_history[::-1]],
+    }
+    
     context = {
         'saved_workouts': saved_workouts,
+        'weight_history': weight_history,
+        'weight_history_json': json.dumps(weight_history_data, cls=DjangoJSONEncoder),
     }
     return render(request, 'accounts/dashboard.html', context)
 

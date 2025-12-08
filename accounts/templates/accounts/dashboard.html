@@ -22,7 +22,7 @@
 {% include 'includes/navbar.html' %}
 
 <!-- Hero Section -->
-<section class="text-center py-24 px-6">
+<section class="text-center pt-24 px-6">
     <h1 class="text-3xl md:text-3xl font-extrabold uppercase mb-4">Welcome, {{ user.username }}!</h1>
     <p class="text-gray-400 text-lg md:text-xl mb-8">Manage your profile, track your progress, and explore the community.</p>
 </section>
@@ -71,6 +71,13 @@ uick Actions -->
         <p class="text-gray-400 text-center">Edit your personal information and settings</p>
     </a>
 
+    <!-- Update Profile -->
+    <a href="{% url 'my_achievements' %}" class="bg-white/5 backdrop-blur-md rounded-2xl p-8 flex flex-col items-center justify-center hover:scale-105 transition-transform duration-300 shadow-lg">
+        <i class="material-symbols-outlined text-red-600 text-5xl mb-4">account_circle</i>
+        <h2 class="text-xl font-bold mb-2">Achievements</h2>
+        <p class="text-gray-400 text-center">View your personal achievements</p>
+    </a>
+
     <!-- Logout -->
     <a href="{% url 'user_logout' %}" class="bg-white/5 backdrop-blur-md rounded-2xl p-8 flex flex-col items-center justify-center hover:scale-105 transition-transform duration-300 shadow-lg">
         <i class="material-symbols-outlined text-red-600 text-5xl mb-4">logout</i>
@@ -81,6 +88,62 @@ uick Actions -->
     
 
 </section>
+
+<!-- ############################################################################ -->
+
+<!-- some kind of chart eventually maybe -->
+<section class="max-w-3xl mx-auto mt-12 px-6">
+    <div class="bg-white/5 backdrop-blur-md rounded-3xl p-8 shadow-lg">
+<h3>Weight Progress Chart</h3>
+<canvas id="weightChart"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const chartData = JSON.parse('{{ weight_history_json|safe }}');
+
+    const ctx = document.getElementById('weightChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: chartData.dates,
+            datasets: [{
+                label: 'Weight Over Time',
+                data: chartData.weights,
+                borderWidth: 2,
+                tension: 0.3,
+                fill: false,
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+</div>
+</section>
+
+<!-- some kind of chart eventually maybe -->
+<section class="max-w-3xl mx-auto mt-12 px-6">
+    <div class="bg-white/5 backdrop-blur-md rounded-3xl p-8 shadow-lg">
+<h3>Weight History</h3>
+<ul>
+    {% for entry in weight_history %}
+        <li>{{ entry.date }} — {{ entry.weight }}</li>
+    {% empty %}
+        <li>No weight entries yet.</li>
+    {% endfor %}
+</ul>
+</div>
+</section>
+<!-- ############################################################################ -->
 
 <!-- Footer -->
 <footer class="py-10 flex justify-center items-center border-t border-white/10">

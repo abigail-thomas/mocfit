@@ -28,6 +28,7 @@
 <!-- Form Section -->
 <section class="max-w-3xl mx-auto mt-12 px-6">
     <div class="bg-white/5 backdrop-blur-md rounded-3xl p-8 shadow-lg">
+        <h1>Enter Current Information</h1>
         <form method="POST" class="space-y-6">
             {% csrf_token %}
             {% for field in form %}
@@ -50,6 +51,7 @@
 <!-- Add Weights Section -->
 <section class="max-w-3xl mx-auto mt-12 px-6">
     <div class="bg-white/5 backdrop-blur-md rounded-3xl p-8 shadow-lg">
+        <h1>Enter Previous Weights for Graph</h1>
         <form method="POST" class="space-y-6">
             {% csrf_token %}
             {% for field in weight_form %}
@@ -69,8 +71,11 @@
     </div>
 </section>
 
+
+<!-- ############################################################################ -->
+
 <!-- some kind of chart eventually maybe -->
-<section class="max-w-3xl mx-auto mt-12 px-6">
+<!-- <section class="max-w-3xl mx-auto mt-12 px-6">
     <div class="bg-white/5 backdrop-blur-md rounded-3xl p-8 shadow-lg">
 <h3>Weight History</h3>
 <ul>
@@ -81,10 +86,10 @@
     {% endfor %}
 </ul>
 </div>
-</section>
+</section> -->
 
 <!-- some kind of chart eventually maybe -->
-<section class="max-w-3xl mx-auto mt-12 px-6">
+<!-- <section class="max-w-3xl mx-auto mt-12 px-6">
     <div class="bg-white/5 backdrop-blur-md rounded-3xl p-8 shadow-lg">
 <h3>Weight Progress Chart</h3>
 <canvas id="weightChart"></canvas>
@@ -120,7 +125,9 @@
 </script>
 
 </div>
-</section>
+</section> -->
+<!-- ############################################################################ -->
+
 
 <!-- Footer -->
 <footer class="py-10 flex justify-center items-center border-t border-white/10 mt-12">

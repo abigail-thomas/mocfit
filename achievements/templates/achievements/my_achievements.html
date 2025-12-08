@@ -32,7 +32,7 @@
                     Login Achievements
                 </h2>
                 <ul class="space-y-3">
-                    <li class="flex items-center gap-3 p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-all">
+                    <!-- <li class="flex items-center gap-3 p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-all">
                         <i class="material-symbols-outlined text-[#ba0c2f]">check_circle</i>
                         <span>First Login - earned on Jan 15, 2025, 10:30 AM</span>
                     </li>
@@ -43,7 +43,18 @@
                     <li class="flex items-center gap-3 p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-all text-gray-400">
                         <i class="material-symbols-outlined">radio_button_unchecked</i>
                         <span>No achievements yet! Log in to earn some.</span>
+                    </li> -->
+                    {% for ua in login_achievements %}
+                    <li class="flex items-center gap-3 p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-all">
+                        <i class="material-symbols-outlined text-[#ba0c2f]">check_circle</i>
+                        <span>{{ ua.achievement.name }} - earned on {{ ua.date_earned|date:"M d, Y, h:i A" }}</span>
+                    <!-- {{ ua.achievement.name }} - earned on {{ ua.date_earned|date:"M d, Y, h:i A" }} -->
+                    {% empty %}
+                    <li class="flex items-center gap-3 p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-all text-gray-400">
+                        <i class="material-symbols-outlined">radio_button_unchecked</i>
+                        <span>No achievements yet! Log in to earn some.</span>
                     </li>
+                    {% endfor %}
                 </ul>
             </div>
 
@@ -53,7 +64,7 @@
                     Workout Achievements
                 </h2>
                 <ul class="space-y-3">
-                    <li class="flex items-center gap-3 p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-all">
+                    <!-- <li class="flex items-center gap-3 p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-all">
                         <i class="material-symbols-outlined text-[#ba0c2f]">check_circle</i>
                         <span>First Workout - earned on Jan 16, 2025, 6:00 PM</span>
                     </li>
@@ -64,7 +75,17 @@
                     <li class="flex items-center gap-3 p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-all text-gray-400">
                         <i class="material-symbols-outlined">radio_button_unchecked</i>
                         <span>No workout achievements yet! Generate workouts to earn some.</span>
+                    </li> -->
+                    {% for ua in workout_achievements %}
+                    <li class="flex items-center gap-3 p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-all">
+                        <i class="material-symbols-outlined text-[#ba0c2f]">check_circle</i>
+                        <span>{{ ua.achievement.name }} - earned on {{ ua.date_earned|date:"M d, Y, h:i A" }}</span>
+                    {% empty %}
+                    <li class="flex items-center gap-3 p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-all text-gray-400">
+                        <i class="material-symbols-outlined">radio_button_unchecked</i>
+                        <span>No workout achievements yet! Generate workouts to earn some.</span>
                     </li>
+                    {% endfor %}
                 </ul>
             </div>
 
