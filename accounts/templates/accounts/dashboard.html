@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MocFit+ Dashboard</title>
+  <title>MocFit+</title>
 <script src="https://cdn.tailwindcss.com"></script>
     {% load static %}
+    <link rel="icon" href="{% static 'images/workout.ico' %}">
 
 <link rel="stylesheet" href="{% static 'css/nav.css' %}">
 
@@ -26,8 +27,42 @@
     <p class="text-gray-400 text-lg md:text-xl mb-8">Manage your profile, track your progress, and explore the community.</p>
 </section>
 
-<!-- Quick Actions -->
-<section class="py-16 px-6 max-w-5xl mx-auto grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+<div class="saved-workouts-section mt-8">
+    <h2 class="text-3xl font-bold mb-6 ml-10">My Saved Workouts</h2>
+    
+    {% if saved_workouts %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-5">
+            {% for workout in saved_workouts %}
+                <div class="bg-white/5 rounded-xl p-6 hover:bg-white/10 transition-all">
+                    <h3 class="text-xl font-bold mb-2">{{ workout.title }}</h3>
+                    <p class="text-gray-400 text-sm mb-4">{{ workout.created_at|date:"M d, Y" }}</p>
+                    
+                    <div class="space-y-2 mb-4">
+                        <p class="text-sm"><span class="text-red-500">Category:</span> {{ workout.category|default:"N/A" }}</p>
+                        <p class="text-sm"><span class="text-red-500">Exercises:</span> {{ workout.total_exercises }}</p>
+                        <p class="text-sm"><span class="text-red-500">Duration:</span> {{ workout.estimated_duration }}</p>
+                    </div>
+                    
+                    {% if workout.notes %}
+                        <p class="text-gray-300 text-sm mb-4">{{ workout.notes|truncatewords:20 }}</p>
+                    {% endif %}
+                    
+                    <a href="{% url 'view_saved_workout' workout.id %}" 
+                       class="inline-block py-2 px-4 bg-red-600 text-white rounded-lg text-sm font-bold hover:scale-105 transition-transform">
+                        View Workout
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-gray-400">No saved workouts yet. Generate and save your first workout!</p>
+    {% endif %}
+</div>
+
+<!-- Q
+ 
+uick Actions -->
+<section class="py-16 px-6 max-w-5xl mx-auto grid gap-6 grid-cols-2">
     
     <!-- Update Profile -->
     <a href="{% url 'update_profile' %}" class="bg-white/5 backdrop-blur-md rounded-2xl p-8 flex flex-col items-center justify-center hover:scale-105 transition-transform duration-300 shadow-lg">

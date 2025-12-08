@@ -8,6 +8,8 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.shortcuts import redirect, render
 from django.core.serializers.json import DjangoJSONEncoder
 
+from workouts.models import SavedWorkout  # Import from your workout app
+
 from .forms import CreateUserForm, LoginForm, ProfileForm, WeightEntryForm
 
 
@@ -72,11 +74,15 @@ def my_login(request):
     return render(request, 'accounts/index.html', context=context)
 
 
-
+# REMOVED DUPLICATE - Keep only this one dashboard function
 @login_required(login_url="my_login")
 def dashboard(request):
-    return render(request, 'accounts/dashboard.html')
-
+    saved_workouts = SavedWorkout.objects.filter(user=request.user)
+    
+    context = {
+        'saved_workouts': saved_workouts,
+    }
+    return render(request, 'accounts/dashboard.html', context)
 
 
 def user_logout(request):

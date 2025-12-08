@@ -97,7 +97,6 @@ color:  rgb(202, 201, 201);
 
 .hero-content button:hover, .join-content button:hover {
     transform: scale(1.05);
-    background: linear-gradient(135deg, #0032a0, #0055cc);
     box-shadow: 0 8px 25px rgba(12, 21, 186, 0.1);
     border: none !important;
 

@@ -5,14 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MocFit+</title>
   {% load static %}
+    <link rel="icon" href="{% static 'images/workout.ico' %}">
+
   <link rel="stylesheet" href="{% static 'css/nav.css' %}">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Michroma&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CSS -->
+  <!-- tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Flowbite -->
+  <!-- flowbite -->
   <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
 
@@ -332,29 +334,54 @@
   </footer>
 
   <script>
-    // Save workout functionality
-    document.getElementById('saveWorkoutBtn')?.addEventListener('click', function() {
-      const form = document.getElementById('saveWorkoutForm');
-      const title = form.querySelector('#workoutTitle').value;
-      const notes = form.querySelector('#workoutNotes').value;
-      const status = document.getElementById('saveStatus');
-      
-      if (title) {
-        // Here you would send the data to your backend
-        status.textContent = 'Workout saved successfully!';
+  document.getElementById('saveWorkoutBtn')?.addEventListener('click', function() {
+    const form = document.getElementById('saveWorkoutForm');
+    const title = form.querySelector('#workoutTitle').value;
+    const notes = form.querySelector('#workoutNotes').value;
+    const status = document.getElementById('saveStatus');
+    const csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+    
+    if (!title) {
+      status.textContent = 'Please enter a title';
+      status.classList.add('text-red-600');
+      return;
+    }
+    
+    status.textContent = 'Saving...';
+    status.classList.remove('text-red-600', 'text-green-600');
+    
+    // Send data to backend
+    fetch('{% url "save_workout" %}', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-CSRFToken': csrfToken
+      },
+      body: new URLSearchParams({
+        'title': title,
+        'notes': notes
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        status.textContent = 'Workout saved! Redirecting...';
         status.classList.add('text-green-600');
         
-        // Reset after 3 seconds
+        // Redirect to dashboard after 1 second
         setTimeout(() => {
-          status.textContent = '';
-          status.classList.remove('text-green-600');
-          form.reset();
-        }, 3000);
+          window.location.href = data.redirect_url;
+        }, 1000);
       } else {
-        status.textContent = 'Please enter a title';
+        status.textContent = data.error || 'Error saving workout';
         status.classList.add('text-red-600');
       }
+    })
+    .catch(error => {
+      status.textContent = 'Error: ' + error.message;
+      status.classList.add('text-red-600');
     });
-  </script>
+  });
+</script>
 </body>
 </html>
