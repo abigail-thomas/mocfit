@@ -131,10 +131,10 @@
           {% endif %}
 
           {% if post.content %}
-            <p class="break-words text-sm md:text-base">
+            <div class="break-words text-sm md:text-base">
               <span class="font-bold text-white mr-2">{{ post.author.username }}</span>
-              {{ post.content }}
-            </p>
+              <span>{{ post.content|linebreaksbr }}</span>
+            </div>
           {% endif %}
           
         </div>
