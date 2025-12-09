@@ -14,4 +14,6 @@ urlpatterns = [
     path('delete/<int:post_id>/', views.delete_post, name='delete_post'),
     # the delete comment page
     path('comment/<int:comment_id>/delete/', views.delete_comment, name='delete_comment'),
+    # post workout from generator to community
+    path('post-workout/', views.post_workout_to_community, name='post_workout_to_community'),
 ]

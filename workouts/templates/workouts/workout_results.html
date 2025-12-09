@@ -262,8 +262,20 @@
           type="button">
           Save Workout
         </button>
+
+        <!-- Post Workout button -->
+        <button
+          id="postWorkoutBtn"
+          data-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}"
+          class="py-4 px-8 text-base font-bold bg-gradient-red text-white rounded-lg cursor-pointer transition-all duration-400 uppercase shadow-red hover:scale-105 hover:bg-gradient-blue hover:shadow-blue flex items-center gap-2"
+          type="button">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
+          </svg>
+          Post Workout
+        </button>
           
-        <!-- Main modal -->
+        <!-- Save Workout Modal -->
         <div id="default-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
           <div class="relative p-4 w-full max-w-2xl max-h-full">
             <!-- Modal content -->
@@ -324,6 +336,130 @@
             </div>
           </div>
         </div>
+
+        <!-- Post Workout Modal -->
+        <div id="post-workout-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full bg-black/50 backdrop-blur-sm">
+          <div class="relative p-4 w-full max-w-2xl max-h-full mx-auto mt-20">
+            <!-- Modal content -->
+            <div class="relative bg-gradient-to-br from-neutral-800 to-neutral-900 rounded-2xl shadow-2xl border border-white/10">
+              <!-- Modal header -->
+              <div class="flex items-center justify-between p-5 border-b border-white/10 rounded-t-2xl">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 bg-gradient-to-br from-red-600 to-red-700 rounded-xl flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
+                    </svg>
+                  </div>
+                  <h3 class="text-xl font-bold text-white uppercase tracking-wide">
+                    Share to Community
+                  </h3>
+                </div>
+                <button type="button" id="closePostModal" class="text-gray-400 bg-white/5 hover:bg-white/10 hover:text-white rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center transition-all">
+                  <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                  </svg>
+                  <span class="sr-only">Close modal</span>
+                </button>
+              </div>
+
+              <!-- Modal body -->
+              <div class="p-5 space-y-5">
+                <p class="text-gray-400 text-sm">Share your workout with the MocFit+ community. Add a description to let others know about your fitness journey!</p>
+                
+                <form id="postWorkoutForm">
+                  {% csrf_token %}
+                  <label for="postDescription" class="block mb-2 text-sm font-semibold text-gray-300 uppercase tracking-wider">
+                    Your Message (Optional)
+                  </label>
+                  <textarea
+                    id="postDescription"
+                    name="description"
+                    rows="4"
+                    placeholder="Just crushed this workout! 💪 Try it out..."
+                    class="w-full px-4 py-3 bg-black/30 text-white placeholder-gray-500 rounded-xl border border-white/10 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all resize-none text-sm"
+                  ></textarea>
+                </form>
+
+                <!-- Workout preview -->
+                <div class="bg-black/20 rounded-xl p-4 border border-white/5">
+                  <p class="text-xs text-gray-500 uppercase tracking-wider mb-2">Preview</p>
+                  <div class="text-sm text-gray-300 space-y-1">
+                    <p>🏋️ Workout: <span class="text-white font-semibold">{{ category|default:"Your Workout" }}</span></p>
+                    <p>🎯 Goal: <span class="text-white font-semibold">{{ goal|default:"General Fitness" }}</span></p>
+                    <p>💪 Exercises: <span class="text-white font-semibold">{{ total_exercises|default:"0" }}</span></p>
+                    <p>⏱️ Duration: <span class="text-white font-semibold">{{ estimated_duration|default:"45 min" }}</span></p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Modal footer -->
+              <div class="flex items-center justify-between p-5 border-t border-white/10 rounded-b-2xl">
+                <button
+                  type="button"
+                  id="cancelPostModal"
+                  class="py-2.5 px-5 text-sm font-semibold text-gray-400 bg-white/5 hover:bg-white/10 rounded-lg transition-all">
+                  Cancel
+                </button>
+                <div class="flex items-center gap-3">
+                  <span id="postStatus" class="text-sm text-gray-400"></span>
+                  <button
+                    id="submitPostWorkout"
+                    type="button"
+                    class="py-2.5 px-6 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg font-semibold shadow-lg hover:scale-105 hover:shadow-red-900/40 transition-all duration-300 flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                    </svg>
+                    Post to Community
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sign In Required Modal -->
+        <div id="signin-required-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full bg-black/50 backdrop-blur-sm">
+          <div class="relative p-4 w-full max-w-md max-h-full mx-auto mt-32">
+            <!-- Modal content -->
+            <div class="relative bg-gradient-to-br from-neutral-800 to-neutral-900 rounded-2xl shadow-2xl border border-white/10">
+              <!-- Modal header -->
+              <div class="flex items-center justify-between p-5 border-b border-white/10 rounded-t-2xl">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                    </svg>
+                  </div>
+                  <h3 class="text-xl font-bold text-white uppercase tracking-wide">
+                    Sign In Required
+                  </h3>
+                </div>
+                <button type="button" id="closeSigninModal" class="text-gray-400 bg-white/5 hover:bg-white/10 hover:text-white rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center transition-all">
+                  <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                  </svg>
+                  <span class="sr-only">Close modal</span>
+                </button>
+              </div>
+
+              <!-- Modal body -->
+              <div class="p-6 text-center">
+                <svg class="w-16 h-16 mx-auto mb-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+                <p class="text-gray-300 mb-6">You need to be signed in to share your workout to the community.</p>
+                <div class="flex flex-col gap-3">
+                  <a href="{% url 'my_login' %}" class="w-full py-3 px-6 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg font-semibold shadow-lg hover:scale-105 hover:shadow-red-900/40 transition-all duration-300 text-center no-underline">
+                    Sign In
+                  </a>
+                  <a href="{% url 'register' %}" class="w-full py-3 px-6 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white rounded-lg font-semibold transition-all text-center no-underline">
+                    Create Account
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     {% endif %}
 
@@ -334,6 +470,7 @@
   </footer>
 
   <script>
+  // Save Workout functionality
   document.getElementById('saveWorkoutBtn')?.addEventListener('click', function() {
     const form = document.getElementById('saveWorkoutForm');
     const title = form.querySelector('#workoutTitle').value;
@@ -381,6 +518,146 @@
       status.textContent = 'Error: ' + error.message;
       status.classList.add('text-red-600');
     });
+  });
+
+  // Post Workout to Community functionality
+  const postWorkoutBtn = document.getElementById('postWorkoutBtn');
+  const isAuthenticated = postWorkoutBtn?.dataset.authenticated === 'true';
+  const postWorkoutModal = document.getElementById('post-workout-modal');
+  const signinModal = document.getElementById('signin-required-modal');
+  const closePostModal = document.getElementById('closePostModal');
+  const cancelPostModal = document.getElementById('cancelPostModal');
+  const closeSigninModal = document.getElementById('closeSigninModal');
+  const submitPostWorkout = document.getElementById('submitPostWorkout');
+
+  // Show appropriate modal based on auth status
+  postWorkoutBtn?.addEventListener('click', function() {
+    if (isAuthenticated) {
+      postWorkoutModal.classList.remove('hidden');
+      postWorkoutModal.classList.add('flex');
+    } else {
+      signinModal.classList.remove('hidden');
+      signinModal.classList.add('flex');
+    }
+  });
+
+  // Close post workout modal
+  function closePostWorkoutModal() {
+    postWorkoutModal.classList.add('hidden');
+    postWorkoutModal.classList.remove('flex');
+    document.getElementById('postDescription').value = '';
+    document.getElementById('postStatus').textContent = '';
+  }
+
+  closePostModal?.addEventListener('click', closePostWorkoutModal);
+  cancelPostModal?.addEventListener('click', closePostWorkoutModal);
+
+  // Close signin modal
+  function closeSigninRequiredModal() {
+    signinModal.classList.add('hidden');
+    signinModal.classList.remove('flex');
+  }
+
+  closeSigninModal?.addEventListener('click', closeSigninRequiredModal);
+
+  // Close modals on backdrop click
+  postWorkoutModal?.addEventListener('click', function(e) {
+    if (e.target === postWorkoutModal) {
+      closePostWorkoutModal();
+    }
+  });
+
+  signinModal?.addEventListener('click', function(e) {
+    if (e.target === signinModal) {
+      closeSigninRequiredModal();
+    }
+  });
+
+  // Submit post to community
+  submitPostWorkout?.addEventListener('click', function() {
+    const form = document.getElementById('postWorkoutForm');
+    const description = document.getElementById('postDescription').value;
+    const status = document.getElementById('postStatus');
+    const csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+    const btn = submitPostWorkout;
+    
+    // Update button state
+    btn.disabled = true;
+    btn.innerHTML = `
+      <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+      Posting...
+    `;
+    status.textContent = '';
+    
+    // Send data to backend
+    fetch('{% url "post_workout_to_community" %}', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-CSRFToken': csrfToken
+      },
+      body: new URLSearchParams({
+        'description': description
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        status.textContent = 'Posted! Redirecting...';
+        status.classList.remove('text-red-400');
+        status.classList.add('text-green-400');
+        
+        btn.innerHTML = `
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          Posted!
+        `;
+        btn.classList.remove('from-red-600', 'to-red-700');
+        btn.classList.add('from-green-600', 'to-green-700');
+        
+        // Redirect to community after 1.5 seconds
+        setTimeout(() => {
+          window.location.href = data.redirect_url;
+        }, 1500);
+      } else {
+        status.textContent = data.error || 'Error posting workout';
+        status.classList.remove('text-green-400');
+        status.classList.add('text-red-400');
+        
+        btn.disabled = false;
+        btn.innerHTML = `
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+          </svg>
+          Post to Community
+        `;
+      }
+    })
+    .catch(error => {
+      status.textContent = 'Error: ' + error.message;
+      status.classList.remove('text-green-400');
+      status.classList.add('text-red-400');
+      
+      btn.disabled = false;
+      btn.innerHTML = `
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+        </svg>
+        Post to Community
+      `;
+    });
+  });
+
+  // Close modals on Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closePostWorkoutModal();
+      closeSigninRequiredModal();
+    }
   });
 </script>
 </body>
