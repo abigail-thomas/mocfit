@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from django.contrib import messages
 from .models import Comment
 from django.views.decorators.http import require_POST
+import json
 
 def index(request):
     # Get sort parameter from URL, default to 'recent'
@@ -135,3 +136,73 @@ def delete_comment(request, comment_id):
             return JsonResponse({'deleted': False, 'error': 'Unauthorized'}, status=403)
     except Comment.DoesNotExist:
         return JsonResponse({'deleted': False, 'error': 'Comment not found'}, status=404)
+
+
+@login_required
+@require_POST
+def post_workout_to_community(request):
+    """Post a generated workout to the community feed"""
+    try:
+        description = request.POST.get('description', '')
+        
+        # Get workout data from session
+        workout_data = request.session.get('current_workout', {})
+        
+        if not workout_data:
+            return JsonResponse({'success': False, 'error': 'No workout data found'}, status=400)
+        
+        # Format the workout content for the post
+        workout_type = workout_data.get('workout_type', 'preset')
+        category = workout_data.get('category', '')
+        goal = workout_data.get('goal', '')
+        total_exercises = workout_data.get('total_exercises', 0)
+        estimated_duration = workout_data.get('estimated_duration', '')
+        
+        # Build the workout summary content
+        workout_summary = f"🏋️ Workout: {category}\n"
+        workout_summary += f"🎯 Goal: {goal}\n"
+        workout_summary += f"💪 Exercises: {total_exercises}\n"
+        workout_summary += f"⏱️ Duration: {estimated_duration}\n\n"
+        
+        # Add exercises list
+        if workout_type == 'preset':
+            exercises = workout_data.get('exercises', [])
+            if exercises:
+                workout_summary += "📋 Exercises:\n"
+                for i, ex in enumerate(exercises[:10], 1):  # Limit to first 10
+                    workout_summary += f"  {i}. {ex.get('name', '')}\n"
+                if len(exercises) > 10:
+                    workout_summary += f"  ... and {len(exercises) - 10} more\n"
+        elif workout_type == 'advanced':
+            workout = workout_data.get('workout', {})
+            workout_summary += "📋 Exercises:\n"
+            count = 0
+            for muscle_name, exercise_list in workout.items():
+                for entry in exercise_list:
+                    count += 1
+                    if count <= 10:
+                        ex_name = entry.get('exercise', {}).get('name', '')
+                        sets = entry.get('sets', '')
+                        reps = entry.get('reps', '')
+                        workout_summary += f"  {count}. {ex_name} ({sets}x{reps})\n"
+            if count > 10:
+                workout_summary += f"  ... and {count - 10} more\n"
+        
+        # Add user description if provided
+        if description:
+            workout_summary += f"\n📝 {description}"
+        
+        # Create the post
+        post = Post.objects.create(
+            author=request.user,
+            content=workout_summary
+        )
+        
+        return JsonResponse({
+            'success': True,
+            'message': 'Workout posted to community!',
+            'redirect_url': '/community/'
+        })
+        
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
