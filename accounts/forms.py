@@ -33,10 +33,39 @@ class LoginForm(AuthenticationForm):
             'id': 'id_password'
         }))
     
+# class ProfileForm(forms.ModelForm):
+#     class Meta:
+#         model = Profile
+#         fields = ['height', 'weight', 'birth_date']
+
 class ProfileForm(forms.ModelForm):
+    feet = forms.ChoiceField(choices=[(i, i) for i in range(3, 8)])
+    inches = forms.ChoiceField(choices=[(i, i) for i in range(0, 12)])
+
     class Meta:
         model = Profile
-        fields = ['height', 'weight', 'birth_date']
+        fields = ["feet", "inches", "weight", "birth_date"]  # height is handled manually
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+
+        feet = int(self.cleaned_data["feet"])
+        inches = int(self.cleaned_data["inches"])
+        total_inches = feet * 12 + inches
+
+        instance.height = total_inches
+
+        if commit:
+            instance.save()
+        return instance
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if self.instance.height:
+            total_inches = int(self.instance.height)
+            self.initial["feet"] = total_inches // 12
+            self.initial["inches"] = total_inches % 12
         
 class WeightEntryForm(forms.ModelForm):
     class Meta:

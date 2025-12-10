@@ -15,7 +15,7 @@ class Profile(models.Model):
 class WeightEntry(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="weights")
     weight = models.FloatField()
-    date = models.DateField()  # user can choose the date manually
+    date = models.DateField(null=True, blank=True)  # user can choose the date manually
 
     class Meta:
         ordering = ['-date']  # newest first
