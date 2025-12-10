@@ -152,3 +152,18 @@ def update_profile(request):
         'weight_history': weight_history,
         'weight_history_json': json.dumps(weight_history_data, cls=DjangoJSONEncoder)
     })
+
+@login_required(login_url="my_login")
+def saved_workouts(request):
+    # user_achievements = UserAchievement.objects.filter(user=request.user)
+
+    # Separate by achievement name (you can adjust these filters as needed)
+    # login_achievements = user_achievements.filter(achievement__name__icontains="log")
+    # workout_achievements = user_achievements.filter(achievement__name__icontains="workout")
+    saved_workouts = SavedWorkout.objects.filter(user=request.user)
+
+    context = {
+        'saved_workouts': saved_workouts,
+    }
+
+    return render(request, "accounts/saved_workouts.html", context)
