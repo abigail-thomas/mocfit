@@ -7,7 +7,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     height = models.FloatField(null=True, blank=True)
     weight = models.FloatField(null=True, blank=True)
-    birth_date = models.DateField(null=True, blank=True)
+    birth_date = models.DateField(null=True, blank=True, verbose_name="Birth Date (YYYY-MM-DD)")
 
     def __str__(self):
         return self.user.username
@@ -15,7 +15,7 @@ class Profile(models.Model):
 class WeightEntry(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="weights")
     weight = models.FloatField()
-    date = models.DateField(null=True, blank=True)  # user can choose the date manually
+    date = models.DateField(null=True, blank=True, verbose_name="Date (YYYY-MM-DD)")  # user can choose the date manually
 
     class Meta:
         ordering = ['-date']  # newest first
