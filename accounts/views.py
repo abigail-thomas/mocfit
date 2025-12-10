@@ -121,6 +121,8 @@ def update_profile(request):
             if profile_form.is_valid():
                 profile_form.save()
                 return redirect('update_profile')
+            else:
+                return redirect('update_profile')
 
         elif 'add_weight' in request.POST:
             weight_form = WeightEntryForm(request.POST)
@@ -130,6 +132,8 @@ def update_profile(request):
                 entry = weight_form.save(commit=False)
                 entry.profile = profile
                 entry.save()
+                return redirect('update_profile')
+            else:
                 return redirect('update_profile')
 
     else:
